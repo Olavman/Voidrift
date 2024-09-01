@@ -1,0 +1,68 @@
+[gd_scene load_steps=9 format=3 uid="uid://c03fgscpwimpo"]
+
+[ext_resource type="Script" path="res://Scripts/HealthBar.cs" id="1_2toa5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hdyb5"]
+bg_color = Color(0, 0.211765, 0.439216, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 1, 1, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="Gradient" id="Gradient_2jmfc"]
+colors = PackedColorArray(0.384647, 5.83585e-07, 1.68458e-07, 1, 0.926299, 2.5028e-06, 1.54018e-06, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_cey2m"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_l7hkd"]
+width = 42
+height = 250
+in_3d_space = true
+color_ramp = SubResource("Gradient_2jmfc")
+noise = SubResource("FastNoiseLite_cey2m")
+
+[sub_resource type="Gradient" id="Gradient_ror62"]
+colors = PackedColorArray(0, 1, 1, 0, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_4nuxj"]
+noise_type = 2
+frequency = 0.0203
+fractal_weighted_strength = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_y5gei"]
+width = 42
+height = 250
+in_3d_space = true
+color_ramp = SubResource("Gradient_ror62")
+noise = SubResource("FastNoiseLite_4nuxj")
+
+[node name="HealthBarBackground" type="Panel"]
+offset_right = 48.0
+offset_bottom = 256.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_hdyb5")
+script = ExtResource("1_2toa5")
+
+[node name="HealthTextureProgress" type="TextureProgressBar" parent="."]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 45.0
+offset_bottom = 253.0
+value = 50.0
+fill_mode = 3
+texture_progress = SubResource("NoiseTexture2D_l7hkd")
+
+[node name="ShieldTextureProgress" type="TextureProgressBar" parent="."]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 515.0
+offset_bottom = 515.0
+value = 70.0
+fill_mode = 3
+texture_progress = SubResource("NoiseTexture2D_y5gei")

@@ -1,0 +1,120 @@
+[gd_scene load_steps=14 format=3 uid="uid://ctro0g6qcuq7l"]
+
+[ext_resource type="Script" path="res://Scripts/game.cs" id="1_f1bp2"]
+[ext_resource type="PackedScene" uid="uid://dmlb4sm6nm8tb" path="res://Scenes/player.tscn" id="2_2l1hh"]
+[ext_resource type="Texture2D" uid="uid://bowhm461ec5ur" path="res://Sprites/Sprite-0001.png" id="3_3qyop"]
+[ext_resource type="PackedScene" uid="uid://bfd4rt1j2x0rx" path="res://Scenes/speedBar.tscn" id="3_jqqb6"]
+[ext_resource type="PackedScene" uid="uid://h2aiqifihb0s" path="res://Scenes/celestialObject.tscn" id="4_ybuw8"]
+[ext_resource type="Script" path="res://Scripts/Hud.cs" id="5_ci6nj"]
+[ext_resource type="Shader" path="res://Shaders/minimap.gdshader" id="5_m3qf5"]
+[ext_resource type="Script" path="res://Scripts/Minimap.cs" id="5_qp10h"]
+[ext_resource type="Texture2D" uid="uid://cxubnls73x36f" path="res://Sprites/radar.png" id="5_te007"]
+[ext_resource type="Texture2D" uid="uid://cx0dtgq2akwi0" path="res://Sprites/radar dor.png" id="8_orpl2"]
+[ext_resource type="PackedScene" uid="uid://c03fgscpwimpo" path="res://Scenes/healthBar.tscn" id="10_ihghr"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5c8dc"]
+shader = ExtResource("5_m3qf5")
+shader_parameter/radius = 1.0
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_sohve"]
+blend_mode = 1
+
+[node name="Game" type="Node"]
+script = ExtResource("1_f1bp2")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+position = Vector2(3, 3)
+motion_scale = Vector2(0.1, 0.1)
+motion_mirroring = Vector2(3100, 1740)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+texture_repeat = 2
+position = Vector2(-3, -3)
+texture = ExtResource("3_3qyop")
+centered = false
+
+[node name="HUD" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("5_ci6nj")
+
+[node name="HUDCanvas" type="CanvasLayer" parent="HUD"]
+
+[node name="MinimapContainer" type="SubViewportContainer" parent="HUD/HUDCanvas" node_paths=PackedStringArray("_player", "_blackHole", "minimapCamera")]
+material = SubResource("ShaderMaterial_5c8dc")
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -997.0
+offset_top = 252.0
+offset_right = -741.0
+offset_bottom = 508.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+script = ExtResource("5_qp10h")
+_player = NodePath("../../../Player")
+_blackHole = NodePath("../../../BlackHole")
+minimapCamera = NodePath("MinimapViewport/MinimapCamera")
+
+[node name="MinimapBorder" type="TextureRect" parent="HUD/HUDCanvas/MinimapContainer"]
+modulate = Color(1, 1, 1, 0.415686)
+layout_mode = 2
+texture = ExtResource("5_te007")
+
+[node name="MinimapViewport" type="SubViewport" parent="HUD/HUDCanvas/MinimapContainer"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(256, 256)
+render_target_update_mode = 4
+
+[node name="MinimapCamera" type="Camera2D" parent="HUD/HUDCanvas/MinimapContainer/MinimapViewport"]
+visibility_layer = 1023
+zoom = Vector2(0.01, 0.01)
+
+[node name="PlayerIcon" type="Sprite2D" parent="HUD/HUDCanvas/MinimapContainer/MinimapViewport"]
+modulate = Color(0, 1, 1, 1)
+material = SubResource("CanvasItemMaterial_sohve")
+position = Vector2(100, 100)
+scale = Vector2(2, 2)
+texture = ExtResource("8_orpl2")
+
+[node name="BlackHoleIcon" type="Sprite2D" parent="HUD/HUDCanvas/MinimapContainer/MinimapViewport"]
+scale = Vector2(10, 10)
+texture = ExtResource("8_orpl2")
+
+[node name="SpeedBar" parent="HUD/HUDCanvas" instance=ExtResource("3_jqqb6")]
+layout_direction = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -281.0
+offset_top = -62.0
+offset_right = -25.0
+offset_bottom = -14.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="HealthBar" parent="HUD/HUDCanvas" instance=ExtResource("10_ihghr")]
+offset_left = 298.0
+offset_top = 802.0
+offset_right = 346.0
+offset_bottom = 1058.0
+
+[node name="Player" parent="." instance=ExtResource("2_2l1hh")]
+position = Vector2(1408, 910)
+
+[node name="BlackHole" parent="." instance=ExtResource("4_ybuw8")]
+position = Vector2(3221, 1732)
+IsBlackHole = true
+
+[node name="ArenaBorder" type="Line2D" parent="."]
+points = PackedVector2Array(95, -133)

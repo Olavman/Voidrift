@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=3 uid="uid://bfd4rt1j2x0rx"]
+
+[sub_resource type="Gradient" id="Gradient_213j4"]
+colors = PackedColorArray(0, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_0xomb"]
+gradient = SubResource("Gradient_213j4")
+width = 250
+height = 42
+fill_from = Vector2(0, 0.660194)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n157d"]
+bg_color = Color(0, 0.211765, 0.439216, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 1, 1, 1)
+border_blend = true
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[node name="TextureProgressBar" type="TextureProgressBar"]
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 253.0
+offset_bottom = 45.0
+tooltip_text = "Speed"
+min_value = 1.0
+max_value = 5000.0
+value = 3000.0
+allow_greater = true
+texture_progress = SubResource("GradientTexture2D_0xomb")
+
+[node name="Panel" type="Panel" parent="."]
+show_behind_parent = true
+layout_mode = 0
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 253.0
+offset_bottom = 45.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_n157d")
