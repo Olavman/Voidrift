@@ -4,7 +4,7 @@ using System;
 public partial class Bullet : Node2D
 {
 	[Export]
-	public float Speed = 3000.0f;
+	public float Speed = 5000.0f;
 
 	internal Vector2 _velocity = Vector2.Zero;
 
@@ -25,13 +25,14 @@ public partial class Bullet : Node2D
 	{
 		Vector2 previousPosition = Position;
 		Position += _velocity * (float)delta;
-
-		// Elongate the sprite based on movement
-		float distanceTraveled = (Position  - previousPosition).Length();
+		
+    #region // Elongate the sprite based on movement
+    float distanceTraveled = (Position  - previousPosition).Length();
 		Sprite2D sprite = GetNode<Sprite2D>("Sprite2D");
 		sprite.Scale = new Vector2(distanceTraveled / 4.0f, 1); // Adjust for your 8x8 sprite
-
-		if (IsOutsideScreen())
+    #endregion
+		
+    if (IsOutsideScreen())
 		{
 			QueueFree();
 		}

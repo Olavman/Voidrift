@@ -1,9 +1,10 @@
 [gd_scene load_steps=11 format=3 uid="uid://dmlb4sm6nm8tb"]
 
-[ext_resource type="Texture2D" uid="uid://beoq6xw6ljgeg" path="res://kenney_space-shooter-redux/PNG/playerShip1_blue.png" id="1_83xpe"]
-[ext_resource type="Script" path="res://Scripts/Player.cs" id="1_l2p86"]
+[ext_resource type="Script" path="res://Scripts/Player.cs" id="1_hoi26"]
 [ext_resource type="PackedScene" uid="uid://dbccrnailfd7" path="res://Scenes/bullet.tscn" id="2_q3dp2"]
-[ext_resource type="Texture2D" uid="uid://dsabha0g27m6" path="res://assets/smokes/smoke_01/textures/smoke_01.tga" id="3_grojn"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_avngu"]
+load_path = "res://.godot/imported/playerShip1_blue.png-0d97ad2c7cf71cd00be122fc54cc6ab3.ctex"
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_d511h"]
 blend_mode = 1
@@ -16,14 +17,14 @@ particles_anim_loop = false
 offsets = PackedFloat32Array(0, 0.106557, 0.344262, 0.459016, 0.729508, 0.97541)
 colors = PackedColorArray(0, 1, 1, 0.588235, 1, 1, 0, 1, 1, 0.431373, 0, 1, 0.812323, 0.703068, 0.703068, 1, 0.815686, 0.815686, 0.815686, 0.615686, 0, 0, 0, 0)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_xhyex"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_75b4b"]
 gradient = SubResource("Gradient_dn024")
 
 [sub_resource type="Curve" id="Curve_lawrk"]
 _data = [Vector2(0.0133333, 0.230769), 0.0, 1.0181, 0, 0, Vector2(0.4, 0.714286), 0.913544, 0.913544, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="CurveTexture_e6gyn"]
+[sub_resource type="CurveTexture" id="CurveTexture_75kyw"]
 width = 259
 curve = SubResource("Curve_lawrk")
 
@@ -38,24 +39,24 @@ angular_velocity_min = -7.74002
 angular_velocity_max = 7.73998
 gravity = Vector3(0, 0, 0)
 scale_min = 0.5
-scale_curve = SubResource("CurveTexture_e6gyn")
-color_ramp = SubResource("GradientTexture1D_xhyex")
+scale_curve = SubResource("CurveTexture_75kyw")
+color_ramp = SubResource("GradientTexture1D_75b4b")
 anim_speed_min = 0.22
 anim_speed_max = 0.91
 
-[node name="Player" type="CharacterBody2D" groups=["player"]]
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qj1km"]
+load_path = "res://.godot/imported/smoke_01.tga-6ad9ac48887f66f50f11b068cbc2a6b7.ctex"
+
+[node name="Player" type="CharacterBody2D" groups=["player", "ships"]]
 position = Vector2(-1, 0)
 motion_mode = 1
-script = ExtResource("1_l2p86")
+script = ExtResource("1_hoi26")
 BulletScene = ExtResource("2_q3dp2")
-Health = 100.0
-MaxHealth = 100.0
-MaxShield = 100.0
 
 [node name="PlayerSprite" type="Sprite2D" parent="."]
 rotation = 1.5708
 scale = Vector2(0.7, 0.7)
-texture = ExtResource("1_83xpe")
+texture = SubResource("CompressedTexture2D_avngu")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 rotation = 1.5708
@@ -68,7 +69,7 @@ position = Vector2(-26, 0)
 emitting = false
 amount = 30
 process_material = SubResource("ParticleProcessMaterial_7aq8i")
-texture = ExtResource("3_grojn")
+texture = SubResource("CompressedTexture2D_qj1km")
 lifetime = 0.5
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]

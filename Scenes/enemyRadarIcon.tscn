@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://c5s5t7hupt4b8"]
+
+[ext_resource type="Texture2D" uid="uid://cx0dtgq2akwi0" path="res://Sprites/radar dor.png" id="1_jn24x"]
+
+[node name="EnemyIcon" type="Sprite2D"]
+scale = Vector2(10, 10)
+texture = ExtResource("1_jn24x")

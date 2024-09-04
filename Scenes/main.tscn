@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://ctro0g6qcuq7l"]
+[gd_scene load_steps=15 format=3 uid="uid://ctro0g6qcuq7l"]
 
 [ext_resource type="Script" path="res://Scripts/game.cs" id="1_f1bp2"]
 [ext_resource type="PackedScene" uid="uid://dmlb4sm6nm8tb" path="res://Scenes/player.tscn" id="2_2l1hh"]
@@ -9,15 +9,14 @@
 [ext_resource type="Shader" path="res://Shaders/minimap.gdshader" id="5_m3qf5"]
 [ext_resource type="Script" path="res://Scripts/Minimap.cs" id="5_qp10h"]
 [ext_resource type="Texture2D" uid="uid://cxubnls73x36f" path="res://Sprites/radar.png" id="5_te007"]
+[ext_resource type="PackedScene" uid="uid://c5s5t7hupt4b8" path="res://Scenes/enemyRadarIcon.tscn" id="7_nqp6c"]
 [ext_resource type="Texture2D" uid="uid://cx0dtgq2akwi0" path="res://Sprites/radar dor.png" id="8_orpl2"]
 [ext_resource type="PackedScene" uid="uid://c03fgscpwimpo" path="res://Scenes/healthBar.tscn" id="10_ihghr"]
+[ext_resource type="PackedScene" uid="uid://b5hn0xuvh8sg5" path="res://Scenes/enemy.tscn" id="11_ptkcl"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5c8dc"]
 shader = ExtResource("5_m3qf5")
 shader_parameter/radius = 1.0
-
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_sohve"]
-blend_mode = 1
 
 [node name="Game" type="Node"]
 script = ExtResource("1_f1bp2")
@@ -62,6 +61,7 @@ script = ExtResource("5_qp10h")
 _player = NodePath("../../../Player")
 _blackHole = NodePath("../../../BlackHole")
 minimapCamera = NodePath("MinimapViewport/MinimapCamera")
+enemyRadarIcon = ExtResource("7_nqp6c")
 
 [node name="MinimapBorder" type="TextureRect" parent="HUD/HUDCanvas/MinimapContainer"]
 modulate = Color(1, 1, 1, 0.415686)
@@ -77,13 +77,6 @@ render_target_update_mode = 4
 [node name="MinimapCamera" type="Camera2D" parent="HUD/HUDCanvas/MinimapContainer/MinimapViewport"]
 visibility_layer = 1023
 zoom = Vector2(0.01, 0.01)
-
-[node name="PlayerIcon" type="Sprite2D" parent="HUD/HUDCanvas/MinimapContainer/MinimapViewport"]
-modulate = Color(0, 1, 1, 1)
-material = SubResource("CanvasItemMaterial_sohve")
-position = Vector2(100, 100)
-scale = Vector2(2, 2)
-texture = ExtResource("8_orpl2")
 
 [node name="BlackHoleIcon" type="Sprite2D" parent="HUD/HUDCanvas/MinimapContainer/MinimapViewport"]
 scale = Vector2(10, 10)
@@ -111,6 +104,9 @@ offset_bottom = 1058.0
 
 [node name="Player" parent="." instance=ExtResource("2_2l1hh")]
 position = Vector2(1408, 910)
+
+[node name="Enemy" parent="." instance=ExtResource("11_ptkcl")]
+position = Vector2(188, 157)
 
 [node name="BlackHole" parent="." instance=ExtResource("4_ybuw8")]
 position = Vector2(3221, 1732)

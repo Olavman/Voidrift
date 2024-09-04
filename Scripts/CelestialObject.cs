@@ -96,27 +96,29 @@ public partial class CelestialObject : Node2D
     }
   }
 
-  public void ApplyGravity(Player ship, double delta)
+  public Vector2 ApplyGravity(Ship ship, double delta)
   {
     Vector2 direction = GlobalPosition - ship.GlobalPosition;
     float distance = direction.Length();
-
-    // Apply gravitational force
-    if (distance > 0)
-    {
-      direction = direction.Normalized();
-      float forceMagnitude = (Mass / (distance)); // Simplified gravity equation
-      ship.Velocity += direction * forceMagnitude * (float)delta;
-    }
 
     // Check for destruction or damage based on proximity
     if (distance < Mass && IsStar)
     {
       DamageShip(ship, distance, delta);
     }
+
+    // Apply gravitational force
+    if (distance > 0)
+    {
+      direction = direction.Normalized();
+      float forceMagnitude = (Mass / (distance)); // Simplified gravity equation
+      Vector2 velocity = direction * forceMagnitude * (float)delta;
+      return velocity;
+    }
+    return Vector2.Zero;
   }
 
-  private void DamageShip(Player ship, float distance, double delta)
+  private void DamageShip(Ship ship, float distance, double delta)
   {
     // Assuming the ship has a health property
     //GD.Print("Ship damaged!");
