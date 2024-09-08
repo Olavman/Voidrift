@@ -38,4 +38,4 @@
 - Online multiplayer support
   
 ## Gameplay screenshot
-![Game Screenshot](./Screenshots/Screenshot.PNG)
+![Game Screenshot](./Screenshots/Screenshot.png)
