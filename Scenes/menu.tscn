@@ -1,0 +1,47 @@
+[gd_scene load_steps=3 format=3 uid="uid://cxixn2hqmnekn"]
+
+[ext_resource type="Script" path="res://Scripts/Menu.cs" id="1_g8opw"]
+[ext_resource type="PackedScene" uid="uid://ctro0g6qcuq7l" path="res://Scenes/main.tscn" id="2_lddkc"]
+
+[node name="Menu" type="Control" node_paths=PackedStringArray("PlayBtn", "OptionsBtn", "QuitBtn")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_g8opw")
+PlayBtn = NodePath("MarginContainer/VBoxContainer/Play")
+OptionsBtn = NodePath("MarginContainer/VBoxContainer/Options")
+QuitBtn = NodePath("MarginContainer/VBoxContainer/Exit")
+GameScene = ExtResource("2_lddkc")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -169.0
+offset_top = -146.0
+offset_right = 169.0
+offset_bottom = 146.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Play" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Play"
+
+[node name="Options" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Options"
+
+[node name="Exit" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Exit"
