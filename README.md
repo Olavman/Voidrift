@@ -36,3 +36,6 @@
 - Customizable ships
 - More weapons
 - Online multiplayer support
+  
+## Gameplay screenshot
+![Game Screenshot](./Screenshots/Screenshot.PNG)
