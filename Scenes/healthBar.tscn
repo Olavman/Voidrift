@@ -30,8 +30,9 @@ noise = SubResource("FastNoiseLite_cey2m")
 colors = PackedColorArray(0, 1, 1, 0, 1, 1, 1, 1)
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_4nuxj"]
-noise_type = 2
+noise_type = 3
 frequency = 0.0203
+fractal_type = 2
 fractal_weighted_strength = 1.0
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_y5gei"]

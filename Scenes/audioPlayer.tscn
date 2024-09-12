@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://bs7356ty3rbu6"]
+
+[ext_resource type="AudioStream" uid="uid://lvhhdsjcbbgw" path="res://Music/Starlit Conflict soundtrack.wav" id="2_p2yqa"]
+
+[node name="AudioPlayer" type="Node"]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_p2yqa")
+volume_db = -17.802
+autoplay = true

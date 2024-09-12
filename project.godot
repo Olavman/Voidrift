@@ -18,6 +18,7 @@ config/icon="res://Sprites/icon.svg"
 [autoload]
 
 GameSettings="*res://Scripts/GameSettings.cs"
+AudioPlayer="*res://Scenes/audioPlayer.tscn"
 
 [display]
 

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://lvhhdsjcbbgw"
+path="res://.godot/imported/Starlit Conflict soundtrack.wav-8de62a44d55a2a9804230272a209afac.sample"
+
+[deps]
+
+source_file="res://Music/Starlit Conflict soundtrack.wav"
+dest_files=["res://.godot/imported/Starlit Conflict soundtrack.wav-8de62a44d55a2a9804230272a209afac.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=2
+edit/loop_begin=0
+edit/loop_end=10437366
+compress/mode=0

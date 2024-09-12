@@ -1,7 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://b5hn0xuvh8sg5"]
+[gd_scene load_steps=12 format=3 uid="uid://b5hn0xuvh8sg5"]
 
 [ext_resource type="Script" path="res://Scripts/Enemy.cs" id="1_ki4wm"]
 [ext_resource type="Texture2D" uid="uid://qlh7l4nwcgb7" path="res://Sprites/Voidrift ships.png" id="1_srygc"]
+[ext_resource type="PackedScene" uid="uid://dbccrnailfd7" path="res://Scenes/bullet.tscn" id="2_im5d0"]
+[ext_resource type="AudioStream" uid="uid://dixkcy3xb71u5" path="res://Sounds/Constant Rumbling.wav" id="3_uwt2i"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_llwhy"]
 blend_mode = 1
@@ -46,6 +48,7 @@ load_path = "res://.godot/imported/smoke_01.tga-6ad9ac48887f66f50f11b068cbc2a6b7
 
 [node name="Enemy" type="CharacterBody2D" groups=["enemy", "ships"]]
 script = ExtResource("1_ki4wm")
+BulletScene = ExtResource("2_im5d0")
 
 [node name="EnemySprite" type="Sprite2D" parent="."]
 texture = ExtResource("1_srygc")
@@ -63,7 +66,9 @@ process_material = SubResource("ParticleProcessMaterial_cp011")
 texture = SubResource("CompressedTexture2D_g7xl7")
 lifetime = 0.5
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="EngineAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_uwt2i")
+autoplay = true
 
 [node name="Marker2D" type="Marker2D" parent="."]
 position = Vector2(27, 0)

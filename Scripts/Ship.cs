@@ -18,27 +18,42 @@ public partial class Ship : CharacterBody2D
   [Signal] public delegate void MaxShieldChangedEventHandler(float newMaxShield);
   [Signal] public delegate void SpeedChangedEventHandler(float newSpeed);
 
+  // Audio variables
+  private AudioStreamPlayer2D _engineAudio; // Audio player for the enigne sound
+
+  // Shield variables
   public int ShieldRechargeSeconds = 3;
-
-  protected Vector2 _lastPosition = Vector2.Zero;
-  protected Vector2 _velocity = Vector2.Zero;
-  protected GpuParticles2D _thrustParticles;
-
   protected double _shield;
   protected float _shieldRechargeTimer;
-
-  protected bool _onMapEdge;
   protected bool _isRecharging;
+
+  // Movement variables
+  protected Vector2 _lastPosition = Vector2.Zero;
+  protected Vector2 _velocity = Vector2.Zero;
+  protected bool _onMapEdge;
+
+  protected GpuParticles2D _thrustParticles;
 
   public override void _Ready()
   {
+    // Get the AudioStreamPlayer node for the engine sound
+    _engineAudio = GetNode<AudioStreamPlayer2D>("EngineAudio");
+    if (_engineAudio == null)
+    {
+      GD.Print("No engine audio");
+    }
+
+    // Pause the sound at start
+    _engineAudio.StreamPaused = true;
+
     _lastPosition = Position;
     _thrustParticles = GetNode < GpuParticles2D>("GPUParticles2D");
     _thrustParticles.Emitting = false; // Start with no emission
 
+    Health = MaxHealth;
+
     EmitSignal(nameof(MaxHealthChanged), MaxHealth);
     EmitSignal(nameof(MaxShieldChanged), MaxShield);
-    Health = MaxHealth;
     EmitSignal(nameof(HealthChanged), MaxHealth);
     StartRechargeShield();
   }
@@ -68,6 +83,12 @@ public partial class Ship : CharacterBody2D
 
   protected virtual bool Thrusting(bool isThrustingForward)
   {
+    // Play engine sound
+    if (!_engineAudio.Playing)
+    {
+      _engineAudio.StreamPaused = false;
+    }
+
     Vector2 thrustingVelocity;
     if (isThrustingForward)
     {
@@ -128,6 +149,11 @@ public partial class Ship : CharacterBody2D
 
     // Control particle emission
     _thrustParticles.Emitting = isThrusting;
+
+    if (!isThrusting )
+    {
+      _engineAudio.StreamPaused = true;
+    }
   }
 
   protected virtual void ApplyMovement (double delta)
