@@ -4,17 +4,22 @@ using System;
 public partial class Starfield : Node2D
 {
   [Export] private PackedScene _starScene; // The Star scene to instantiate
-  [Export] private float AccelMultiplier = 300.0f;
+  [Export] private float AccelMultiplier = 3000.0f;
   private Vector2 _center;
 
   public override void _Ready()
   {
     _center = GetViewportRect().Size / 2;
+    for (int i = 0; i < 2400; i++)
+    {
+      int timePassed = (int)GD.RandRange(1, 20);
+      CreateStar(timePassed);
+    }
   }
 
   public override void _Process(double delta)
   {
-    SpawnStars(1);
+    SpawnStars(3);
   }
 
   private void SpawnStars(int count)
@@ -25,13 +30,12 @@ public partial class Starfield : Node2D
     }
   }
 
-  private void CreateStar()
+  private void CreateStar(int secondsPassed = 0)
   {
     // Randomize spawn position and velocity
     Vector2 spawnPosition = GetRandomSpawnPosition();
     Vector2 direction = (spawnPosition - _center).Normalized();
-    float velocityMagnitude = (float)GD.RandRange(0.0, 1.0); // Random velocity between 0-1
-    Vector2 velocity = direction * velocityMagnitude;
+    Vector2 velocity = direction * 0.1f;
 
     // Calculate radial acceleration based on distance from center
     float radialAccel = CalculateRadialAcceleration(spawnPosition);
@@ -39,7 +43,7 @@ public partial class Starfield : Node2D
     // Instantiate the star
     var star = _starScene.Instantiate<Star>();
     AddChild(star);
-    star.Init(spawnPosition, velocity, radialAccel, _center, AccelMultiplier);
+    star.Init(spawnPosition, velocity, radialAccel, _center, AccelMultiplier, secondsPassed);
   }
 
   private Vector2 GetRandomSpawnPosition()
@@ -57,6 +61,8 @@ public partial class Starfield : Node2D
     float distanceToCenter = position.DistanceTo(_center);
     float normalizedDistance = 1 - Mathf.Clamp(distanceToCenter / maxDistance, 0, 1);
 
-    return normalizedDistance * AccelMultiplier; // Example multiplier for radial acceleration
+    float acelleration = Mathf.Pow( normalizedDistance , 2)* AccelMultiplier;
+
+    return acelleration; // Example multiplier for radial acceleration
   }
 }

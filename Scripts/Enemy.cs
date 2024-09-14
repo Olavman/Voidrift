@@ -54,7 +54,7 @@ public partial class Enemy : Ship
     // Handle shooting
     if (Position.DistanceTo(_currentTarget.Position) < 600.0f && Position.DirectionTo(_currentTarget.Position).Angle() > Mathf.Pi/4)
     {
-      Shoot();
+      //Shoot();
     }
   }
 

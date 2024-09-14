@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://cxixn2hqmnekn"]
+[gd_scene load_steps=9 format=3 uid="uid://cxixn2hqmnekn"]
 
 [ext_resource type="Script" path="res://Scripts/Menu.cs" id="1_g8opw"]
 [ext_resource type="PackedScene" uid="uid://ctro0g6qcuq7l" path="res://Scenes/main.tscn" id="2_lddkc"]
 [ext_resource type="Script" path="res://Scripts/Starfield.cs" id="3_6dkk4"]
 [ext_resource type="PackedScene" uid="uid://c527v7xr81us3" path="res://Scenes/star.tscn" id="4_upyvk"]
+[ext_resource type="AudioStream" uid="uid://dixkcy3xb71u5" path="res://Sounds/Constant Rumbling.wav" id="5_uyv3x"]
 
 [sub_resource type="Gradient" id="Gradient_3t3vg"]
 offsets = PackedFloat32Array(0, 0.467532, 0.649351, 0.818182, 1)
@@ -73,4 +74,8 @@ text = "Exit"
 [node name="StarSpawner" type="Node2D" parent="."]
 script = ExtResource("3_6dkk4")
 _starScene = ExtResource("4_upyvk")
-AccelMultiplier = 20.0
+AccelMultiplier = 1.0
+
+[node name="EngineSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_uyv3x")
+autoplay = true

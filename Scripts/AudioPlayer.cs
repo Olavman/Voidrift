@@ -5,7 +5,8 @@ public partial class AudioPlayer : Node
 {
   private AudioStreamPlayer _audioPlayer;
   [Export] public float FadeDuration = 2.0f; // Time in seconds for smotth fade-ins/outs
-  [Export] private AudioStream GameTrack;
+  [Export] public AudioStream GameTrack;
+  [Export] public AudioStream MenuTrack;
 
   public override void _Ready()
   {
@@ -17,7 +18,7 @@ public partial class AudioPlayer : Node
     }
 
     // Start track
-    PlayMusic(GameTrack);
+    //PlayMusic(GameTrack);
   }
 
   // Function to play a specific track

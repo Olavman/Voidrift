@@ -3,7 +3,6 @@ using System;
 
 public partial class game : Node
 {
-  // Use the [Export] or [OnReady] attribut in Godot 4.x to ensure the variable is initialized when the node is ready.
   public Line2D _arenaBorder = null;
 
 	// Called when the node enters the scene tree for the first time.

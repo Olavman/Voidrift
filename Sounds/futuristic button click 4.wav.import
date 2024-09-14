@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bcjeqob4aanmq"
+path="res://.godot/imported/futuristic button click 4.wav-2c6f21a21de4755e6c3d5acecf1e16dc.sample"
+
+[deps]
+
+source_file="res://Sounds/futuristic button click 4.wav"
+dest_files=["res://.godot/imported/futuristic button click 4.wav-2c6f21a21de4755e6c3d5acecf1e16dc.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0
