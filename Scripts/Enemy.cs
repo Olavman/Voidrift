@@ -10,55 +10,51 @@ public partial class Enemy : Ship
     DRIFT
   }
 
-  private Ship _currentTarget;
+  public Ship CurrentTarget;
   private ACTION _action;
+
+  private BehaviorTreeNode _behaviorTree;
+
+  public override void _Ready()
+  {
+    base._Ready();
+
+    // Build the behavior tree
+    _behaviorTree = new SelectorNode();
+
+    // Sequence: find target -> move to target -> attack target
+    SequenceNode attackSequence = new SequenceNode();
+    attackSequence.AddNode(new FindTargetNode(this));
+    attackSequence.AddNode(new MoveToTargetNode(this));
+    attackSequence.AddNode(new AttackTargetNode(this));
+
+    // Add the sequence to the selector node (could add more complex behaviors later)
+    (_behaviorTree as SelectorNode).AddNode(attackSequence);
+  }
 
   public override void _PhysicsProcess(double delta)
   {
     base._PhysicsProcess(delta);
 
-    // Find the best target each frame
-    _currentTarget = FindBestTarget();
+    // Evaluate the behavior tree
+    _behaviorTree.Evaluate();
 
-    if ( _currentTarget != null )
+    /*/ Find the best target each frame
+    CurrentTarget = FindBestTarget();
+
+    if ( CurrentTarget != null )
     {
-      /*
-      // Calculate the direction to the target
-      Vector2 directionToTarget = (Position - _currentTarget.Position).Normalized();
-      float desiredRotation = directionToTarget.Angle();
-
-      // Turn towards the target
-      float angleDifference = Mathf.Wrap(desiredRotation - Rotation, -Mathf.Pi, Mathf.Pi);
-      RotateShip(Mathf.Sign(angleDifference) < 0, (float)delta);
-
-      // Move action
-      float distanceToTarget = Position.DistanceTo(_currentTarget.Position);*/
-      MoveTowardTarget(_currentTarget.Position, delta);
-      /*if (Mathf.Abs(angleDifference) <= 30)
-      {
-        if (distanceToTarget > 300)
-        {
-          _action = ACTION.MOVE_FORWARD;
-        }
-        else
-        {
-          _action = ACTION.MOVE_BACKWARD;
-        }
-      }
-      else
-      {
-        _action = ACTION.MOVE_BACKWARD;
-      }*/
+      MoveTowardTarget(CurrentTarget.Position, delta);
     }
 
     // Handle shooting
-    if (Position.DistanceTo(_currentTarget.Position) < 600.0f && Position.DirectionTo(_currentTarget.Position).Angle() > Mathf.Pi/4)
+    if (Position.DistanceTo(CurrentTarget.Position) < 600.0f && Position.DirectionTo(CurrentTarget.Position).Angle() > Mathf.Pi/4)
     {
       //Shoot();
-    }
+    }*/
   }
 
-  private Ship FindBestTarget()
+  public Ship FindBestTarget()
   {
     Ship bestTarget = null;
     float bestScore = float.MaxValue;
@@ -86,7 +82,7 @@ public partial class Enemy : Ship
     return bestTarget;
   }
 
-  protected void MoveTowardTarget(Vector2 target, double delta)
+  public void MoveTowardTarget(Vector2 target, double delta)
   {
     // Calculate the direction to the target
     Vector2 directionToTarget = (Position - target).Normalized();
@@ -94,8 +90,8 @@ public partial class Enemy : Ship
 
     // Turn towards the target
     float angleDifference = Mathf.Wrap(Rotation - desiredRotation, -Mathf.Pi, Mathf.Pi);
-    //GD.Print(angleDifference);
     RotateShip(Mathf.Sign(angleDifference) > 0, (float)delta);
+    //GD.Print(angleDifference + " angle differance");
 
     // Determine the distance to the target
     float distanceToTarget = Position.DistanceTo(target);
@@ -151,7 +147,7 @@ public partial class Enemy : Ship
     base.AddToVelocity(delta);
 
     bool isThrusting = false;
-    if (_currentTarget != null)
+    if (CurrentTarget != null)
     {
       // Thrust forward or backward
       if (_action == ACTION.MOVE_FORWARD)

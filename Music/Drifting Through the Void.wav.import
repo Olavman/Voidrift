@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://beqs1sw4twmte"
+path="res://.godot/imported/Drifting Through the Void.wav-ecfea8495ad607bca34f801bffa4c512.sample"
+
+[deps]
+
+source_file="res://Music/Drifting Through the Void.wav"
+dest_files=["res://.godot/imported/Drifting Through the Void.wav-ecfea8495ad607bca34f801bffa4c512.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=2
+edit/loop_begin=385136
+edit/loop_end=16768512
+compress/mode=0

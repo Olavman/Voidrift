@@ -9,6 +9,7 @@ size = Vector2(4, 4)
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_05nhq")
+Speed = 1000.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_jp1ke")

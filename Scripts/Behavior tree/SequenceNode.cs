@@ -11,6 +11,8 @@ public partial class SequenceNode : BehaviorTreeNode
     _nodes.Add(node);
   }
 
+  bool isRunning = false;
+
   public override NodeState Evaluate()
   {
     foreach (var node in _nodes)
@@ -20,11 +22,11 @@ public partial class SequenceNode : BehaviorTreeNode
       {
         return NodeState.FAILURE;
       }
-      if (state == NodeState.SUCCESS)
+      if (state == NodeState.RUNNING)
       {
-        return NodeState.RUNNING;
+        isRunning = true; // If any node is running, we return RUNNING
       }
     }
-    return NodeState.SUCCESS;
+    return isRunning ? NodeState.RUNNING : NodeState.SUCCESS; // All nodes must succeed
   }
 }

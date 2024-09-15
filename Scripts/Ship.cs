@@ -3,7 +3,9 @@ using System;
 
 public partial class Ship : CharacterBody2D
 {
+  // Weapon variables
   [Export] public PackedScene BulletScene; // Assign the bullet scene in the editor
+  private float _cooldownTimer = 0; // Timer for bullet cooldown
 
   [Export] public double MaxHealth = 100.0;
   [Export] public double MaxShield = 100.0;
@@ -31,6 +33,7 @@ public partial class Ship : CharacterBody2D
   protected Vector2 _lastPosition = Vector2.Zero;
   protected Vector2 _velocity = Vector2.Zero;
   protected bool _onMapEdge;
+
 
   protected GpuParticles2D _thrustParticles;
 
@@ -70,7 +73,10 @@ public partial class Ship : CharacterBody2D
     #endregion
 
     #region // Shooting
-    // Handle shooting
+    if (_cooldownTimer > 0)
+    {
+      _cooldownTimer -= (float)delta;
+    }
     #endregion
 
     #region // Damage & Health
@@ -96,7 +102,7 @@ public partial class Ship : CharacterBody2D
     }
     else
     {
-      thrustingVelocity = new Vector2((float)Math.Cos(Rotation), (float)Math.Sin(Rotation)) * -ThrustPower;
+      thrustingVelocity = new Vector2((float)Math.Cos(Rotation), (float)Math.Sin(Rotation)) * -ThrustPower/2;
     }
 
     _velocity += thrustingVelocity;
@@ -173,7 +179,7 @@ public partial class Ship : CharacterBody2D
     CheckWrapAround();
   }
 
-  protected void Shoot()
+  public void Shoot()
   {
     if (BulletScene == null)
     {
@@ -181,20 +187,25 @@ public partial class Ship : CharacterBody2D
       return;
     }
 
-    // Create an instance of the bullet
-    Bullet bullet = BulletScene.Instantiate() as Bullet;
+    // Check if cooldown is ok
+    if (_cooldownTimer <= 0)
+    {
+      // Create an instance of the bullet
+      Bullet bullet = BulletScene.Instantiate() as Bullet;
 
-    // Add the players velocity to the bullet
-    bullet._velocity = _velocity;
+      // Add the players velocity to the bullet
+      bullet._velocity = _velocity;
 
-    // Set the bullet's starting position and direction
-    Marker2D spawnPosition = GetNode<Marker2D>("Marker2D");
-    bullet.Position = spawnPosition.GlobalPosition;
-    bullet.Init(new Vector2(Mathf.Cos(Rotation), Mathf.Sin(Rotation)));
+      // Set the bullet's starting position and direction
+      Marker2D spawnPosition = GetNode<Marker2D>("Marker2D");
+      bullet.Position = spawnPosition.GlobalPosition;
+      bullet.Init(new Vector2(Mathf.Cos(Rotation), Mathf.Sin(Rotation)), this);
 
+      // Add the bullet to the scene
+      GetParent().AddChild(bullet);
 
-    // Add the bullet to the scene
-    GetParent().AddChild(bullet);
+      _cooldownTimer += bullet.Cooldown;
+    }
   }
 
   protected void ApplyDrag()
@@ -256,19 +267,19 @@ public partial class Ship : CharacterBody2D
     StopShieldRecharging();
 
     double subtractDamage = 0;
-    subtractDamage = Math.Min(damage, _shield);
+    subtractDamage = Math.Min(damage, _shield); // Reduce shield first
     _shield -= subtractDamage;
     damage -= subtractDamage;
     EmitSignal(nameof(ShieldChanged), _shield);
 
     if (damage > 0)
     {
-      Health -= damage;
+      Health -= damage; // Apply remaining damage to health
       EmitSignal(nameof(HealthChanged), Health);
       
       if (Health <= 0) 
       {
-        DestroyShip();
+        DestroyShip(); // destroy the ship when health reaches zero
       }
     }
   }

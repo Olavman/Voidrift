@@ -1,12 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://bs7356ty3rbu6"]
+[gd_scene load_steps=4 format=3 uid="uid://bs7356ty3rbu6"]
 
 [ext_resource type="Script" path="res://Scripts/AudioPlayer.cs" id="1_v6uki"]
 [ext_resource type="AudioStream" uid="uid://lvhhdsjcbbgw" path="res://Music/Starlit Conflict soundtrack.wav" id="2_p2yqa"]
+[ext_resource type="AudioStream" uid="uid://beqs1sw4twmte" path="res://Music/Drifting Through the Void.wav" id="3_mlr0x"]
 
 [node name="AudioPlayer" type="Node"]
 script = ExtResource("1_v6uki")
 GameTrack = ExtResource("2_p2yqa")
-MenuTrack = ExtResource("2_p2yqa")
+MenuTrack = ExtResource("3_mlr0x")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_p2yqa")

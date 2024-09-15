@@ -1,8 +1,16 @@
-[gd_scene load_steps=21 format=3 uid="uid://h2aiqifihb0s"]
+[gd_scene load_steps=23 format=3 uid="uid://h2aiqifihb0s"]
 
 [ext_resource type="Script" path="res://Scripts/CelestialObject.cs" id="1_32kh8"]
 [ext_resource type="Shader" path="res://Shaders/blackHole.gdshader" id="2_k0ctq"]
 [ext_resource type="Texture2D" uid="uid://cpnbx18onxier" path="res://Sprites/icon.svg" id="3_23snr"]
+
+[sub_resource type="Gradient" id="Gradient_kui0f"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_20ug8"]
+gradient = SubResource("Gradient_kui0f")
+use_hdr = true
 
 [sub_resource type="Curve" id="Curve_ceogn"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.113333, 0.912088), 0.808015, 0.808015, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -73,7 +81,7 @@ alpha_curve = SubResource("CurveTexture_mi7p8")
 
 [sub_resource type="Curve" id="Curve_mkq13"]
 min_value = -1.0
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.18, -0.362637), 17.8022, 1.64835, 0, 0, Vector2(0.433333, 1), -0.439561, 4.05748, 0, 0, Vector2(0.5, 1.49012e-08), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 0), 0.0, 2.32268, 0, 0, Vector2(0.0266667, -0.824176), 0.0, 0.0, 0, 0, Vector2(0.48, 0.824176), -0.439561, 4.05748, 0, 0, Vector2(0.48001, 0.0109891), 0.0, 0.0, 0, 0]
 point_count = 4
 
 [sub_resource type="CurveTexture" id="CurveTexture_55cmg"]
@@ -88,6 +96,9 @@ shader_parameter/curve = SubResource("CurveTexture_55cmg")
 script = ExtResource("1_32kh8")
 IsStar = true
 
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+texture = SubResource("GradientTexture2D_20ug8")
+
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 show_behind_parent = true
 position = Vector2(0, 1)
@@ -101,5 +112,6 @@ trail_enabled = true
 trail_sections = 30
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+show_behind_parent = true
 material = SubResource("ShaderMaterial_8bv25")
 texture = ExtResource("3_23snr")

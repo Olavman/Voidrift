@@ -19,7 +19,7 @@ public partial class Player : Ship
     }
 
     // Handle shooting
-    if (Input.IsActionJustPressed("shoot"))
+    if (Input.IsActionPressed("shoot"))
     {
       Shoot();
     }
