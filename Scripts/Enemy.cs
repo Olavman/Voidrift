@@ -9,7 +9,7 @@ public partial class Enemy : Ship
     MOVE_BACKWARD,
     DRIFT
   }
-
+  
   public Ship CurrentTarget;
   private ACTION _action;
 
@@ -167,6 +167,10 @@ public partial class Enemy : Ship
 
   protected override void DestroyShip()
   {
+    if (LastHitBy is Player player)
+    {
+      player._audioPlayer.PlaySound(player._audioPlayer.TargetEliminated);
+    }
     base.DestroyShip();
     QueueFree(); // Remove the enemy from the scene
   }

@@ -5,7 +5,7 @@ public partial class Ship : CharacterBody2D
 {
   // Weapon variables
   [Export] public PackedScene BulletScene; // Assign the bullet scene in the editor
-  private float _cooldownTimer = 0; // Timer for bullet cooldown
+  protected float _cooldownTimer = 0; // Timer for bullet cooldown
 
   [Export] public double MaxHealth = 100.0;
   [Export] public double MaxShield = 100.0;
@@ -21,10 +21,10 @@ public partial class Ship : CharacterBody2D
   [Signal] public delegate void SpeedChangedEventHandler(float newSpeed);
 
   // Audio variables
-  private AudioStreamPlayer2D _engineAudio; // Audio player for the enigne sound
+  protected AudioStreamPlayer2D _engineAudio; // Audio player for the enigne sound
 
   // Shield variables
-  public int ShieldRechargeSeconds = 3;
+  public int ShieldRechargeSeconds = 6;
   protected double _shield;
   protected float _shieldRechargeTimer;
   protected bool _isRecharging;
@@ -34,7 +34,7 @@ public partial class Ship : CharacterBody2D
   protected Vector2 _velocity = Vector2.Zero;
   protected bool _onMapEdge;
 
-
+  public Ship LastHitBy = null;
   protected GpuParticles2D _thrustParticles;
 
   public override void _Ready()
@@ -262,9 +262,13 @@ public partial class Ship : CharacterBody2D
     Position = position;
   }
 
-  public void TakeDamage(double damage)
+  public virtual void TakeDamage(double damage, Ship damageOwner = null)
   {
     StopShieldRecharging();
+    if (damageOwner != null)
+    {
+      LastHitBy = damageOwner;
+    }
 
     double subtractDamage = 0;
     subtractDamage = Math.Min(damage, _shield); // Reduce shield first
@@ -287,6 +291,7 @@ public partial class Ship : CharacterBody2D
   protected virtual void DestroyShip()
   {
     GD.Print("Ship destroyed");
+    QueueFree();
   }
 
   protected void StopShieldRecharging()
@@ -295,7 +300,7 @@ public partial class Ship : CharacterBody2D
     _shieldRechargeTimer = 0;
   }
 
-  protected void StartRechargeShield()
+  protected virtual void StartRechargeShield()
   {
     _isRecharging = true;
   }
@@ -317,7 +322,7 @@ public partial class Ship : CharacterBody2D
     else
     {
       _shieldRechargeTimer += 1*delta;
-      //_shieldRechargeTimer++;
+
       if (_shieldRechargeTimer >= ShieldRechargeSeconds)
       {
         StartRechargeShield();

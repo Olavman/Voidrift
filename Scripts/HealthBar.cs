@@ -9,12 +9,17 @@ public partial class HealthBar : Panel
 	private int _gotHitTimer = 0;
 	private bool _gotHit = false;
 
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
+  private AudioPlayer _audioPlayer = null;
+
+  // Called when the node enters the scene tree for the first time.
+  public override void _Ready()
 	{
 		_healthBar = GetNode<TextureProgressBar>("HealthTextureProgress");
 		_shieldBar = GetNode<TextureProgressBar>("ShieldTextureProgress");
-	}
+
+    // Get the global audioplayer
+    _audioPlayer = GetNode("/root/AudioPlayer") as AudioPlayer;
+  }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)

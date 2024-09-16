@@ -26,7 +26,7 @@ public partial class AttackTargetNode : BehaviorTreeNode
 
     if (distance < 540.0f && Mathf.Abs(angleDifference) < Mathf.Pi / 12)
     {
-      //AiShip.Shoot(); // attack the target
+      AiShip.Shoot(); // attack the target
       return NodeState.SUCCESS;
     }
 

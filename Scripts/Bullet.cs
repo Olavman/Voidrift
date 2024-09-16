@@ -4,9 +4,9 @@ using System;
 public partial class Bullet : Node2D
 {
 	[Export] public float Speed = 5000.0f; // Bullet speed
-	[Export] public double Damage = 10.0f; // Bullet damage value
+	[Export] public double Damage = 2.0f; // Bullet damage value
 	[Export] public float Cooldown = 0.1f; // Cooldown in seconds
-	[Export] public float Accuracy = 1.0f;	 // Accuracy of the bullet (1.0 = perfect accuracy)
+	[Export] public float Accuracy = 0.5f;	 // Accuracy of the bullet (1.0 = perfect accuracy)
 	public Ship BulletOwner = null;
 
 	internal Vector2 _velocity = Vector2.Zero;
@@ -27,7 +27,7 @@ public partial class Bullet : Node2D
 	public void Init(Vector2 direction, Ship bulletOwner)
 	{
 		// Introduce randomization in the direction based on accuracy
-		float deviation = (1.0f - Accuracy) *0.2f; 
+		float deviation = (1.0f - Accuracy) *0.4f; 
 		float randomAngle = (float)GD.RandRange(-deviation, deviation); // Random angle deviation
 
 		// Adjust the direction by the random angle
@@ -79,7 +79,7 @@ public partial class Bullet : Node2D
     #region // Elongate the sprite based on movement
     float distanceTraveled = (Position  - previousPosition).Length();
 		Sprite2D sprite = GetNode<Sprite2D>("Sprite2D");
-		//sprite.Scale = new Vector2(distanceTraveled / 4.0f, 1); // Adjust for your 8x8 sprite
+		sprite.Scale = new Vector2(distanceTraveled / 4.0f, 1); // Adjust for your 8x8 sprite
     #endregion
 		
     if (IsOutsideScreen())
@@ -93,7 +93,7 @@ public partial class Bullet : Node2D
 		if (body is Ship ship && ship != BulletOwner)
 		{
 			// Apply damage to the ship
-			ship.TakeDamage(Damage);
+			ship.TakeDamage(Damage, BulletOwner);
 
 			// Destroy the bullet after hitting a ship
 			QueueFree();

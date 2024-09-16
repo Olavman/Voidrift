@@ -1,14 +1,46 @@
-[gd_scene load_steps=4 format=3 uid="uid://bs7356ty3rbu6"]
+[gd_scene load_steps=18 format=3 uid="uid://bs7356ty3rbu6"]
 
 [ext_resource type="Script" path="res://Scripts/AudioPlayer.cs" id="1_v6uki"]
 [ext_resource type="AudioStream" uid="uid://lvhhdsjcbbgw" path="res://Music/Starlit Conflict soundtrack.wav" id="2_p2yqa"]
 [ext_resource type="AudioStream" uid="uid://beqs1sw4twmte" path="res://Music/Drifting Through the Void.wav" id="3_mlr0x"]
+[ext_resource type="AudioStream" uid="uid://bq7sdgumbf0cl" path="res://Sounds/Robot voice/Shields offline brace for impact.wav" id="4_2dprn"]
+[ext_resource type="AudioStream" uid="uid://dkhm7crwnsusm" path="res://Sounds/futuristic button click.wav" id="4_42qqm"]
+[ext_resource type="AudioStream" uid="uid://deyhyjrwhx6wu" path="res://Sounds/Robot voice/Systems online welcome pilot.wav" id="4_a88yw"]
+[ext_resource type="AudioStream" uid="uid://boylhois1sbtb" path="res://Sounds/Robot voice/Multiple impacts detected.wav" id="5_5agxv"]
+[ext_resource type="AudioStream" uid="uid://ib4dp3b0py48" path="res://Sounds/futuristic button click 2.wav" id="5_rhmkq"]
+[ext_resource type="AudioStream" uid="uid://bg7bcj8j0k578" path="res://Sounds/Robot voice/Shield stabilizing.wav" id="6_key62"]
+[ext_resource type="AudioStream" uid="uid://yugkun5mdqx3" path="res://Sounds/Robot voice/Danger hullbreach imminent.wav" id="7_7ay8e"]
+[ext_resource type="AudioStream" uid="uid://gucamujk0vox" path="res://Sounds/Robot voice/Stealth mode activated.wav" id="8_nsu7g"]
+[ext_resource type="AudioStream" uid="uid://hy0sstcmnk5a" path="res://Sounds/Robot voice/Engaging force field.wav" id="9_ahecs"]
+[ext_resource type="AudioStream" uid="uid://dwm2c23eovb2o" path="res://Sounds/Robot voice/Teleportation successful.wav" id="10_evqrj"]
+[ext_resource type="AudioStream" uid="uid://cb0thtt2ecf11" path="res://Sounds/Robot voice/Target eliminated.wav" id="11_twrgj"]
+[ext_resource type="AudioStream" uid="uid://bsk64w1g6urg4" path="res://Sounds/Robot voice/Engaging emergency thrusters.wav" id="12_hh5du"]
+[ext_resource type="AudioStream" uid="uid://dnqr808ck02du" path="res://Sounds/Robot voice/All enemies neutralized mission successful.wav" id="13_odtqk"]
+[ext_resource type="AudioStream" uid="uid://byvkjwnakienl" path="res://Sounds/Robot voice/All systems operational ready for battle.wav" id="14_us5bm"]
 
 [node name="AudioPlayer" type="Node"]
 script = ExtResource("1_v6uki")
 GameTrack = ExtResource("2_p2yqa")
 MenuTrack = ExtResource("3_mlr0x")
+ButtonHovered = ExtResource("4_42qqm")
+ButtonClicked = ExtResource("5_rhmkq")
+SystemsOnline = ExtResource("4_a88yw")
+ShieldDepleted = ExtResource("4_2dprn")
+MultipleImpacts = ExtResource("5_5agxv")
+ShieldStabilizing = ExtResource("6_key62")
+HullBreach = ExtResource("7_7ay8e")
+StealthMode = ExtResource("8_nsu7g")
+EngagingForceField = ExtResource("9_ahecs")
+Teleportation = ExtResource("10_evqrj")
+TargetEliminated = ExtResource("11_twrgj")
+EmergencyThrusters = ExtResource("12_hh5du")
+Victory = ExtResource("13_odtqk")
+StartGame = ExtResource("14_us5bm")
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_p2yqa")
 volume_db = -17.802
+
+[node name="SoundPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="MenuPlayer" type="AudioStreamPlayer" parent="."]

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bg7bcj8j0k578"
+path="res://.godot/imported/Shield stabilizing.wav-38f0b6cb19391bed2d8a9c22061661bd.sample"
+
+[deps]
+
+source_file="res://Sounds/Robot voice/Shield stabilizing.wav"
+dest_files=["res://.godot/imported/Shield stabilizing.wav-38f0b6cb19391bed2d8a9c22061661bd.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

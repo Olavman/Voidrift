@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://yugkun5mdqx3"
+path="res://.godot/imported/Danger hullbreach imminent.wav-50c289714b940a6d691eb5cd2f730779.sample"
+
+[deps]
+
+source_file="res://Sounds/Robot voice/Danger hullbreach imminent.wav"
+dest_files=["res://.godot/imported/Danger hullbreach imminent.wav-50c289714b940a6d691eb5cd2f730779.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://deyhyjrwhx6wu"
+path="res://.godot/imported/Systems online welcome pilot.wav-df6e128536f06b78dfe255b12ed6b921.sample"
+
+[deps]
+
+source_file="res://Sounds/Robot voice/Systems online welcome pilot.wav"
+dest_files=["res://.godot/imported/Systems online welcome pilot.wav-df6e128536f06b78dfe255b12ed6b921.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0
