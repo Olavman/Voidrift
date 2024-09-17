@@ -95,6 +95,7 @@ offset_right = -25.0
 offset_bottom = -14.0
 grow_horizontal = 0
 grow_vertical = 0
+value = 2000.0
 
 [node name="HealthBar" parent="HUD/HUDCanvas" instance=ExtResource("10_ihghr")]
 offset_left = 298.0
@@ -107,6 +108,7 @@ position = Vector2(1408, 910)
 
 [node name="Enemy" parent="." instance=ExtResource("11_ptkcl")]
 position = Vector2(188, 157)
+RotateSpeed = 2.0
 
 [node name="BlackHole" parent="." instance=ExtResource("4_ybuw8")]
 position = Vector2(3221, 1732)

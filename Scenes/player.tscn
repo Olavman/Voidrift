@@ -61,7 +61,7 @@ texture = SubResource("CompressedTexture2D_avngu")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 rotation = 1.5708
-polygon = PackedVector2Array(-32, 16, -34, -4, -25, 2, -8, -8, -6, -26, 6, -26, 8, -9, 24, 1, 33, -5, 31, 17, 25, 16, 10, 18, 5, 26, -6, 26, -10, 19, -27, 16)
+polygon = PackedVector2Array(-32, 16, -34, -4, -8, -8, -6, -26, 6, -26, 8, -9, 33, -5, 31, 17, 5, 26, -6, 26)
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 show_behind_parent = true

@@ -9,7 +9,7 @@ public partial class Ship : CharacterBody2D
 
   [Export] public double MaxHealth = 100.0;
   [Export] public double MaxShield = 100.0;
-  [Export] public float RotateSpeed = 2.0f;
+  [Export] public float RotateSpeed = 4.0f;
   [Export] public float ThrustPower = 10.0f;
   [Export] public float MaxSpeed = 1000.0f;
   public double Health;
@@ -33,6 +33,7 @@ public partial class Ship : CharacterBody2D
   protected Vector2 _lastPosition = Vector2.Zero;
   protected Vector2 _velocity = Vector2.Zero;
   protected bool _onMapEdge;
+  protected bool _isThrusting;
 
   public Ship LastHitBy = null;
   protected GpuParticles2D _thrustParticles;
@@ -54,6 +55,7 @@ public partial class Ship : CharacterBody2D
     _thrustParticles.Emitting = false; // Start with no emission
 
     Health = MaxHealth;
+    _isThrusting = false;
 
     EmitSignal(nameof(MaxHealthChanged), MaxHealth);
     EmitSignal(nameof(MaxShieldChanged), MaxShield);
@@ -65,6 +67,7 @@ public partial class Ship : CharacterBody2D
   {
     #region // Movement
     // Shared movement and shield recharging logic
+    _isThrusting = false;
     ApplyMovement(delta);
     RechargeShield((float)delta);
 
@@ -89,6 +92,8 @@ public partial class Ship : CharacterBody2D
 
   protected virtual bool Thrusting(bool isThrustingForward)
   {
+    _isThrusting = true;
+
     // Play engine sound
     if (!_engineAudio.Playing)
     {
@@ -123,13 +128,14 @@ public partial class Ship : CharacterBody2D
 
   protected virtual void RotateShip(bool isRotatingRight, float delta)
   {
+    float rotateSpeed = _isThrusting ? RotateSpeed/2 : RotateSpeed;
     if (isRotatingRight)
     {
-      Rotation += RotateSpeed * delta;
+      Rotation += rotateSpeed * delta;
     }
     else
     {
-      Rotation -= RotateSpeed * delta;
+      Rotation -= rotateSpeed * delta;
     }
   }
 

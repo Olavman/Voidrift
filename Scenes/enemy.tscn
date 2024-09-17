@@ -49,6 +49,7 @@ load_path = "res://.godot/imported/smoke_01.tga-6ad9ac48887f66f50f11b068cbc2a6b7
 [node name="Enemy" type="CharacterBody2D" groups=["enemy", "ships"]]
 script = ExtResource("1_ki4wm")
 BulletScene = ExtResource("2_im5d0")
+RotateSpeed = 2.0
 
 [node name="EnemySprite" type="Sprite2D" parent="."]
 texture = ExtResource("1_srygc")

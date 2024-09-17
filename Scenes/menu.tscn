@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cxixn2hqmnekn"]
+[gd_scene load_steps=10 format=3 uid="uid://cxixn2hqmnekn"]
 
 [ext_resource type="Script" path="res://Scripts/Menu.cs" id="1_g8opw"]
 [ext_resource type="PackedScene" uid="uid://ctro0g6qcuq7l" path="res://Scenes/main.tscn" id="2_lddkc"]
@@ -21,6 +21,9 @@ fractal_weighted_strength = 0.44
 in_3d_space = true
 color_ramp = SubResource("Gradient_3t3vg")
 noise = SubResource("FastNoiseLite_rwpjn")
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_062kl"]
+blend_mode = 1
 
 [node name="Menu" type="Control" node_paths=PackedStringArray("PlayBtn", "OptionsBtn", "QuitBtn")]
 layout_mode = 3
@@ -60,15 +63,35 @@ layout_mode = 2
 alignment = 1
 
 [node name="Play" type="Button" parent="MarginContainer/VBoxContainer"]
+texture_filter = 2
+material = SubResource("CanvasItemMaterial_062kl")
 layout_mode = 2
+theme_override_colors/font_hover_color = Color(0.43, 1, 0.9525, 1)
+theme_override_colors/font_color = Color(0, 1, 0.916667, 0.615686)
+theme_override_colors/font_outline_color = Color(0, 0.4, 0.366667, 0.486275)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 60
 text = "Play"
 
 [node name="Options" type="Button" parent="MarginContainer/VBoxContainer"]
+texture_filter = 2
+material = SubResource("CanvasItemMaterial_062kl")
 layout_mode = 2
+theme_override_colors/font_hover_color = Color(0.43, 1, 0.9525, 1)
+theme_override_colors/font_color = Color(0, 1, 0.916667, 0.615686)
+theme_override_colors/font_outline_color = Color(0, 0.4, 0.366667, 0.486275)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 60
 text = "Options"
 
 [node name="Exit" type="Button" parent="MarginContainer/VBoxContainer"]
+material = SubResource("CanvasItemMaterial_062kl")
 layout_mode = 2
+theme_override_colors/font_hover_color = Color(0.43, 1, 0.9525, 1)
+theme_override_colors/font_color = Color(0, 1, 0.916667, 0.615686)
+theme_override_colors/font_outline_color = Color(0, 0.4, 0.366667, 0.486275)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 60
 text = "Exit"
 
 [node name="StarSpawner" type="Node2D" parent="."]

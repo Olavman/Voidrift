@@ -1,8 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://dbccrnailfd7"]
+[gd_scene load_steps=6 format=3 uid="uid://dbccrnailfd7"]
 
 [ext_resource type="Script" path="res://Scripts/Bullet.cs" id="1_05nhq"]
 [ext_resource type="Texture2D" uid="uid://b5pg46rtxsqv1" path="res://Sprites/plasma bullet.png" id="1_jp1ke"]
 [ext_resource type="AudioStream" uid="uid://bvjb3yme7lymv" path="res://Sounds/a_tiny_plasma_bullet.wav" id="2_1nncf"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_djo6c"]
+blend_mode = 1
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8mibs"]
 size = Vector2(4, 4)
@@ -12,6 +15,7 @@ script = ExtResource("1_05nhq")
 Speed = 1000.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_djo6c")
 texture = ExtResource("1_jp1ke")
 
 [node name="Area2D" type="Area2D" parent="."]
