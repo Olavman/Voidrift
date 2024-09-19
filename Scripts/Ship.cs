@@ -5,6 +5,7 @@ public partial class Ship : CharacterBody2D
 {
   // Weapon variables
   [Export] public PackedScene BulletScene; // Assign the bullet scene in the editor
+  [Export] public PackedScene ExplosionScene; // Assign the bullet scene in the editor
   protected float _cooldownTimer = 0; // Timer for bullet cooldown
 
   [Export] public double MaxHealth = 100.0;
@@ -83,10 +84,6 @@ public partial class Ship : CharacterBody2D
     #endregion
 
     #region // Damage & Health
-    if (Input.IsActionJustPressed("shoot"))
-    {
-      //TakeDamage(10);
-    }
     #endregion
   }
 
@@ -297,7 +294,33 @@ public partial class Ship : CharacterBody2D
   protected virtual void DestroyShip()
   {
     GD.Print("Ship destroyed");
-    QueueFree();
+
+    // Apply huge screen shake
+    Game GameManager = GetNode("/root/Game") as Game;
+    var camera = GameManager.Camera as PlayerCam;
+    float maxDist = 1080.0f;
+    float multiplier = (maxDist-Position.DistanceTo(camera.Position)) / maxDist;
+    GD.Print(Position.DistanceTo(camera.Position));
+    GD.Print((maxDist - Position.DistanceTo(camera.Position)) / maxDist);
+    camera.AddScreenShake(20* multiplier, 0.5f);
+
+    // Check if ExplosionScene is assigned
+    if (ExplosionScene != null)
+    {
+      // Create an instance of the explosion
+      GpuParticles2D explosion = ExplosionScene.Instantiate<GpuParticles2D>();
+
+      // Set the explosion's position to the ship's current position
+      explosion.Position = Position;
+      explosion.Emitting = true;
+
+      // Add the explosion to the scene tree (same parent as the ship)
+      GetParent().AddChild(explosion);
+    }
+    else
+    {
+      GD.Print("No explosion");
+    }
   }
 
   protected void StopShieldRecharging()

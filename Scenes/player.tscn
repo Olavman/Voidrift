@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://dmlb4sm6nm8tb"]
+[gd_scene load_steps=13 format=3 uid="uid://dmlb4sm6nm8tb"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_hoi26"]
 [ext_resource type="PackedScene" uid="uid://dbccrnailfd7" path="res://Scenes/bullet.tscn" id="2_q3dp2"]
 [ext_resource type="AudioStream" uid="uid://dixkcy3xb71u5" path="res://Sounds/Constant Rumbling.wav" id="3_422qg"]
+[ext_resource type="PackedScene" uid="uid://j1v1w57gli4h" path="res://Scenes/explosion.tscn" id="3_a25ll"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_avngu"]
 load_path = "res://.godot/imported/playerShip1_blue.png-0d97ad2c7cf71cd00be122fc54cc6ab3.ctex"
@@ -53,6 +54,7 @@ position = Vector2(-1, 0)
 motion_mode = 1
 script = ExtResource("1_hoi26")
 BulletScene = ExtResource("2_q3dp2")
+ExplosionScene = ExtResource("3_a25ll")
 
 [node name="PlayerSprite" type="Sprite2D" parent="."]
 rotation = 1.5708
@@ -81,3 +83,5 @@ autoplay = true
 position = Vector2(27, 0)
 
 [node name="PlayerCam" type="Camera2D" parent="."]
+visible = false
+enabled = false

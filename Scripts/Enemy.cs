@@ -38,20 +38,6 @@ public partial class Enemy : Ship
 
     // Evaluate the behavior tree
     _behaviorTree.Evaluate();
-
-    /*/ Find the best target each frame
-    CurrentTarget = FindBestTarget();
-
-    if ( CurrentTarget != null )
-    {
-      MoveTowardTarget(CurrentTarget.Position, delta);
-    }
-
-    // Handle shooting
-    if (Position.DistanceTo(CurrentTarget.Position) < 600.0f && Position.DirectionTo(CurrentTarget.Position).Angle() > Mathf.Pi/4)
-    {
-      //Shoot();
-    }*/
   }
 
   public Ship FindBestTarget()
@@ -167,11 +153,11 @@ public partial class Enemy : Ship
 
   protected override void DestroyShip()
   {
+    base.DestroyShip();
     if (LastHitBy is Player player)
     {
-      player._audioPlayer.PlaySound(player._audioPlayer.TargetEliminated);
+      player.Audio.PlaySound(player.Audio.TargetEliminated);
     }
-    base.DestroyShip();
     QueueFree(); // Remove the enemy from the scene
   }
 }

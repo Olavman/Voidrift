@@ -1,15 +1,20 @@
 using Godot;
 using System;
 
-public partial class game : Node
+public partial class Game : Node
 {
-  public Line2D _arenaBorder = null;
+  public Line2D ArenaBorder = null;
+  public Camera2D Camera = null;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-    _arenaBorder = GetNode<Line2D>("ArenaBorder");
+    // Set the arena border
+    ArenaBorder = GetNode<Line2D>("ArenaBorder");
     SetBorderLines();
+
+    // Get the camera
+    Camera = GetNode<Camera2D>("PlayerCam") as PlayerCam;
 
 	}
 
@@ -32,7 +37,7 @@ public partial class game : Node
     float radius = levelSize[0] / 2;
     int numPoints = 360;
 
-    _arenaBorder.ClearPoints();
+    ArenaBorder.ClearPoints();
 
     for (int i = 0; i < numPoints+1; i++)
     {
@@ -41,7 +46,7 @@ public partial class game : Node
           center.X + Mathf.Cos(angle) * radius,
           center.Y + Mathf.Sin(angle) * radius
         );
-      _arenaBorder.AddPoint(point);
+      ArenaBorder.AddPoint(point);
     }
   }
 }

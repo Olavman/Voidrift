@@ -10,8 +10,14 @@ public partial class Menu : Control
   [Export] PackedScene GameScene = null;
 
   private AudioPlayer _audioPlayer = null;
+  private int _fontBaseSize;
+  private int _fontFocusSize;
   public override void _Ready()
   {
+    GD.Print("Main menu");
+    _fontBaseSize = PlayBtn.GetThemeDefaultFontSize();
+    _fontFocusSize = _fontBaseSize * 2;
+
     // Set up button pressed connections
     PlayBtn.Pressed += OnPlayButtonPressed;
     OptionsBtn.Pressed += OnOptionsButtonPressed;

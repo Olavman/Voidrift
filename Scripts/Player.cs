@@ -4,20 +4,26 @@ using System;
 public partial class Player : Ship
 {
   private double _hitSuccession = 0;
+  public bool _isDestroyed = false;
 
-  // Get the global audioplayer
-  public AudioPlayer _audioPlayer;
+  public AudioPlayer Audio;
+  public Game GameManager;
 
   public override void _Ready()
   {
-    _audioPlayer = GetNode("/root/AudioPlayer") as AudioPlayer;
+    // Get the global audioplayer
+    Audio = GetNode("/root/AudioPlayer") as AudioPlayer;
     base._Ready();
 
+    // Get the global game manager
+    GameManager = GetNode("/root/Game") as Game;
+
     // Play start game sound
-    _audioPlayer.PlaySound(_audioPlayer.StartGame);
+    Audio.PlaySound(Audio.StartGame);
   }
   public override void _PhysicsProcess(double delta)
   {
+    if (_isDestroyed) return;
     base._PhysicsProcess(delta);
 
     // Handling rotation
@@ -31,7 +37,7 @@ public partial class Player : Ship
     }
 
     // Handle shooting
-    if (Input.IsActionPressed("shoot"))
+    if (Input.IsActionPressed("shoot_basic"))
     {
       Shoot();
     }
@@ -70,25 +76,35 @@ public partial class Player : Ship
     double currentHits = _hitSuccession;
     base.TakeDamage(damage);
 
+    var camera = GameManager.Camera as PlayerCam;
+    // Apply larger screen shake
+    camera.AddScreenShake((float)damage/2, 0.5f);
+
     _hitSuccession += 1;
     if (_hitSuccession == 20) // Multiple hits in short succession
     {
-      if (_audioPlayer.SoundPlayer.Stream != _audioPlayer.MultipleImpacts)
+      if (Audio.SoundPlayer.Stream != Audio.MultipleImpacts)
       {
-        _audioPlayer.PlaySound(_audioPlayer.MultipleImpacts);
+        Audio.PlaySound(Audio.MultipleImpacts);
       }
     }
 
     if (_shield <= 0 && currentShield > 0) // Shield got depleted
     {
       // Play depleted shield sound
-      _audioPlayer.PlaySound(_audioPlayer.ShieldDepleted);
+      Audio.PlaySound(Audio.ShieldDepleted);
+
+      // Apply minor screen shake
+      camera.AddScreenShake(5, 0.5f);
     }
 
     if (Health <= MaxHealth/4 && currentHealth > MaxHealth / 4) // Health got low
     {
       // Play depleted shield sound
-      _audioPlayer.PlaySound(_audioPlayer.HullBreach);
+      Audio.PlaySound(Audio.HullBreach);
+
+      // Apply larger screen shake
+      camera.AddScreenShake(10, 0.5f);
     }
   }
 
@@ -97,12 +113,12 @@ public partial class Player : Ship
     base.StartRechargeShield();
 
     // Play sound
-    _audioPlayer.PlaySound(_audioPlayer.ShieldStabilizing);
+    Audio.PlaySound(Audio.ShieldStabilizing);
   }
 
   protected override void DestroyShip()
   {
-    //base.DestroyShip();
-    //QueueFree(); // Remove the enemy from the scene
+    base.DestroyShip();
+    QueueFree(); // Remove the player from the scene
   }
 }

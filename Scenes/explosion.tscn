@@ -1,0 +1,67 @@
+[gd_scene load_steps=9 format=3 uid="uid://j1v1w57gli4h"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ojhpf"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_47mmw"]
+offsets = PackedFloat32Array(0, 0.442623, 1)
+colors = PackedColorArray(1, 0.892, 0.46, 1, 0.56, 0.2576, 0.2576, 0.556863, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_2r4pf"]
+gradient = SubResource("Gradient_47mmw")
+
+[sub_resource type="Curve" id="Curve_8lbci"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.43407, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_jejrc"]
+curve = SubResource("Curve_8lbci")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_pt2au"]
+lifetime_randomness = 0.5
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 32.63
+inherit_velocity_ratio = 1.0
+spread = 180.0
+initial_velocity_min = 98.59
+initial_velocity_max = 253.52
+gravity = Vector3(0, 0, 0)
+scale_min = 0.1
+scale_curve = SubResource("CurveTexture_jejrc")
+scale_over_velocity_min = 870.97
+scale_over_velocity_max = 1000.0
+color_ramp = SubResource("GradientTexture1D_2r4pf")
+hue_variation_min = -0.03
+hue_variation_max = 0.02
+turbulence_enabled = true
+turbulence_noise_strength = 16.37
+turbulence_noise_scale = 4.895
+turbulence_noise_speed_random = 0.11
+turbulence_influence_min = 0.104
+turbulence_influence_max = 0.104
+turbulence_initial_displacement_min = -0.999999
+turbulence_initial_displacement_max = -0.999999
+
+[sub_resource type="Gradient" id="Gradient_7qmnj"]
+offsets = PackedFloat32Array(0, 0.519481, 0.753247, 1)
+colors = PackedColorArray(1, 1, 0.67451, 1, 1, 0.509804, 0.184314, 0.482353, 0, 0, 0, 0.247695, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_q0htv"]
+gradient = SubResource("Gradient_7qmnj")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 1)
+
+[node name="Sparks" type="GPUParticles2D"]
+material = SubResource("CanvasItemMaterial_ojhpf")
+emitting = false
+amount = 50
+process_material = SubResource("ParticleProcessMaterial_pt2au")
+texture = SubResource("GradientTexture2D_q0htv")
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.85
+randomness = 0.96
+
+[node name="Node2D" type="Node2D" parent="."]

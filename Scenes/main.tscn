@@ -1,6 +1,6 @@
-[gd_scene load_steps=15 format=3 uid="uid://ctro0g6qcuq7l"]
+[gd_scene load_steps=16 format=3 uid="uid://ctro0g6qcuq7l"]
 
-[ext_resource type="Script" path="res://Scripts/game.cs" id="1_f1bp2"]
+[ext_resource type="Script" path="res://Scripts/Game.cs" id="1_f1bp2"]
 [ext_resource type="PackedScene" uid="uid://dmlb4sm6nm8tb" path="res://Scenes/player.tscn" id="2_2l1hh"]
 [ext_resource type="Texture2D" uid="uid://bowhm461ec5ur" path="res://Sprites/Sprite-0001.png" id="3_3qyop"]
 [ext_resource type="PackedScene" uid="uid://bfd4rt1j2x0rx" path="res://Scenes/speedBar.tscn" id="3_jqqb6"]
@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://cx0dtgq2akwi0" path="res://Sprites/radar dor.png" id="8_orpl2"]
 [ext_resource type="PackedScene" uid="uid://c03fgscpwimpo" path="res://Scenes/healthBar.tscn" id="10_ihghr"]
 [ext_resource type="PackedScene" uid="uid://b5hn0xuvh8sg5" path="res://Scenes/enemy.tscn" id="11_ptkcl"]
+[ext_resource type="Script" path="res://Scripts/PlayerCam.cs" id="14_iyvqj"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5c8dc"]
 shader = ExtResource("5_m3qf5")
@@ -43,7 +44,7 @@ script = ExtResource("5_ci6nj")
 
 [node name="HUDCanvas" type="CanvasLayer" parent="HUD"]
 
-[node name="MinimapContainer" type="SubViewportContainer" parent="HUD/HUDCanvas" node_paths=PackedStringArray("_player", "_blackHole", "minimapCamera")]
+[node name="MinimapContainer" type="SubViewportContainer" parent="HUD/HUDCanvas" node_paths=PackedStringArray("_cam", "_blackHole", "minimapCamera")]
 material = SubResource("ShaderMaterial_5c8dc")
 anchors_preset = 8
 anchor_left = 0.5
@@ -58,7 +59,7 @@ grow_horizontal = 2
 grow_vertical = 2
 stretch = true
 script = ExtResource("5_qp10h")
-_player = NodePath("../../../Player")
+_cam = NodePath("../../../PlayerCam")
 _blackHole = NodePath("../../../BlackHole")
 minimapCamera = NodePath("MinimapViewport/MinimapCamera")
 enemyRadarIcon = ExtResource("7_nqp6c")
@@ -95,7 +96,6 @@ offset_right = -25.0
 offset_bottom = -14.0
 grow_horizontal = 0
 grow_vertical = 0
-value = 2000.0
 
 [node name="HealthBar" parent="HUD/HUDCanvas" instance=ExtResource("10_ihghr")]
 offset_left = 298.0
@@ -108,7 +108,6 @@ position = Vector2(1408, 910)
 
 [node name="Enemy" parent="." instance=ExtResource("11_ptkcl")]
 position = Vector2(188, 157)
-RotateSpeed = 2.0
 
 [node name="BlackHole" parent="." instance=ExtResource("4_ybuw8")]
 position = Vector2(3221, 1732)
@@ -116,3 +115,7 @@ IsBlackHole = true
 
 [node name="ArenaBorder" type="Line2D" parent="."]
 points = PackedVector2Array(95, -133)
+
+[node name="PlayerCam" type="Camera2D" parent="." node_paths=PackedStringArray("Follow")]
+script = ExtResource("14_iyvqj")
+Follow = NodePath("../Player")
