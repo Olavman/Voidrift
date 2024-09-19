@@ -197,7 +197,8 @@ public partial class Ship : CharacterBody2D
       Bullet bullet = BulletScene.Instantiate() as Bullet;
 
       // Add the players velocity to the bullet
-      bullet._velocity = _velocity;
+      Vector2 velocity = new Vector2(Mathf.Cos(Rotation), Mathf.Sin(Rotation)) * Velocity.Length();
+      //bullet._velocity = velocity;
 
       // Set the bullet's starting position and direction
       Marker2D spawnPosition = GetNode<Marker2D>("Marker2D");
@@ -300,8 +301,6 @@ public partial class Ship : CharacterBody2D
     var camera = GameManager.Camera as PlayerCam;
     float maxDist = 1080.0f;
     float multiplier = (maxDist-Position.DistanceTo(camera.Position)) / maxDist;
-    GD.Print(Position.DistanceTo(camera.Position));
-    GD.Print((maxDist - Position.DistanceTo(camera.Position)) / maxDist);
     camera.AddScreenShake(20* multiplier, 0.5f);
 
     // Check if ExplosionScene is assigned

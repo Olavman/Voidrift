@@ -6,7 +6,8 @@ public partial class Bullet : Node2D
 	[Export] public float Speed = 5000.0f; // Bullet speed
 	[Export] public double Damage = 2.0f; // Bullet damage value
 	[Export] public float Cooldown = 0.1f; // Cooldown in seconds
-	[Export] public float Accuracy = 0.5f;	 // Accuracy of the bullet (1.0 = perfect accuracy)
+	[Export] public float Accuracy = 0.5f;   // Accuracy of the bullet (1.0 = perfect accuracy)
+	[Export] public double LifeTime = 1.0f; // Lifetime of bullet in seconds
 	public Ship BulletOwner = null;
 
 	internal Vector2 _velocity = Vector2.Zero;
@@ -43,6 +44,12 @@ public partial class Bullet : Node2D
 
 	public override void _PhysicsProcess(double delta)
 	{
+		LifeTime -= delta;
+		if (LifeTime < 0)
+		{
+			QueueFree();
+		}
+
 		Vector2 previousPosition = Position;
 		Vector2 newPosition = Position + _velocity * (float) delta;
 

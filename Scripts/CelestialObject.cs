@@ -13,7 +13,8 @@ public partial class CelestialObject : Node2D
   public bool IsBlackHole = false;
 
 	private GpuParticles2D _particles;
-	private Sprite2D _sprite;
+	private Sprite2D _effect;
+	private Sprite2D _blackCircle;
   private Vector2 _spriteSize;
 
   // Called when the node enters the scene tree for the first time.
@@ -26,15 +27,16 @@ public partial class CelestialObject : Node2D
     if (IsBlackHole)
     {
       _particles = GetNode<GpuParticles2D>("GPUParticles2D");
-      _sprite = GetNode<Sprite2D>("Sprite2D");
+      _effect = GetNode<Sprite2D>("BlackHoleEffect");
+      _blackCircle = GetNode<Sprite2D>("BlackCircle");
       GD.Print("Black hole");
     }
 
-    if (_sprite == null)
+    if (_effect == null)
     {
       GD.Print("no sprite");
     }
-    _spriteSize = _sprite.Scale / _sprite.Texture.GetSize();
+    _spriteSize = _effect.Scale / _effect.Texture.GetSize();
 
 
     // Update the shader and particles based on mass
@@ -59,7 +61,7 @@ public partial class CelestialObject : Node2D
     if(!IsBlackHole) { return; }
       
     // Access the shader material
-    ShaderMaterial shader = _sprite.Material as ShaderMaterial;
+    ShaderMaterial shader = _effect.Material as ShaderMaterial;
     if (shader != null)
     {
       if (!IsBlackHole)
@@ -76,7 +78,7 @@ public partial class CelestialObject : Node2D
       if (_particles.ProcessMaterial is ParticleProcessMaterial material)
       {
         //material.EmissionShape = _particles.ProcessMaterial.EmissionShapeEnum.SphereSurface;
-        material.EmissionSphereRadius = 128.0f * (_sprite.Scale / _sprite.Texture.GetSize()).Length() * Mass * 0.0005f;
+        material.EmissionSphereRadius = 128.0f * (_effect.Scale / _effect.Texture.GetSize()).Length() * Mass * 0.0005f;
       }
       else
       {
@@ -89,10 +91,11 @@ public partial class CelestialObject : Node2D
   private void UpdateScale()
   {
     // Set size based on mass
-    if (_sprite != null)
+    if (_effect != null)
     {
       //_sprite.Scale = _sprite.Scale / _sprite.Texture.GetSize() * Mass * 0.005f;
-      _sprite.Scale = _spriteSize * Mass * 0.005f;
+      _effect.Scale = _spriteSize * Mass * 0.005f;
+      _blackCircle.Scale = _spriteSize * Mass * 0.005f;
     }
   }
 

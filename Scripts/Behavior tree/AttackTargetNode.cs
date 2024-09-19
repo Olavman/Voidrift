@@ -24,7 +24,7 @@ public partial class AttackTargetNode : BehaviorTreeNode
     // Turn towards the target
     float angleDifference = Mathf.Wrap(desiredRotation - AiShip.Rotation, -Mathf.Pi, Mathf.Pi);
 
-    if (distance < 540.0f && Mathf.Abs(angleDifference) < Mathf.Pi / 12)
+    if (distance < 1080.0f && Mathf.Abs(angleDifference) < Mathf.Pi / 12)
     {
       AiShip.Shoot(); // attack the target
       return NodeState.SUCCESS;

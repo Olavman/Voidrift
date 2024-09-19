@@ -5,6 +5,7 @@ public partial class Game : Node
 {
   public Line2D ArenaBorder = null;
   public Camera2D Camera = null;
+  [Export] public PackedScene EnemyScene = null;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -16,6 +17,11 @@ public partial class Game : Node
     // Get the camera
     Camera = GetNode<Camera2D>("PlayerCam") as PlayerCam;
 
+    // Spawn enemies
+    for (int i = 0; i < 10; i++)
+    {
+      SpawnShip();
+    }
 	}
 
   // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -48,5 +54,24 @@ public partial class Game : Node
         );
       ArenaBorder.AddPoint(point);
     }
+  }
+
+  // Spawn ships
+  public void SpawnShip ()
+  {
+    if (EnemyScene == null) return;
+
+    // Instantiate enemy ship
+    Enemy ship = EnemyScene.Instantiate() as Enemy;
+
+    // Get the center of the map
+    Vector2 levelSize = GameSettings.LevelSize;
+    Vector2 center = levelSize / 2;
+
+    // Set the position in a random direction and at a random range from the center of the map
+    float direction = (float)GD.RandRange(0, Mathf.Pi);
+    float distance = (float)GD.RandRange(1080, levelSize[0]);
+    ship.Position = center + new Vector2(Mathf.Cos(direction), Mathf.Sin(direction))*distance;
+    AddChild(ship);
   }
 }

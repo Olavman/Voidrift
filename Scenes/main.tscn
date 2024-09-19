@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://ctro0g6qcuq7l"]
+[gd_scene load_steps=17 format=3 uid="uid://ctro0g6qcuq7l"]
 
 [ext_resource type="Script" path="res://Scripts/Game.cs" id="1_f1bp2"]
 [ext_resource type="PackedScene" uid="uid://dmlb4sm6nm8tb" path="res://Scenes/player.tscn" id="2_2l1hh"]
@@ -19,8 +19,19 @@
 shader = ExtResource("5_m3qf5")
 shader_parameter/radius = 1.0
 
+[sub_resource type="Environment" id="Environment_0mvr8"]
+background_mode = 3
+glow_enabled = true
+glow_intensity = 6.5
+glow_strength = 0.64
+glow_blend_mode = 0
+glow_hdr_threshold = 0.31
+glow_hdr_scale = 0.4
+glow_hdr_luminance_cap = 18.69
+
 [node name="Game" type="Node"]
 script = ExtResource("1_f1bp2")
+EnemyScene = ExtResource("11_ptkcl")
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
@@ -106,10 +117,8 @@ offset_bottom = 1058.0
 [node name="Player" parent="." instance=ExtResource("2_2l1hh")]
 position = Vector2(1408, 910)
 
-[node name="Enemy" parent="." instance=ExtResource("11_ptkcl")]
-position = Vector2(188, 157)
-
 [node name="BlackHole" parent="." instance=ExtResource("4_ybuw8")]
+z_index = 10
 position = Vector2(3221, 1732)
 IsBlackHole = true
 
@@ -119,3 +128,6 @@ points = PackedVector2Array(95, -133)
 [node name="PlayerCam" type="Camera2D" parent="." node_paths=PackedStringArray("Follow")]
 script = ExtResource("14_iyvqj")
 Follow = NodePath("../Player")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_0mvr8")

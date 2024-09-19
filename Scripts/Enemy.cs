@@ -89,10 +89,17 @@ public partial class Enemy : Ship
     // If the velocity moves the ship further from the target, hit the brakes
     if (distanceToTargetAfterMoved > distanceToTarget)
     {
-      //GD.Print("Slow down");
-      SlowDown();
+      // If facing too far from the target, turn, else slow down
+      if (MathF.Abs(angleDifference) > MathF.PI / 4)
+      {
+        _action = ACTION.DRIFT;
+      }
+      else
+      {
+        SlowDown();
+      }
     }
-    else if (Mathf.Abs(angleDifference) > Mathf.Pi/2)
+    else if (Mathf.Abs(angleDifference) > Mathf.Pi/8)
     {
       //GD.Print(angleDifference);
       _action = ACTION.MOVE_FORWARD;
