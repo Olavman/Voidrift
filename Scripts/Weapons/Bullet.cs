@@ -9,17 +9,24 @@ public partial class Bullet : Node2D
 	[Export] public float Accuracy = 0.5f;   // Accuracy of the bullet (1.0 = perfect accuracy)
 	[Export] public double LifeTime = 1.0f; // Lifetime of bullet in seconds
 	public Ship BulletOwner = null;
+	AudioStreamPlayer2D _audioPlayer;
 
 	internal Vector2 _velocity = Vector2.Zero;
 	private Area2D _collisionArea;
 
 	public override void _Ready()
   {
-    // Play the shooting sound
-    GetNode<AudioStreamPlayer2D>("AudioStreamPlayer2D").Play();
+		// Get the audioplayer
+    _audioPlayer = GetNode<AudioStreamPlayer2D>("AudioStreamPlayer2D");
 
-		// Get the Area2D node for collision detection
-		_collisionArea = GetNode<Area2D>("Area2D");
+		// Play the shooting sound
+		_audioPlayer.Play();
+
+    // Change pitch
+		_audioPlayer.PitchScale = (float)GD.RandRange(0.9, 1.1);
+
+    // Get the Area2D node for collision detection
+    _collisionArea = GetNode<Area2D>("Area2D");
 
 		// Connect the "body_entered" signal to detect when the bullet hits a ship
 		_collisionArea.BodyEntered += OnBodyEntered;

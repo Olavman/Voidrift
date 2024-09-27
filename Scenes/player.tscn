@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://dmlb4sm6nm8tb"]
 
-[ext_resource type="Script" path="res://Scripts/Player.cs" id="1_hoi26"]
+[ext_resource type="Script" path="res://Scripts/Ship/Player.cs" id="1_hoi26"]
 [ext_resource type="PackedScene" uid="uid://dbccrnailfd7" path="res://Scenes/bullet.tscn" id="2_q3dp2"]
 [ext_resource type="AudioStream" uid="uid://dixkcy3xb71u5" path="res://Sounds/Constant Rumbling.wav" id="3_422qg"]
 [ext_resource type="PackedScene" uid="uid://j1v1w57gli4h" path="res://Scenes/explosion.tscn" id="3_a25ll"]
@@ -19,14 +19,14 @@ particles_anim_loop = false
 offsets = PackedFloat32Array(0, 0.106557, 0.344262, 0.459016, 0.729508, 0.97541)
 colors = PackedColorArray(0, 1, 1, 0.588235, 1, 1, 0, 1, 1, 0.431373, 0, 1, 0.812323, 0.703068, 0.703068, 1, 0.815686, 0.815686, 0.815686, 0.615686, 0, 0, 0, 0)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_75b4b"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_rixwb"]
 gradient = SubResource("Gradient_dn024")
 
 [sub_resource type="Curve" id="Curve_lawrk"]
 _data = [Vector2(0.0133333, 0.230769), 0.0, 1.0181, 0, 0, Vector2(0.4, 0.714286), 0.913544, 0.913544, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="CurveTexture_75kyw"]
+[sub_resource type="CurveTexture" id="CurveTexture_fphot"]
 width = 259
 curve = SubResource("Curve_lawrk")
 
@@ -44,8 +44,8 @@ angular_velocity_min = -7.74002
 angular_velocity_max = 7.73998
 gravity = Vector3(0, 0, 0)
 scale_min = 0.5
-scale_curve = SubResource("CurveTexture_75kyw")
-color_ramp = SubResource("GradientTexture1D_75b4b")
+scale_curve = SubResource("CurveTexture_fphot")
+color_ramp = SubResource("GradientTexture1D_rixwb")
 anim_speed_min = 0.22
 anim_speed_max = 0.91
 
@@ -58,6 +58,8 @@ motion_mode = 1
 script = ExtResource("1_hoi26")
 BulletScene = ExtResource("2_q3dp2")
 ExplosionScene = ExtResource("3_a25ll")
+MaxHealth = 10000.0
+MaxShield = 10000.0
 
 [node name="PlayerSprite" type="Sprite2D" parent="."]
 rotation = 1.5708
@@ -65,6 +67,7 @@ scale = Vector2(0.7, 0.7)
 texture = SubResource("CompressedTexture2D_avngu")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+visible = false
 rotation = 1.5708
 polygon = PackedVector2Array(-32, 16, -34, -4, -8, -8, -6, -26, 6, -26, 8, -9, 33, -5, 31, 17, 5, 26, -6, 26)
 
@@ -76,6 +79,7 @@ amount = 30
 process_material = SubResource("ParticleProcessMaterial_7aq8i")
 texture = SubResource("CompressedTexture2D_qj1km")
 lifetime = 0.5
+visibility_rect = Rect2(-300, -300, 600, 600)
 
 [node name="EngineAudio" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_422qg")
@@ -85,5 +89,4 @@ autoplay = true
 position = Vector2(27, 0)
 
 [node name="PlayerCam" type="Camera2D" parent="."]
-visible = false
 enabled = false

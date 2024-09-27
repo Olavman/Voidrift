@@ -1,33 +1,60 @@
-[gd_scene load_steps=17 format=3 uid="uid://ctro0g6qcuq7l"]
+[gd_scene load_steps=23 format=3 uid="uid://ctro0g6qcuq7l"]
 
 [ext_resource type="Script" path="res://Scripts/Game.cs" id="1_f1bp2"]
 [ext_resource type="PackedScene" uid="uid://dmlb4sm6nm8tb" path="res://Scenes/player.tscn" id="2_2l1hh"]
 [ext_resource type="Texture2D" uid="uid://bowhm461ec5ur" path="res://Sprites/Sprite-0001.png" id="3_3qyop"]
 [ext_resource type="PackedScene" uid="uid://bfd4rt1j2x0rx" path="res://Scenes/speedBar.tscn" id="3_jqqb6"]
 [ext_resource type="PackedScene" uid="uid://h2aiqifihb0s" path="res://Scenes/celestialObject.tscn" id="4_ybuw8"]
-[ext_resource type="Script" path="res://Scripts/Hud.cs" id="5_ci6nj"]
+[ext_resource type="Script" path="res://Scripts/UI/Hud.cs" id="5_ci6nj"]
 [ext_resource type="Shader" path="res://Shaders/minimap.gdshader" id="5_m3qf5"]
-[ext_resource type="Script" path="res://Scripts/Minimap.cs" id="5_qp10h"]
+[ext_resource type="Script" path="res://Scripts/UI/Minimap.cs" id="5_qp10h"]
 [ext_resource type="Texture2D" uid="uid://cxubnls73x36f" path="res://Sprites/radar.png" id="5_te007"]
 [ext_resource type="PackedScene" uid="uid://c5s5t7hupt4b8" path="res://Scenes/enemyRadarIcon.tscn" id="7_nqp6c"]
 [ext_resource type="Texture2D" uid="uid://cx0dtgq2akwi0" path="res://Sprites/radar dor.png" id="8_orpl2"]
 [ext_resource type="PackedScene" uid="uid://c03fgscpwimpo" path="res://Scenes/healthBar.tscn" id="10_ihghr"]
 [ext_resource type="PackedScene" uid="uid://b5hn0xuvh8sg5" path="res://Scenes/enemy.tscn" id="11_ptkcl"]
-[ext_resource type="Script" path="res://Scripts/PlayerCam.cs" id="14_iyvqj"]
+[ext_resource type="Script" path="res://Scripts/Ship/PlayerCam.cs" id="14_iyvqj"]
+
+[sub_resource type="Gradient" id="Gradient_i4wmo"]
+offsets = PackedFloat32Array(0, 0.0566038, 0.14717)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0.466667, 1, 0.615686, 1, 0.192157, 0.207843, 0)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_jwfga"]
+noise_type = 2
+frequency = 0.0451
+fractal_gain = 0.3
+fractal_weighted_strength = 0.68
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_wogl0"]
+width = 2000
+height = 2000
+color_ramp = SubResource("Gradient_i4wmo")
+noise = SubResource("FastNoiseLite_jwfga")
+
+[sub_resource type="Gradient" id="Gradient_43rhr"]
+offsets = PackedFloat32Array(0, 0.0981132, 0.192453)
+colors = PackedColorArray(1, 1, 1, 1, 0.153, 0.304017, 0.85, 0.870588, 0, 0.153833, 0.71, 0)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_pql0i"]
+noise_type = 2
+frequency = 0.0119
+fractal_gain = 0.2
+fractal_weighted_strength = 0.1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_xygwy"]
+width = 2000
+height = 2000
+seamless = true
+color_ramp = SubResource("Gradient_43rhr")
+noise = SubResource("FastNoiseLite_pql0i")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5c8dc"]
 shader = ExtResource("5_m3qf5")
 shader_parameter/radius = 1.0
 
-[sub_resource type="Environment" id="Environment_0mvr8"]
+[sub_resource type="Environment" id="Environment_3yh75"]
 background_mode = 3
 glow_enabled = true
-glow_intensity = 6.5
-glow_strength = 0.64
-glow_blend_mode = 0
-glow_hdr_threshold = 0.31
-glow_hdr_scale = 0.4
-glow_hdr_luminance_cap = 18.69
 
 [node name="Game" type="Node"]
 script = ExtResource("1_f1bp2")
@@ -36,15 +63,33 @@ EnemyScene = ExtResource("11_ptkcl")
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
-position = Vector2(3, 3)
 motion_scale = Vector2(0.1, 0.1)
-motion_mirroring = Vector2(3100, 1740)
+motion_mirroring = Vector2(2000, 2000)
+
+[node name="ColorRect" type="ColorRect" parent="ParallaxBackground/ParallaxLayer"]
+visible = false
+custom_minimum_size = Vector2(2000, 2000)
+offset_right = 2000.0
+offset_bottom = 2000.0
+color = Color(0.013, 0.02025, 0.1, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+show_behind_parent = true
 texture_repeat = 2
-position = Vector2(-3, -3)
 texture = ExtResource("3_3qyop")
 centered = false
+
+[node name="BackStars" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+visible = false
+texture = SubResource("NoiseTexture2D_wogl0")
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.2, 0.2)
+motion_mirroring = Vector2(2000, 2000)
+
+[node name="FrontStars" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2"]
+visible = false
+texture = SubResource("NoiseTexture2D_xygwy")
 
 [node name="HUD" type="Control" parent="."]
 layout_mode = 3
@@ -130,4 +175,4 @@ script = ExtResource("14_iyvqj")
 Follow = NodePath("../Player")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_0mvr8")
+environment = SubResource("Environment_3yh75")

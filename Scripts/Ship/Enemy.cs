@@ -90,7 +90,7 @@ public partial class Enemy : Ship
     if (distanceToTargetAfterMoved > distanceToTarget)
     {
       // If facing too far from the target, turn, else slow down
-      if (MathF.Abs(angleDifference) > MathF.PI / 4)
+      if (MathF.Abs(angleDifference) < MathF.PI / 2)
       {
         _action = ACTION.DRIFT;
       }

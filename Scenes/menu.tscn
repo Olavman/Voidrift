@@ -1,8 +1,8 @@
 [gd_scene load_steps=10 format=3 uid="uid://cxixn2hqmnekn"]
 
-[ext_resource type="Script" path="res://Scripts/Menu.cs" id="1_g8opw"]
+[ext_resource type="Script" path="res://Scripts/UI/Menu.cs" id="1_g8opw"]
 [ext_resource type="PackedScene" uid="uid://ctro0g6qcuq7l" path="res://Scenes/main.tscn" id="2_lddkc"]
-[ext_resource type="Script" path="res://Scripts/Starfield.cs" id="3_6dkk4"]
+[ext_resource type="Script" path="res://Scripts/UI/Starfield.cs" id="3_6dkk4"]
 [ext_resource type="PackedScene" uid="uid://c527v7xr81us3" path="res://Scenes/star.tscn" id="4_upyvk"]
 [ext_resource type="AudioStream" uid="uid://dixkcy3xb71u5" path="res://Sounds/Constant Rumbling.wav" id="5_uyv3x"]
 

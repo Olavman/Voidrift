@@ -307,11 +307,10 @@ public partial class Ship : CharacterBody2D
     if (ExplosionScene != null)
     {
       // Create an instance of the explosion
-      GpuParticles2D explosion = ExplosionScene.Instantiate<GpuParticles2D>();
+      Node2D explosion = ExplosionScene.Instantiate<Node2D>();
 
       // Set the explosion's position to the ship's current position
       explosion.Position = Position;
-      explosion.Emitting = true;
 
       // Add the explosion to the scene tree (same parent as the ship)
       GetParent().AddChild(explosion);

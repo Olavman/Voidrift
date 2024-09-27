@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public partial class PlayerCam : Camera2D
 {
   [Export] public Node2D Follow;
+  [Export(PropertyHint.Range, "0, 1, 0.01")] public float ScreenshakeMultiplier;
   private ulong _followId;
 
 
@@ -70,8 +71,8 @@ public partial class PlayerCam : Camera2D
       }
 
       // Calculate random shake offset based on intensity
-      float shakeAmountX = GD.RandRange(-1, 1) * intensity;
-      float shakeAmountY = GD.RandRange(-1, 1) * intensity;
+      float shakeAmountX = GD.RandRange(-1, 1) * intensity * ScreenshakeMultiplier;
+      float shakeAmountY = GD.RandRange(-1, 1) * intensity * ScreenshakeMultiplier;
       shakeOffset += new Vector2(shakeAmountX, shakeAmountY);
 
 

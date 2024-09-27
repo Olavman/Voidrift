@@ -19,6 +19,7 @@ void fragment() {
     // Calculate the distortion based on strength and curve value
     vec2 diff = normalize(vecToCenter) * strength * curveVal;
 
+    //if (texture(TEXTURE, UV).a < 0.1) discard;  // Discard nearly transparent pixels
     // Apply the distortion to the screen texture
     vec2 distortedUV = SCREEN_UV - diff;
     COLOR = texture(SCREEN_TEXTURE, distortedUV);
