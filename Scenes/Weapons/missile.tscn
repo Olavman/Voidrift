@@ -1,0 +1,82 @@
+[gd_scene load_steps=12 format=3 uid="uid://coe2lux23hmjg"]
+
+[ext_resource type="Texture2D" uid="uid://nym5xby1b07h" path="res://Sprites/missile.png" id="1_0o6yr"]
+[ext_resource type="Script" path="res://Scripts/Weapons/HomingMissile.cs" id="1_eplhk"]
+[ext_resource type="AudioStream" uid="uid://dixkcy3xb71u5" path="res://Sounds/Constant Rumbling.wav" id="3_pagui"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_riv0h"]
+radius = 8.0
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_x0fvw"]
+blend_mode = 1
+particles_animation = true
+particles_anim_h_frames = 8
+particles_anim_v_frames = 8
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id="Gradient_5s3aw"]
+offsets = PackedFloat32Array(0, 0.106557, 0.344262, 0.459016, 0.729508, 0.97541)
+colors = PackedColorArray(0, 1, 1, 0.588235, 1, 1, 0, 1, 1, 0.431373, 0, 1, 0.812323, 0.703068, 0.703068, 1, 0.815686, 0.815686, 0.815686, 0.615686, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_rixwb"]
+gradient = SubResource("Gradient_5s3aw")
+
+[sub_resource type="Curve" id="Curve_n5hn0"]
+_data = [Vector2(0.0133333, 0.230769), 0.0, 1.0181, 0, 0, Vector2(0.4, 0.714286), 0.913544, 0.913544, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_fphot"]
+width = 259
+curve = SubResource("Curve_n5hn0")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hf1b5"]
+lifetime_randomness = 0.21
+particle_flag_disable_z = true
+angle_min = -720.0
+angle_max = 720.0
+direction = Vector3(-1, 0, 0)
+spread = 10.618
+angular_velocity_min = -7.74002
+angular_velocity_max = 7.73998
+gravity = Vector3(0, 0, 0)
+scale_min = 0.2
+scale_max = 0.5
+scale_curve = SubResource("CurveTexture_fphot")
+color_ramp = SubResource("GradientTexture1D_rixwb")
+anim_speed_min = 0.22
+anim_speed_max = 0.91
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_pkx3d"]
+load_path = "res://.godot/imported/smoke_01.tga-6ad9ac48887f66f50f11b068cbc2a6b7.ctex"
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_eplhk")
+Speed = 1100.0
+Damage = 1.0
+Cooldown = 1.5
+Accuracy = 1.0
+LifeTime = 4.0
+AOE = 64.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_0o6yr")
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(8, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_riv0h")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_pagui")
+autoplay = true
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+show_behind_parent = true
+material = SubResource("CanvasItemMaterial_x0fvw")
+position = Vector2(-16, 0)
+amount = 20
+process_material = SubResource("ParticleProcessMaterial_hf1b5")
+texture = SubResource("CompressedTexture2D_pkx3d")
+lifetime = 0.5
+visibility_rect = Rect2(-300, -300, 600, 600)

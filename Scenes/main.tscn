@@ -1,8 +1,7 @@
-[gd_scene load_steps=24 format=3 uid="uid://ctro0g6qcuq7l"]
+[gd_scene load_steps=29 format=3 uid="uid://ctro0g6qcuq7l"]
 
 [ext_resource type="Script" path="res://Scripts/Game.cs" id="1_f1bp2"]
 [ext_resource type="PackedScene" uid="uid://dmlb4sm6nm8tb" path="res://Scenes/player.tscn" id="2_2l1hh"]
-[ext_resource type="Texture2D" uid="uid://bowhm461ec5ur" path="res://Sprites/Sprite-0001.png" id="3_3qyop"]
 [ext_resource type="PackedScene" uid="uid://bfd4rt1j2x0rx" path="res://Scenes/speedBar.tscn" id="3_jqqb6"]
 [ext_resource type="PackedScene" uid="uid://h2aiqifihb0s" path="res://Scenes/celestialObject.tscn" id="4_ybuw8"]
 [ext_resource type="Script" path="res://Scripts/UI/Hud.cs" id="5_ci6nj"]
@@ -16,40 +15,90 @@
 [ext_resource type="Script" path="res://Scripts/Ship/PlayerCam.cs" id="14_iyvqj"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_thbo3"]
-blend_mode = 3
+
+[sub_resource type="Gradient" id="Gradient_hela8"]
+offsets = PackedFloat32Array(0, 0.467532, 0.784906, 0.909434, 1)
+colors = PackedColorArray(0, 0, 0.0901961, 0, 0, 0, 0.101961, 0.517647, 0.0599999, 0, 0.2, 1, 0.317667, 0.02, 0.4, 1, 0.6, 0.6, 0.6, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_5dk0n"]
+noise_type = 3
+frequency = 0.0039
+fractal_type = 2
+fractal_gain = 1.0
+fractal_weighted_strength = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_j55is"]
+width = 2048
+height = 2048
+seamless = true
+seamless_blend_skirt = 0.44
+color_ramp = SubResource("Gradient_hela8")
+noise = SubResource("FastNoiseLite_5dk0n")
 
 [sub_resource type="Gradient" id="Gradient_i4wmo"]
-offsets = PackedFloat32Array(0, 0.0566038, 0.14717)
+offsets = PackedFloat32Array(0, 0.109434, 0.154717)
 colors = PackedColorArray(1, 1, 1, 1, 0, 0.466667, 1, 0.615686, 1, 0.192157, 0.207843, 0)
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_jwfga"]
-noise_type = 2
-frequency = 0.0451
-fractal_gain = 0.3
-fractal_weighted_strength = 0.68
+noise_type = 3
+seed = 1
+frequency = 0.0771
+offset = Vector3(0, 0, 617.02)
+fractal_type = 2
+fractal_gain = 0.9
+fractal_weighted_strength = 1.0
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_wogl0"]
-width = 2000
-height = 2000
+width = 4100
+height = 2200
+seamless = true
+seamless_blend_skirt = 0.01
 color_ramp = SubResource("Gradient_i4wmo")
 noise = SubResource("FastNoiseLite_jwfga")
 
-[sub_resource type="Gradient" id="Gradient_43rhr"]
-offsets = PackedFloat32Array(0, 0.0981132, 0.192453)
-colors = PackedColorArray(1, 1, 1, 1, 0.153, 0.304017, 0.85, 0.870588, 0, 0.153833, 0.71, 0)
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_4v1rn"]
+noise_type = 3
+seed = 1
+frequency = 0.336
+fractal_type = 2
+fractal_gain = 0.9
+fractal_weighted_strength = 1.0
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_pql0i"]
-noise_type = 2
-frequency = 0.0119
-fractal_gain = 0.2
-fractal_weighted_strength = 0.1
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_xygwy"]
-width = 2000
-height = 2000
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_3wmka"]
+width = 4100
+height = 2200
 seamless = true
-color_ramp = SubResource("Gradient_43rhr")
-noise = SubResource("FastNoiseLite_pql0i")
+seamless_blend_skirt = 0.0
+color_ramp = SubResource("Gradient_i4wmo")
+noise = SubResource("FastNoiseLite_4v1rn")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_4jqs8"]
+noise_type = 3
+frequency = 0.0215
+fractal_type = 2
+fractal_gain = 0.3
+fractal_weighted_strength = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_h18q7"]
+width = 4100
+height = 2200
+seamless = true
+color_ramp = SubResource("Gradient_i4wmo")
+noise = SubResource("FastNoiseLite_4jqs8")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_iq80n"]
+noise_type = 3
+frequency = 0.012
+fractal_type = 2
+fractal_gain = 0.0
+fractal_weighted_strength = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_020fe"]
+width = 4100
+height = 2200
+seamless = true
+color_ramp = SubResource("Gradient_i4wmo")
+noise = SubResource("FastNoiseLite_iq80n")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5c8dc"]
 shader = ExtResource("5_m3qf5")
@@ -65,35 +114,64 @@ EnemyScene = ExtResource("11_ptkcl")
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
+[node name="ColorRect" type="ColorRect" parent="ParallaxBackground"]
+material = SubResource("CanvasItemMaterial_thbo3")
+custom_minimum_size = Vector2(4100, 2200)
+offset_right = 600.0
+offset_bottom = 400.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0.013, 0.02025, 0.1, 1)
+
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
 motion_scale = Vector2(0.1, 0.1)
 motion_mirroring = Vector2(3100, 1740)
 
-[node name="ColorRect" type="ColorRect" parent="ParallaxBackground/ParallaxLayer"]
-visible = false
-material = SubResource("CanvasItemMaterial_thbo3")
-custom_minimum_size = Vector2(600, 400)
-offset_right = 2000.0
-offset_bottom = 2000.0
-color = Color(0.013, 0.02025, 0.1, 1)
+[node name="Nebula" type="TextureRect" parent="ParallaxBackground/ParallaxLayer"]
+offset_right = 4100.0
+offset_bottom = 2200.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = SubResource("NoiseTexture2D_j55is")
+stretch_mode = 1
 
-[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
-show_behind_parent = true
-texture_repeat = 3
-texture = ExtResource("3_3qyop")
-centered = false
-
-[node name="BackStars" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
-visible = false
+[node name="BackStars" type="TextureRect" parent="ParallaxBackground/ParallaxLayer"]
+offset_right = 4100.0
+offset_bottom = 2200.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 texture = SubResource("NoiseTexture2D_wogl0")
 
-[node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
-motion_scale = Vector2(0.2, 0.2)
-motion_mirroring = Vector2(2000, 2000)
+[node name="BackStars2" type="TextureRect" parent="ParallaxBackground/ParallaxLayer"]
+offset_right = 4100.0
+offset_bottom = 2200.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = SubResource("NoiseTexture2D_3wmka")
 
-[node name="FrontStars" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2"]
-visible = false
-texture = SubResource("NoiseTexture2D_xygwy")
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.15, 0.15)
+motion_mirroring = Vector2(3100, 1740)
+
+[node name="MidStars" type="TextureRect" parent="ParallaxBackground/ParallaxLayer2"]
+offset_right = 4100.0
+offset_bottom = 2200.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = SubResource("NoiseTexture2D_h18q7")
+metadata/_edit_use_anchors_ = true
+
+[node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.2, 0.2)
+motion_mirroring = Vector2(3100, 1740)
+
+[node name="FrontStars" type="TextureRect" parent="ParallaxBackground/ParallaxLayer3"]
+offset_right = 4100.0
+offset_bottom = 2200.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = SubResource("NoiseTexture2D_020fe")
+metadata/_edit_use_anchors_ = true
 
 [node name="HUD" type="Control" parent="."]
 layout_mode = 3
@@ -175,6 +253,7 @@ IsBlackHole = true
 points = PackedVector2Array(95, -133)
 
 [node name="PlayerCam" type="Camera2D" parent="." node_paths=PackedStringArray("Follow")]
+zoom = Vector2(0.5, 0.5)
 script = ExtResource("14_iyvqj")
 Follow = NodePath("../Player")
 ScreenshakeMultiplier = 0.373

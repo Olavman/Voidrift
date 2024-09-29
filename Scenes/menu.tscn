@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cxixn2hqmnekn"]
+[gd_scene load_steps=11 format=3 uid="uid://cxixn2hqmnekn"]
 
 [ext_resource type="Script" path="res://Scripts/UI/Menu.cs" id="1_g8opw"]
 [ext_resource type="PackedScene" uid="uid://ctro0g6qcuq7l" path="res://Scenes/main.tscn" id="2_lddkc"]
@@ -16,6 +16,11 @@ frequency = 0.0039
 fractal_type = 2
 fractal_gain = 0.585
 fractal_weighted_strength = 0.44
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_wvtdf"]
+in_3d_space = true
+color_ramp = SubResource("Gradient_3t3vg")
+noise = SubResource("FastNoiseLite_rwpjn")
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_fbpel"]
 in_3d_space = true
@@ -38,10 +43,19 @@ OptionsBtn = NodePath("MarginContainer/VBoxContainer/Options")
 QuitBtn = NodePath("MarginContainer/VBoxContainer/Exit")
 GameScene = ExtResource("2_lddkc")
 
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("NoiseTexture2D_wvtdf")
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(1025, 540.5)
-scale = Vector2(4.02344, 2.12305)
+visible = false
 texture = SubResource("NoiseTexture2D_fbpel")
+centered = false
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 z_index = 1

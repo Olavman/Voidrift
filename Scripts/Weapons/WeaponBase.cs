@@ -5,13 +5,14 @@ using static System.Net.Mime.MediaTypeNames;
 
 public abstract partial class WeaponBase : Node2D
 {
-  [Export] public float Speed { get; set; } // Bullet speed
+  [Export] public float Speed { get; set; }       // Projectile speed
   [Export] public double Damage { get; set; }     // Base damage
   [Export] public float Cooldown { get; set; }    // Cooldown in seconds
   [Export] public float Accuracy { get; set; }    // Accuracy of the weapon (1.0 = perfect accuracy)
   [Export] public double LifeTime { get; set; }   // Lifetime of weapon in seconds
   [Export] public double Range { get; set; }      // Range of weapon
   [Export] public int Piercing { get; set; }      // Times the weapon will pierce
+  [Export] public float AOE { get; set; }        // Area of effect
   [Export] public Sprite2D _sprite { get; set; }  // Weapon sprite
 
   public Ship WeaponOwner;
@@ -42,8 +43,7 @@ public abstract partial class WeaponBase : Node2D
     // Initialize _targetsHit to not get a null value
     _targetsHit = new List <Ship>();
   }
-
-  public void Init(Vector2 direction, Ship weaponOwner)
+  public virtual void Init(Vector2 direction, Ship weaponOwner)
   {
     // Introduce randomization in the direction based on accuracy
     float deviation = (1.0f - Accuracy) * 0.4f;
@@ -61,37 +61,52 @@ public abstract partial class WeaponBase : Node2D
   }
   public override void _PhysicsProcess(double delta)
   {
-    LifeTime -= delta;
-    if (LifeTime < 0)
+    // Decrease lifetime of weapon
+    if (LifeTime > 0)
     {
-      _gettingDestroyed = true;
+      DecreaseLifetime(delta);
     }
 
+    // Check if the weapon is about to be destroyed, and destroy it
     if (_gettingDestroyed)
     {
       QueueFree();
     }
 
+    // Get the previous position and 
     Vector2 previousPosition = Position;
-    Vector2 newPosition = Position + _velocity * (float)delta;
-    
+
+    // Calculate its new position based on the weapons movement behaviour
+    Vector2 newPosition = Movement(delta);
+
+    // Use raycast between previous and new position to check for collisions
     CheckCollision(ref previousPosition, newPosition);
 
-    // Move the weapon to the new position
+    // Move the weapon to its new position
     Position = newPosition;
 
-    #region // Elongate the sprite based on movement
-    float distanceTraveled = (Position - previousPosition).Length();
-    Sprite2D sprite = GetNode<Sprite2D>("Sprite2D");
-    sprite.Scale = new Vector2(distanceTraveled / 4.0f, 1); // Adjust for your 8x8 sprite
-    #endregion
-
+    // Destroy the weapon if outside the screen
     if (IsOutsideScreen())
     {
       QueueFree();
     }
-  }
 
+    // Handle any visual effects
+    VisualEffect();
+  }
+  public virtual void VisualEffect()
+  {
+
+  }
+  public virtual void DecreaseLifetime(double delta)
+  {
+    // Decrease lifetime of weapon
+    LifeTime -= delta;
+    if (LifeTime < 0)
+    {
+      _gettingDestroyed = true;
+    }
+  }
   public virtual bool AllowedToPierce()
   {
     Piercing--;
@@ -123,17 +138,12 @@ public abstract partial class WeaponBase : Node2D
       return true;
     return false;
   }
-
-  public virtual void Fire()
+  public virtual Vector2 Movement(double delta)
   {
+    Vector2 newPosition = Position + _velocity * (float)delta;
 
+    return newPosition;
   }
-
-  public virtual void Movement()
-  {
-
-  }
-
   private void CheckCollision(ref Vector2 previousPosition, Vector2 newPosition)
   {
     // Create the raycast query parameters
@@ -171,7 +181,6 @@ public abstract partial class WeaponBase : Node2D
       }
     }
   }
-
   private void Collided(Ship ship)
   {
     // Apply damage to the ship
@@ -179,5 +188,33 @@ public abstract partial class WeaponBase : Node2D
 
     // Add ship to the list to prevent multiple hits
     _targetsHit.Add(ship);
+  }
+  public virtual void DestroyWeapon()
+  {
+    // Trigger AoE
+    TriggerAOE();
+    
+
+    // Remove the instance and all its children
+    QueueFree();
+  }
+  private void TriggerAOE()
+  {
+    // Expand the collision shape
+    var collisionShape = _collisionArea.GetNode<CollisionShape2D>("CollisionShape2D");
+    if (collisionShape.Shape is CircleShape2D circleShape)
+    {
+      // Set the AoE radius
+      circleShape.Radius += AOE;
+    }
+
+    // Detect all bodies in the AoE and apply effects
+    var bodiesInAOE = _collisionArea.GetOverlappingBodies();
+    
+    foreach (var body in bodiesInAOE)
+    {
+      OnBodyEntered(body);
+    }
+    
   }
 }

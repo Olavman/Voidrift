@@ -194,7 +194,7 @@ public partial class Ship : CharacterBody2D
     if (_cooldownTimer <= 0)
     {
       // Create an instance of the bullet
-      Bullet bullet = BulletScene.Instantiate() as Bullet;
+      WeaponBase bullet = BulletScene.Instantiate() as WeaponBase;
 
       // Add the players velocity to the bullet
       Vector2 velocity = new Vector2(Mathf.Cos(Rotation), Mathf.Sin(Rotation)) * Velocity.Length();
