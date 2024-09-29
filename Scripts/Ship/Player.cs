@@ -77,8 +77,10 @@ public partial class Player : Ship
     base.TakeDamage(damage);
 
     var camera = GameManager.Camera as PlayerCam;
-    // Apply larger screen shake
-    camera.AddScreenShake((float)damage/2, 0.5f);
+
+    // Apply screen shake based on % health lost
+    double percentLost = damage / MaxHealth;
+    camera.AddScreenShake((float)percentLost, 0.5f);
 
     _hitSuccession += 1;
     if (_hitSuccession == 20) // Multiple hits in short succession

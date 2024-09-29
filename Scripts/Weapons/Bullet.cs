@@ -1,9 +1,9 @@
 using Godot;
 using System;
 
-public partial class Bullet : Node2D
+public partial class Bullet : WeaponBase
 {
-	[Export] public float Speed = 5000.0f; // Bullet speed
+	/*[Export] public float Speed = 5000.0f; // Bullet speed
 	[Export] public double Damage = 2.0f; // Bullet damage value
 	[Export] public float Cooldown = 0.1f; // Cooldown in seconds
 	[Export] public float Accuracy = 0.5f;   // Accuracy of the bullet (1.0 = perfect accuracy)
@@ -13,9 +13,11 @@ public partial class Bullet : Node2D
 
 	internal Vector2 _velocity = Vector2.Zero;
 	private Area2D _collisionArea;
-
-	public override void _Ready()
+	*/
+	/*public override void _Ready()
   {
+		//base._Ready();
+		/*
 		// Get the audioplayer
     _audioPlayer = GetNode<AudioStreamPlayer2D>("AudioStreamPlayer2D");
 
@@ -30,8 +32,9 @@ public partial class Bullet : Node2D
 
 		// Connect the "body_entered" signal to detect when the bullet hits a ship
 		_collisionArea.BodyEntered += OnBodyEntered;
-  }
-
+		
+  }*/
+	/*
 	public void Init(Vector2 direction, Ship bulletOwner)
 	{
 		// Introduce randomization in the direction based on accuracy
@@ -124,4 +127,5 @@ public partial class Bullet : Node2D
 			return true;
 		return false;
   }
+	*/
 }

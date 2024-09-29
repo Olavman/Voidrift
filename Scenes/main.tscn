@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://ctro0g6qcuq7l"]
+[gd_scene load_steps=24 format=3 uid="uid://ctro0g6qcuq7l"]
 
 [ext_resource type="Script" path="res://Scripts/Game.cs" id="1_f1bp2"]
 [ext_resource type="PackedScene" uid="uid://dmlb4sm6nm8tb" path="res://Scenes/player.tscn" id="2_2l1hh"]
@@ -14,6 +14,9 @@
 [ext_resource type="PackedScene" uid="uid://c03fgscpwimpo" path="res://Scenes/healthBar.tscn" id="10_ihghr"]
 [ext_resource type="PackedScene" uid="uid://b5hn0xuvh8sg5" path="res://Scenes/enemy.tscn" id="11_ptkcl"]
 [ext_resource type="Script" path="res://Scripts/Ship/PlayerCam.cs" id="14_iyvqj"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_thbo3"]
+blend_mode = 3
 
 [sub_resource type="Gradient" id="Gradient_i4wmo"]
 offsets = PackedFloat32Array(0, 0.0566038, 0.14717)
@@ -64,18 +67,19 @@ EnemyScene = ExtResource("11_ptkcl")
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
 motion_scale = Vector2(0.1, 0.1)
-motion_mirroring = Vector2(2000, 2000)
+motion_mirroring = Vector2(3100, 1740)
 
 [node name="ColorRect" type="ColorRect" parent="ParallaxBackground/ParallaxLayer"]
 visible = false
-custom_minimum_size = Vector2(2000, 2000)
+material = SubResource("CanvasItemMaterial_thbo3")
+custom_minimum_size = Vector2(600, 400)
 offset_right = 2000.0
 offset_bottom = 2000.0
 color = Color(0.013, 0.02025, 0.1, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
 show_behind_parent = true
-texture_repeat = 2
+texture_repeat = 3
 texture = ExtResource("3_3qyop")
 centered = false
 
@@ -173,6 +177,7 @@ points = PackedVector2Array(95, -133)
 [node name="PlayerCam" type="Camera2D" parent="." node_paths=PackedStringArray("Follow")]
 script = ExtResource("14_iyvqj")
 Follow = NodePath("../Player")
+ScreenshakeMultiplier = 0.373
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_3yh75")

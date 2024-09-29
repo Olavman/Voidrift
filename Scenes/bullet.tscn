@@ -15,11 +15,14 @@ shader_parameter/glow_radius = 3.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8mibs"]
 size = Vector2(4, 4)
 
-[node name="Node2D" type="Node2D"]
+[node name="Node2D" type="Node2D" node_paths=PackedStringArray("_sprite")]
 script = ExtResource("1_05nhq")
 Speed = 2000.0
 Damage = 30.0
-Accuracy = 0.9
+Cooldown = 0.1
+Accuracy = 0.7
+LifeTime = 1.0
+_sprite = NodePath("Sprite2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_tr1wc")
