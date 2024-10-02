@@ -104,9 +104,28 @@ noise = SubResource("FastNoiseLite_iq80n")
 shader = ExtResource("5_m3qf5")
 shader_parameter/radius = 1.0
 
-[sub_resource type="Environment" id="Environment_3yh75"]
+[sub_resource type="Environment" id="Environment_lb53c"]
 background_mode = 3
 glow_enabled = true
+glow_intensity = 1.97
+glow_strength = 1.04
+glow_blend_mode = 0
+glow_hdr_threshold = 0.0
+glow_hdr_scale = 0.43
+fog_mode = 1
+fog_light_color = Color(0.607625, 0.527317, 0.535757, 1)
+fog_light_energy = 15.83
+fog_sun_scatter = 4.25
+fog_density = 1.0
+fog_height = -177.49
+fog_height_density = 16.0
+fog_depth_begin = 3930.0
+fog_depth_end = 4019.0
+volumetric_fog_gi_inject = 0.63
+volumetric_fog_anisotropy = 0.9
+volumetric_fog_length = 610.12
+volumetric_fog_ambient_inject = 10.65
+volumetric_fog_sky_affect = 0.435
 
 [node name="Game" type="Node"]
 script = ExtResource("1_f1bp2")
@@ -115,6 +134,7 @@ EnemyScene = ExtResource("11_ptkcl")
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
 [node name="ColorRect" type="ColorRect" parent="ParallaxBackground"]
+modulate = Color(0.5, 0.5, 0.5, 1)
 material = SubResource("CanvasItemMaterial_thbo3")
 custom_minimum_size = Vector2(4100, 2200)
 offset_right = 600.0
@@ -124,6 +144,7 @@ size_flags_vertical = 3
 color = Color(0.013, 0.02025, 0.1, 1)
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+modulate = Color(0.5, 0.5, 0.5, 1)
 motion_scale = Vector2(0.1, 0.1)
 motion_mirroring = Vector2(3100, 1740)
 
@@ -150,6 +171,7 @@ size_flags_vertical = 3
 texture = SubResource("NoiseTexture2D_3wmka")
 
 [node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
+modulate = Color(0.75, 0.75, 0.75, 1)
 motion_scale = Vector2(0.15, 0.15)
 motion_mirroring = Vector2(3100, 1740)
 
@@ -250,6 +272,7 @@ position = Vector2(3221, 1732)
 IsBlackHole = true
 
 [node name="ArenaBorder" type="Line2D" parent="."]
+modulate = Color(0.5, 0.5, 0.5, 1)
 points = PackedVector2Array(95, -133)
 
 [node name="PlayerCam" type="Camera2D" parent="." node_paths=PackedStringArray("Follow")]
@@ -259,4 +282,4 @@ Follow = NodePath("../Player")
 ScreenshakeMultiplier = 0.373
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_3yh75")
+environment = SubResource("Environment_lb53c")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://h2aiqifihb0s"]
+[gd_scene load_steps=24 format=3 uid="uid://h2aiqifihb0s"]
 
 [ext_resource type="Script" path="res://Scripts/CelestialObject.cs" id="1_32kh8"]
 [ext_resource type="Shader" path="res://Shaders/blackHole.gdshader" id="2_k0ctq"]
@@ -6,8 +6,8 @@
 
 [sub_resource type="Curve" id="Curve_mkq13"]
 min_value = -1.0
-_data = [Vector2(0, 0), 0.0, 2.32268, 0, 0, Vector2(0.413333, -0.582418), 0.0, 0.0, 0, 0, Vector2(0.413343, 0.824176), 3.41861, 3.41861, 0, 0, Vector2(0.5, 0), 0.0, 0.0, 0, 0]
-point_count = 4
+_data = [Vector2(0, 0), 0.0, 2.32268, 0, 0, Vector2(0.340996, 1), 3.41861, 3.41861, 0, 0, Vector2(0.5, 0), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [sub_resource type="CurveTexture" id="CurveTexture_55cmg"]
 curve = SubResource("Curve_mkq13")
@@ -47,14 +47,6 @@ point_count = 3
 
 [sub_resource type="CurveTexture" id="CurveTexture_mi7p8"]
 curve = SubResource("Curve_ceogn")
-
-[sub_resource type="Gradient" id="Gradient_h3r1k"]
-offsets = PackedFloat32Array(0, 0.188525, 0.5, 0.901639, 1)
-colors = PackedColorArray(1, 0, 0, 0, 0.518422, 0.867177, 0.751064, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_0m6wj"]
-gradient = SubResource("Gradient_h3r1k")
-use_hdr = true
 
 [sub_resource type="Curve" id="Curve_3kggr"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -103,10 +95,19 @@ radial_accel_curve = SubResource("CurveTexture_c4j3o")
 damping_curve = SubResource("CurveTexture_nmool")
 scale_max = 3.0
 scale_over_velocity_curve = SubResource("CurveTexture_5xhq4")
-color_ramp = SubResource("GradientTexture1D_0m6wj")
 alpha_curve = SubResource("CurveTexture_mi7p8")
 
-[sub_resource type="CanvasTexture" id="CanvasTexture_x6f1s"]
+[sub_resource type="Gradient" id="Gradient_j5r3h"]
+offsets = PackedFloat32Array(0.943396, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_75ak6"]
+gradient = SubResource("Gradient_j5r3h")
+width = 10
+height = 10
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.700855, 0.495726)
 
 [node name="CelestialObject" type="Node2D" groups=["celestial_objects"]]
 script = ExtResource("1_32kh8")
@@ -128,11 +129,13 @@ texture = SubResource("GradientTexture2D_20ug8")
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 show_behind_parent = true
 position = Vector2(0, 1)
-emitting = false
+skew = -0.296706
 amount = 80
 process_material = SubResource("ParticleProcessMaterial_46ht5")
-texture = SubResource("CanvasTexture_x6f1s")
+texture = SubResource("GradientTexture2D_75ak6")
 lifetime = 5.0
 preprocess = 5.0
 trail_enabled = true
-trail_sections = 30
+trail_lifetime = 0.1
+trail_sections = 20
+trail_section_subdivisions = 10

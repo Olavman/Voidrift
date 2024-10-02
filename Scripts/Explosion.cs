@@ -12,14 +12,15 @@ public partial class Explosion : Node2D
   private CanvasGroup _canvasLayer;
   private double _lifetime = 0; // Lifetime in seconds
   private double _lifetimeCounter = 0;
-  private double _shockwaveLifetime = 0.3; // Lifetime of shockwave in seconds
+  [Export] public double _shockwaveLifetime = 0.5; // Lifetime of shockwave in seconds
   private double _timer = 0;
+  private float _shockwaveSize = 1.0f;
 
   public override void _Ready()
   {
     _shockwave2 = GetNode<GpuParticles2D>("CanvasLayer/Shockwave2");
     _flames = GetNode<GpuParticles2D>("CanvasLayer/Flames");
-    _smoke = GetNode<GpuParticles2D>("CanvasLayer/Smoke");
+    _smoke = GetNode<GpuParticles2D>("Smoke");
     _sparks = GetNode<GpuParticles2D>("CanvasLayer/Sparks");
     _shockwave = GetNode<Sprite2D>("CanvasLayer/Shockwave");
 
@@ -39,15 +40,21 @@ public partial class Explosion : Node2D
     _sparks.Emitting = true;
   }
 
+  public void Init(float explosionSize)
+  {
+    _shockwaveSize = explosionSize;
+  }
+
   public override void _Process(double delta)
   {
 
     float shockwaveLerp = MathF.Min((float)(_lifetimeCounter / _shockwaveLifetime), 1.0f) ;
+    float size = _shockwaveSize * shockwaveLerp;
 
     // Interpolate scale of shockwave
     if (shockwaveLerp != 1.0f)
     {
-      _shockwave.Scale = new Vector2(shockwaveLerp, shockwaveLerp);
+      _shockwave.Scale = new Vector2(size, size);
     }
     else
     {

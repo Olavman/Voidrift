@@ -16,6 +16,7 @@ public partial class CelestialObject : Node2D
 	private Sprite2D _effect;
 	private Sprite2D _blackCircle;
   private Vector2 _spriteSize;
+  private float _maxDistanceForDamage = 0;
 
   // Called when the node enters the scene tree for the first time.
   public override void _Ready()
@@ -49,10 +50,11 @@ public partial class CelestialObject : Node2D
   {
     if (IsBlackHole)
     {
-      RotationDegrees -= 0.1f;
+      //RotationDegrees -= 0.1f;
     }
 
     Mass += 1.0f;
+    _maxDistanceForDamage = Mass * 0.005f;
     UpdateScale();
   }
 
@@ -78,7 +80,7 @@ public partial class CelestialObject : Node2D
       if (_particles.ProcessMaterial is ParticleProcessMaterial material)
       {
         //material.EmissionShape = _particles.ProcessMaterial.EmissionShapeEnum.SphereSurface;
-        material.EmissionSphereRadius = 128.0f * (_effect.Scale / _effect.Texture.GetSize()).Length() * Mass * 0.0005f;
+        material.EmissionSphereRadius = 128.0f * (_effect.Scale / _effect.Texture.GetSize()).Length() * Mass * 0.003f;
       }
       else
       {
@@ -105,7 +107,7 @@ public partial class CelestialObject : Node2D
     float distance = direction.Length();
 
     // Check for destruction or damage based on proximity
-    if (distance < Mass && IsStar)
+    if (distance < _maxDistanceForDamage && IsStar)
     {
       DamageShip(ship, distance, delta);
     }
@@ -124,8 +126,9 @@ public partial class CelestialObject : Node2D
   private void DamageShip(Ship ship, float distance, double delta)
   {
     // Assuming the ship has a health property
-    //GD.Print("Ship damaged!");
-    //ship.Health -= Mass - distance;
+    float damage = distance / _maxDistanceForDamage * 2;
+    //GD.Print("Ship damaged: " + damage);
+    ship.TakeDamage(damage);
   }
 
 }

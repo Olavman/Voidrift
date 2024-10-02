@@ -1,12 +1,12 @@
-[gd_scene load_steps=13 format=3 uid="uid://dmlb4sm6nm8tb"]
+[gd_scene load_steps=15 format=3 uid="uid://dmlb4sm6nm8tb"]
 
 [ext_resource type="Script" path="res://Scripts/Ship/Player.cs" id="1_hoi26"]
-[ext_resource type="PackedScene" uid="uid://coe2lux23hmjg" path="res://Scenes/Weapons/missile.tscn" id="2_ge7xl"]
+[ext_resource type="PackedScene" uid="uid://byhwq0h55683y" path="res://Scenes/Weapons/laser.tscn" id="2_3t5g5"]
+[ext_resource type="PackedScene" uid="uid://coe2lux23hmjg" path="res://Scenes/Weapons/missile.tscn" id="2_4eguv"]
 [ext_resource type="AudioStream" uid="uid://dixkcy3xb71u5" path="res://Sounds/Constant Rumbling.wav" id="3_422qg"]
 [ext_resource type="PackedScene" uid="uid://j1v1w57gli4h" path="res://Scenes/explosion.tscn" id="3_a25ll"]
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_avngu"]
-load_path = "res://.godot/imported/playerShip1_blue.png-0d97ad2c7cf71cd00be122fc54cc6ab3.ctex"
+[ext_resource type="Texture2D" uid="uid://qlh7l4nwcgb7" path="res://Sprites/Voidrift ships.png" id="4_6m34g"]
+[ext_resource type="PackedScene" uid="uid://dbccrnailfd7" path="res://Scenes/Weapons/plasma.tscn" id="4_dqkcf"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_d511h"]
 blend_mode = 1
@@ -16,8 +16,8 @@ particles_anim_v_frames = 8
 particles_anim_loop = false
 
 [sub_resource type="Gradient" id="Gradient_dn024"]
-offsets = PackedFloat32Array(0, 0.106557, 0.344262, 0.459016, 0.729508, 0.97541)
-colors = PackedColorArray(0, 1, 1, 0.588235, 1, 1, 0, 1, 1, 0.431373, 0, 1, 0.812323, 0.703068, 0.703068, 1, 0.815686, 0.815686, 0.815686, 0.615686, 0, 0, 0, 0)
+offsets = PackedFloat32Array(0, 0.106557, 0.344262, 0.459016, 0.729508, 1)
+colors = PackedColorArray(0.847657, 0.940083, 7.70092e-07, 0.588235, 0.709413, 0.709413, 0, 1, 0.596211, 0.24522, 0, 1, 0.229275, 0.159458, 0.16042, 1, 0, 0, 0, 0.615686, 0, 0, 0, 0)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_kolp7"]
 gradient = SubResource("Gradient_dn024")
@@ -56,26 +56,21 @@ load_path = "res://.godot/imported/smoke_01.tga-6ad9ac48887f66f50f11b068cbc2a6b7
 position = Vector2(-1, 0)
 motion_mode = 1
 script = ExtResource("1_hoi26")
-BulletScene = ExtResource("2_ge7xl")
+WeaponScenes = [ExtResource("2_3t5g5"), ExtResource("2_4eguv"), ExtResource("4_dqkcf")]
 ExplosionScene = ExtResource("3_a25ll")
-MaxHealth = 10000.0
-MaxShield = 10000.0
 
 [node name="PlayerSprite" type="Sprite2D" parent="."]
-rotation = 1.5708
-scale = Vector2(0.7, 0.7)
-texture = SubResource("CompressedTexture2D_avngu")
+texture = ExtResource("4_6m34g")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-visible = false
 rotation = 1.5708
-polygon = PackedVector2Array(-32, 16, -34, -4, -8, -8, -6, -26, 6, -26, 8, -9, 33, -5, 31, 17, 5, 26, -6, 26)
+polygon = PackedVector2Array(-26.9999, 15.0001, -9.00003, -8.99997, -6, -26, 6, -26, 8, -9, 26.0001, 15.9999, 7.00011, 30, -8.99989, 30)
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 show_behind_parent = true
 material = SubResource("CanvasItemMaterial_d511h")
 position = Vector2(-26, 0)
-amount = 30
+amount = 60
 process_material = SubResource("ParticleProcessMaterial_7aq8i")
 texture = SubResource("CompressedTexture2D_qj1km")
 lifetime = 0.5

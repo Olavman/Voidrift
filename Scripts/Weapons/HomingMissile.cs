@@ -5,6 +5,7 @@ public partial class HomingMissile : WeaponBase
 {
   [Export] public float TurnRate = 1.0f;
   [Export] public float Acceleration = 20.0f;
+  [Export] public PackedScene ExplosionScene = null;
 
   public override void Init(Vector2 direction, Ship weaponOwner)
   {
@@ -68,6 +69,26 @@ public partial class HomingMissile : WeaponBase
     {
       var engine = GetNode<GpuParticles2D>("GPUParticles2D");
       engine.Emitting = false;
+    }
+  }
+  public override void TriggerAOE()
+  {
+    base.TriggerAOE();
+
+    // Check if ExplosionScene is assigned
+    if (ExplosionScene != null)
+    {
+      // Create an instance of the explosion
+      Explosion explosion = ExplosionScene.Instantiate<Explosion>();
+
+      // Set the explosion's position to the ship's current position
+      explosion.Position = Position;
+
+      // Set the explosion's size
+      explosion.Init(AOE);
+
+      // Add the explosion to the scene tree (same parent as the ship)
+      GetParent().AddChild(explosion);
     }
   }
   private Ship FindBestTarget()

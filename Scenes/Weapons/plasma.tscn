@@ -1,16 +1,19 @@
-[gd_scene load_steps=7 format=3 uid="uid://dbccrnailfd7"]
+[gd_scene load_steps=6 format=3 uid="uid://dbccrnailfd7"]
 
 [ext_resource type="Script" path="res://Scripts/Weapons/Plasma.cs" id="1_xyvyn"]
-[ext_resource type="Shader" path="res://Shaders/glow.gdshader" id="2_oipuu"]
-[ext_resource type="Texture2D" uid="uid://b5pg46rtxsqv1" path="res://Sprites/plasma bullet.png" id="3_yfyes"]
 [ext_resource type="AudioStream" uid="uid://bvjb3yme7lymv" path="res://Sounds/a_tiny_plasma_bullet.wav" id="4_c6xsu"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_tr1wc"]
-shader = ExtResource("2_oipuu")
-shader_parameter/glow_color = Color(0.137255, 1, 0, 0.772549)
-shader_parameter/glow_power = 2.9
-shader_parameter/glow_shift = 1.6
-shader_parameter/glow_radius = 3.0
+[sub_resource type="Gradient" id="Gradient_q3x3w"]
+offsets = PackedFloat32Array(0, 0.358491, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 1, 0, 0.937255, 0, 1, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_7mnd7"]
+gradient = SubResource("Gradient_q3x3w")
+width = 16
+height = 16
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.8, 0.2)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_aguhc"]
 radius = 3.0
@@ -18,19 +21,20 @@ radius = 3.0
 [node name="Node2D" type="Node2D" node_paths=PackedStringArray("_sprite")]
 script = ExtResource("1_xyvyn")
 Speed = 2000.0
-Damage = 30.0
+Damage = 1.0
 Cooldown = 0.1
 Accuracy = 0.7
 LifeTime = 1.0
 _sprite = NodePath("Sprite2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_tr1wc")
-texture = ExtResource("3_yfyes")
+modulate = Color(1, 2, 1, 1)
+texture = SubResource("GradientTexture2D_7mnd7")
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+visible = false
 shape = SubResource("CircleShape2D_aguhc")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]

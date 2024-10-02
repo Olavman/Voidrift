@@ -1,12 +1,21 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class Ship : CharacterBody2D
 {
+  protected enum SCROLL
+  {
+    UP = -1,
+    DOWN = 1
+  }
+
   // Weapon variables
-  [Export] public PackedScene BulletScene; // Assign the bullet scene in the editor
+  [Export] public Godot.Collections.Array<PackedScene> WeaponScenes = new Godot.Collections.Array<PackedScene>();    // Weapon scenes
   [Export] public PackedScene ExplosionScene; // Assign the bullet scene in the editor
-  protected float _cooldownTimer = 0; // Timer for bullet cooldown
+  protected float _cooldownTimer = 0;         // Timer for bullet cooldown
+  protected int _currentWeaponSlot = 0;       // Current weapon ready for use
+  protected bool _isShooting;
 
   [Export] public double MaxHealth = 100.0;
   [Export] public double MaxShield = 100.0;
@@ -48,6 +57,12 @@ public partial class Ship : CharacterBody2D
       GD.Print("No engine audio");
     }
 
+    // Check if weapons exist
+    if (WeaponScenes.Count == 0)
+    {
+      GD.Print("No weapons available");
+    }
+
     // Pause the sound at start
     _engineAudio.StreamPaused = true;
 
@@ -69,11 +84,9 @@ public partial class Ship : CharacterBody2D
     #region // Movement
     // Shared movement and shield recharging logic
     _isThrusting = false;
+    _isShooting = false;
     ApplyMovement(delta);
     RechargeShield((float)delta);
-
-    // Handling rotation
-
     #endregion
 
     #region // Shooting
@@ -82,6 +95,10 @@ public partial class Ship : CharacterBody2D
       _cooldownTimer -= (float)delta;
     }
     #endregion
+
+    // Handling rotation
+
+
 
     #region // Damage & Health
     #endregion
@@ -125,7 +142,7 @@ public partial class Ship : CharacterBody2D
 
   protected virtual void RotateShip(bool isRotatingRight, float delta)
   {
-    float rotateSpeed = _isThrusting ? RotateSpeed/2 : RotateSpeed;
+    float rotateSpeed = (_isThrusting || _isShooting) ? RotateSpeed/2 : RotateSpeed;
     if (isRotatingRight)
     {
       Rotation += rotateSpeed * delta;
@@ -184,9 +201,11 @@ public partial class Ship : CharacterBody2D
 
   public void Shoot()
   {
-    if (BulletScene == null)
+    _isShooting = true;
+
+    if (WeaponScenes.Count == 0)
     {
-      GD.Print("No bullet");
+      GD.Print("No weapons");
       return;
     }
 
@@ -194,7 +213,8 @@ public partial class Ship : CharacterBody2D
     if (_cooldownTimer <= 0)
     {
       // Create an instance of the bullet
-      WeaponBase bullet = BulletScene.Instantiate() as WeaponBase;
+      PackedScene currentWeaponScene = WeaponScenes[_currentWeaponSlot];
+      WeaponBase weapon = currentWeaponScene.Instantiate() as WeaponBase;
 
       // Add the players velocity to the bullet
       Vector2 velocity = new Vector2(Mathf.Cos(Rotation), Mathf.Sin(Rotation)) * Velocity.Length();
@@ -202,14 +222,19 @@ public partial class Ship : CharacterBody2D
 
       // Set the bullet's starting position and direction
       Marker2D spawnPosition = GetNode<Marker2D>("Marker2D");
-      bullet.Position = spawnPosition.GlobalPosition;
-      bullet.Init(new Vector2(Mathf.Cos(Rotation), Mathf.Sin(Rotation)), this);
+      weapon.Position = spawnPosition.GlobalPosition;
+      weapon.Init(new Vector2(Mathf.Cos(Rotation), Mathf.Sin(Rotation)), this);
 
       // Add the bullet to the scene
-      GetParent().AddChild(bullet);
+      GetParent().AddChild(weapon);
 
-      _cooldownTimer += bullet.Cooldown;
+      _cooldownTimer += weapon.Cooldown;
     }
+  }
+  protected void SwitchWeapon(SCROLL scrollDirection)
+  {
+    _currentWeaponSlot = (_currentWeaponSlot +1) % WeaponScenes.Count;
+    GD.Print("Switched to weapon: " + _currentWeaponSlot);
   }
 
   protected void ApplyDrag()
@@ -307,10 +332,13 @@ public partial class Ship : CharacterBody2D
     if (ExplosionScene != null)
     {
       // Create an instance of the explosion
-      Node2D explosion = ExplosionScene.Instantiate<Node2D>();
+      Explosion explosion = ExplosionScene.Instantiate<Explosion>();
 
       // Set the explosion's position to the ship's current position
       explosion.Position = Position;
+
+      // Set the explosion's size
+      explosion.Init(500);
 
       // Add the explosion to the scene tree (same parent as the ship)
       GetParent().AddChild(explosion);

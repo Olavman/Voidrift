@@ -26,6 +26,12 @@ public partial class Player : Ship
     if (_isDestroyed) return;
     base._PhysicsProcess(delta);
 
+    // Handle shooting
+    if (Input.IsActionPressed("shoot_basic"))
+    {
+      Shoot();
+    }
+
     // Handling rotation
     if (Input.IsActionPressed("move_right"))
     {
@@ -36,10 +42,14 @@ public partial class Player : Ship
       RotateShip(false, (float)delta);
     }
 
-    // Handle shooting
-    if (Input.IsActionPressed("shoot_basic"))
+    // Switch weapon
+    if (Input.IsActionJustPressed("scroll_up"))
     {
-      Shoot();
+      SwitchWeapon(SCROLL.UP);
+    }
+    else if (Input.IsActionJustPressed("scroll_down"))
+    {
+      SwitchWeapon(SCROLL.DOWN);
     }
 
     // Reset the hitsSuccession

@@ -30,6 +30,9 @@ public partial class Enemy : Ship
 
     // Add the sequence to the selector node (could add more complex behaviors later)
     (_behaviorTree as SelectorNode).AddNode(attackSequence);
+
+    // Select a random weapon (temporary solution)
+    _currentWeaponSlot = GD.RandRange(0, 2);
   }
 
   public override void _PhysicsProcess(double delta)

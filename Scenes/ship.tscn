@@ -10,12 +10,12 @@ particles_anim_h_frames = 8
 particles_anim_v_frames = 8
 particles_anim_loop = false
 
-[sub_resource type="Gradient" id="Gradient_88a0u"]
-offsets = PackedFloat32Array(0, 0.106557, 0.344262, 0.459016, 0.729508, 0.97541)
-colors = PackedColorArray(0, 1, 1, 0.588235, 1, 1, 0, 1, 1, 0.431373, 0, 1, 0.812323, 0.703068, 0.703068, 1, 0.815686, 0.815686, 0.815686, 0.615686, 0, 0, 0, 0)
+[sub_resource type="Gradient" id="Gradient_dn024"]
+offsets = PackedFloat32Array(0, 0.106557, 0.344262, 0.459016, 0.729508, 1)
+colors = PackedColorArray(0.847657, 0.940083, 7.70092e-07, 0.588235, 0.709413, 0.709413, 0, 1, 0.596211, 0.24522, 0, 1, 0.229275, 0.159458, 0.16042, 1, 0, 0, 0, 0.615686, 0, 0, 0, 0)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_1v7el"]
-gradient = SubResource("Gradient_88a0u")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_b3on6"]
+gradient = SubResource("Gradient_dn024")
 
 [sub_resource type="Curve" id="Curve_v3g86"]
 _data = [Vector2(0.0133333, 0.230769), 0.0, 1.0181, 0, 0, Vector2(0.4, 0.714286), 0.913544, 0.913544, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
@@ -37,7 +37,7 @@ angular_velocity_max = 7.73998
 gravity = Vector3(0, 0, 0)
 scale_min = 0.5
 scale_curve = SubResource("CurveTexture_ihgg5")
-color_ramp = SubResource("GradientTexture1D_1v7el")
+color_ramp = SubResource("GradientTexture1D_b3on6")
 anim_speed_min = 0.22
 anim_speed_max = 0.91
 
@@ -57,7 +57,7 @@ show_behind_parent = true
 material = SubResource("CanvasItemMaterial_llwhy")
 position = Vector2(-26, 0)
 emitting = false
-amount = 30
+amount = 60
 process_material = SubResource("ParticleProcessMaterial_cp011")
 texture = SubResource("CompressedTexture2D_g7xl7")
 lifetime = 0.5

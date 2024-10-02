@@ -10,7 +10,7 @@ public abstract partial class WeaponBase : Node2D
   [Export] public float Cooldown { get; set; }    // Cooldown in seconds
   [Export] public float Accuracy { get; set; }    // Accuracy of the weapon (1.0 = perfect accuracy)
   [Export] public double LifeTime { get; set; }   // Lifetime of weapon in seconds
-  [Export] public double Range { get; set; }      // Range of weapon
+  [Export] public float Range { get; set; }      // Range of weapon
   [Export] public int Piercing { get; set; }      // Times the weapon will pierce
   [Export] public float AOE { get; set; }        // Area of effect
   [Export] public Sprite2D _sprite { get; set; }  // Weapon sprite
@@ -19,8 +19,8 @@ public abstract partial class WeaponBase : Node2D
   AudioStreamPlayer2D _audioPlayer;
 
   internal Vector2 _velocity = Vector2.Zero;
-  private Area2D _collisionArea;
-  private bool _gettingDestroyed;
+  protected Area2D _collisionArea;
+  protected bool _gettingDestroyed;
   private List <Ship> _targetsHit;
 
   public override void _Ready()
@@ -61,16 +61,16 @@ public abstract partial class WeaponBase : Node2D
   }
   public override void _PhysicsProcess(double delta)
   {
-    // Decrease lifetime of weapon
-    if (LifeTime > 0)
-    {
-      DecreaseLifetime(delta);
-    }
-
     // Check if the weapon is about to be destroyed, and destroy it
     if (_gettingDestroyed)
     {
-      QueueFree();
+      DestroyWeapon();
+    }
+
+    // Decrease lifetime of weapon
+    if (LifeTime >= 0)
+    {
+      DecreaseLifetime(delta);
     }
 
     // Get the previous position and 
@@ -125,6 +125,12 @@ public abstract partial class WeaponBase : Node2D
       { 
         // Apply damage to the ship
         Collided(ship);
+
+        // Destroy the weapon if out of piercings
+        if (!AllowedToPierce())
+        {
+          _gettingDestroyed = true;
+        }
       }
     }
   }
@@ -144,7 +150,7 @@ public abstract partial class WeaponBase : Node2D
 
     return newPosition;
   }
-  private void CheckCollision(ref Vector2 previousPosition, Vector2 newPosition)
+  public virtual void CheckCollision(ref Vector2 previousPosition, Vector2 newPosition)
   {
     // Create the raycast query parameters
     PhysicsRayQueryParameters2D raycastParams = new PhysicsRayQueryParameters2D
@@ -181,10 +187,10 @@ public abstract partial class WeaponBase : Node2D
       }
     }
   }
-  private void Collided(Ship ship)
+  protected virtual void Collided(Ship ship)
   {
     // Apply damage to the ship
-    ship.TakeDamage(Damage);
+    ship.TakeDamage(Damage, WeaponOwner);
 
     // Add ship to the list to prevent multiple hits
     _targetsHit.Add(ship);
@@ -193,19 +199,22 @@ public abstract partial class WeaponBase : Node2D
   {
     // Trigger AoE
     TriggerAOE();
-    
+
 
     // Remove the instance and all its children
     QueueFree();
   }
-  private void TriggerAOE()
+  public virtual void TriggerAOE()
   {
     // Expand the collision shape
     var collisionShape = _collisionArea.GetNode<CollisionShape2D>("CollisionShape2D");
     if (collisionShape.Shape is CircleShape2D circleShape)
     {
+      // Duplicate the shape so that only this instance is affected
+      var newCircleShape = circleShape.Duplicate() as CircleShape2D;
+
       // Set the AoE radius
-      circleShape.Radius += AOE;
+      newCircleShape.Radius += AOE;
     }
 
     // Detect all bodies in the AoE and apply effects
@@ -215,6 +224,5 @@ public abstract partial class WeaponBase : Node2D
     {
       OnBodyEntered(body);
     }
-    
   }
 }
