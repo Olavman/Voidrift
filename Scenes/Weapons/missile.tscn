@@ -59,6 +59,7 @@ Cooldown = 1.5
 Accuracy = 1.0
 LifeTime = 4.0
 AOE = 300.0
+_sound = ExtResource("4_cl3cl")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(1, 1.5, 1.5, 1)
@@ -70,8 +71,6 @@ texture = ExtResource("1_0o6yr")
 shape = SubResource("CircleShape2D_riv0h")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("4_cl3cl")
-autoplay = true
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 show_behind_parent = true

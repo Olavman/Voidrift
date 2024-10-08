@@ -166,7 +166,7 @@ public partial class Enemy : Ship
     base.DestroyShip();
     if (LastHitBy is Player player)
     {
-      player.Audio.PlaySound(player.Audio.TargetEliminated);
+      player.KillAquired();
     }
     QueueFree(); // Remove the enemy from the scene
   }

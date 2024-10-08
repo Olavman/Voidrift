@@ -130,6 +130,8 @@ volumetric_fog_sky_affect = 0.435
 [node name="Game" type="Node"]
 script = ExtResource("1_f1bp2")
 EnemyScene = ExtResource("11_ptkcl")
+PlayerScene = ExtResource("2_2l1hh")
+NumberOfAIShips = 5
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
@@ -263,9 +265,6 @@ offset_top = 802.0
 offset_right = 346.0
 offset_bottom = 1058.0
 
-[node name="Player" parent="." instance=ExtResource("2_2l1hh")]
-position = Vector2(1408, 910)
-
 [node name="BlackHole" parent="." instance=ExtResource("4_ybuw8")]
 z_index = 10
 position = Vector2(3221, 1732)
@@ -275,11 +274,10 @@ IsBlackHole = true
 modulate = Color(0.5, 0.5, 0.5, 1)
 points = PackedVector2Array(95, -133)
 
-[node name="PlayerCam" type="Camera2D" parent="." node_paths=PackedStringArray("Follow")]
+[node name="PlayerCam" type="Camera2D" parent="."]
 zoom = Vector2(0.5, 0.5)
 script = ExtResource("14_iyvqj")
-Follow = NodePath("../Player")
-ScreenshakeMultiplier = 0.373
+ScreenshakeMultiplier = 0.626
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_lb53c")

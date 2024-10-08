@@ -11,18 +11,11 @@ public partial class Hud : Control
 	public override void _Ready()
 	{
 		var player = GetNode<Player>("../Player");
-    if (player == null)
-    {
-      GD.Print("No player");
-    }
-		player.Connect(Player.SignalName.HealthChanged, new Callable(this, nameof(OnHealthChanged)));
-		player.Connect(Player.SignalName.ShieldChanged, new Callable(this, nameof(OnShieldChanged)));
-		player.Connect(Player.SignalName.MaxHealthChanged, new Callable(this, nameof(OnMaxHealthChanged)));
-		player.Connect(Player.SignalName.MaxShieldChanged, new Callable(this, nameof(OnMaxShieldChanged)));
-		player.Connect(Player.SignalName.SpeedChanged, new Callable(this, nameof(OnSpeedChanged)));
+    SetOwner(player);
 
 		_healthBar = GetNode<HealthBar>("HUDCanvas/HealthBar");
 		_speedBar = GetNode<TextureProgressBar>("HUDCanvas/SpeedBar");
+
     if (_healthBar != null )
     { 
       GD.Print("healthbar");
@@ -33,6 +26,27 @@ public partial class Hud : Control
     }
 	}
 
+  public void SetOwner(Player player)
+  {
+    if (player == null)
+    {
+      GD.Print("No player");
+      return;
+    }
+    else
+    {
+      GD.Print($"Player set to {player.Name}");
+    }
+
+    player.Connect(Player.SignalName.HealthChanged, new Callable(this, nameof(OnHealthChanged)));
+    player.Connect(Player.SignalName.ShieldChanged, new Callable(this, nameof(OnShieldChanged)));
+    player.Connect(Player.SignalName.MaxHealthChanged, new Callable(this, nameof(OnMaxHealthChanged)));
+    player.Connect(Player.SignalName.MaxShieldChanged, new Callable(this, nameof(OnMaxShieldChanged)));
+    player.Connect(Player.SignalName.SpeedChanged, new Callable(this, nameof(OnSpeedChanged)));
+
+    OnHealthChanged(player.MaxHealth);
+    OnShieldChanged(player.MaxShield);
+  }
 
   private void OnHealthChanged(double newHealth)
   {

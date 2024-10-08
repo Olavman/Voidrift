@@ -26,10 +26,13 @@ public partial class PlayerCam : Camera2D
 
   public override void _Ready()
   {
-    if (Follow != null)
-    {
-      _followId = Follow.GetInstanceId();
-    }
+    SetFollow(Follow);
+  }
+
+  public void SetFollow(Node2D follow)
+  {
+    Follow = follow;
+    _followId = Follow.GetInstanceId();
   }
 
   public override void _Process(double delta)

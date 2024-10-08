@@ -15,6 +15,8 @@ public partial class Explosion : Node2D
   [Export] public double _shockwaveLifetime = 0.5; // Lifetime of shockwave in seconds
   private double _timer = 0;
   private float _shockwaveSize = 1.0f;
+  [Export] private AudioStream _explosionSound = null;
+  private AudioPlayer _audioPlayer;
 
   public override void _Ready()
   {
@@ -38,6 +40,21 @@ public partial class Explosion : Node2D
     _flames.Emitting = true;
     _smoke.Emitting = true;
     _sparks.Emitting = true;
+
+    // Get the global AudioPlayer singleton
+    _audioPlayer = (AudioPlayer)GetNode("/root/AudioPlayer");
+    if (_audioPlayer != null)
+    {
+      GD.Print("AudioPlayer singleton accessed");
+    }
+    else
+    {
+      GD.Print("Failed to access AudioPlayer singleton");
+    }
+
+    // Play explosion sound
+    //_audioPlayer?.TriggerSoundEvent(_explosionSound, Position);
+    _audioPlayer.PlaySound(_explosionSound, Position);
   }
 
   public void Init(float explosionSize)

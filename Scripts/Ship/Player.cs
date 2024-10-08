@@ -6,20 +6,27 @@ public partial class Player : Ship
   private double _hitSuccession = 0;
   public bool _isDestroyed = false;
 
-  public AudioPlayer Audio;
+  private AudioPlayer _audioPlayer;
   public Game GameManager;
+
+  [Export] AudioStream _startGameSound;
+  [Export] AudioStream _multipleImpactsSound;
+  [Export] AudioStream _shieldDepletedSound;
+  [Export] AudioStream _hullBreachSound;
+  [Export] AudioStream _shieldStailizingSound;
+  [Export] AudioStream _targetEliminatedSound;
 
   public override void _Ready()
   {
     // Get the global audioplayer
-    Audio = GetNode("/root/AudioPlayer") as AudioPlayer;
+    _audioPlayer = GetNode("/root/AudioPlayer") as AudioPlayer;
     base._Ready();
 
     // Get the global game manager
     GameManager = GetNode("/root/Game") as Game;
 
     // Play start game sound
-    Audio.PlaySound(Audio.StartGame);
+    PlaySound(_audioPlayer.StartGame);
   }
   public override void _PhysicsProcess(double delta)
   {
@@ -95,16 +102,16 @@ public partial class Player : Ship
     _hitSuccession += 1;
     if (_hitSuccession == 20) // Multiple hits in short succession
     {
-      if (Audio.SoundPlayer.Stream != Audio.MultipleImpacts)
+      if (_audioPlayer.SoundPlayer.Stream != _audioPlayer.MultipleImpacts)
       {
-        Audio.PlaySound(Audio.MultipleImpacts);
+        PlaySound(_audioPlayer.MultipleImpacts);
       }
     }
 
     if (_shield <= 0 && currentShield > 0) // Shield got depleted
     {
       // Play depleted shield sound
-      Audio.PlaySound(Audio.ShieldDepleted);
+      PlaySound(_audioPlayer.ShieldDepleted);
 
       // Apply minor screen shake
       camera.AddScreenShake(5, 0.5f);
@@ -113,7 +120,7 @@ public partial class Player : Ship
     if (Health <= MaxHealth/4 && currentHealth > MaxHealth / 4) // Health got low
     {
       // Play depleted shield sound
-      Audio.PlaySound(Audio.HullBreach);
+      PlaySound(_audioPlayer.HullBreach);
 
       // Apply larger screen shake
       camera.AddScreenShake(10, 0.5f);
@@ -125,12 +132,23 @@ public partial class Player : Ship
     base.StartRechargeShield();
 
     // Play sound
-    Audio.PlaySound(Audio.ShieldStabilizing);
+    PlaySound(_audioPlayer.ShieldStabilizing);
   }
 
   protected override void DestroyShip()
   {
     base.DestroyShip();
     QueueFree(); // Remove the player from the scene
+  }
+
+  public void KillAquired()
+  {
+    PlaySound(_targetEliminatedSound);
+  }
+
+  private void PlaySound(AudioStream sound)
+  {
+    _audioPlayer.PlaySound(sound);
+    //_audioPlayer?.TriggerSoundEvent(sound);
   }
 }

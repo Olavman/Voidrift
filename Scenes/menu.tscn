@@ -1,9 +1,12 @@
-[gd_scene load_steps=12 format=3 uid="uid://cxixn2hqmnekn"]
+[gd_scene load_steps=14 format=3 uid="uid://cxixn2hqmnekn"]
 
 [ext_resource type="Script" path="res://Scripts/UI/Menu.cs" id="1_g8opw"]
 [ext_resource type="PackedScene" uid="uid://ctro0g6qcuq7l" path="res://Scenes/main.tscn" id="2_lddkc"]
 [ext_resource type="Script" path="res://Scripts/UI/Starfield.cs" id="3_6dkk4"]
+[ext_resource type="AudioStream" uid="uid://deyhyjrwhx6wu" path="res://Sounds/Robot voice/Systems online welcome pilot.wav" id="3_vrvdf"]
+[ext_resource type="AudioStream" uid="uid://ib4dp3b0py48" path="res://Sounds/futuristic button click 2.wav" id="4_1lxjq"]
 [ext_resource type="PackedScene" uid="uid://c527v7xr81us3" path="res://Scenes/star.tscn" id="4_upyvk"]
+[ext_resource type="AudioStream" uid="uid://dkhm7crwnsusm" path="res://Sounds/futuristic button click.wav" id="5_3yhy1"]
 [ext_resource type="AudioStream" uid="uid://dixkcy3xb71u5" path="res://Sounds/Constant Rumbling.wav" id="5_uyv3x"]
 
 [sub_resource type="Environment" id="Environment_qmygf"]
@@ -33,11 +36,6 @@ in_3d_space = true
 color_ramp = SubResource("Gradient_3t3vg")
 noise = SubResource("FastNoiseLite_rwpjn")
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_fbpel"]
-in_3d_space = true
-color_ramp = SubResource("Gradient_3t3vg")
-noise = SubResource("FastNoiseLite_rwpjn")
-
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_062kl"]
 blend_mode = 1
 
@@ -53,6 +51,9 @@ PlayBtn = NodePath("MarginContainer/VBoxContainer/Play")
 OptionsBtn = NodePath("MarginContainer/VBoxContainer/Options")
 QuitBtn = NodePath("MarginContainer/VBoxContainer/Exit")
 GameScene = ExtResource("2_lddkc")
+SystemsOnline = ExtResource("3_vrvdf")
+ButtonClicked = ExtResource("4_1lxjq")
+ButtonHovered = ExtResource("5_3yhy1")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_qmygf")
@@ -68,11 +69,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("NoiseTexture2D_wvtdf")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-visible = false
-texture = SubResource("NoiseTexture2D_fbpel")
-centered = false
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 modulate = Color(1, 1, 3, 1)

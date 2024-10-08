@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class AudioPlayer : Node
 {
@@ -30,6 +31,19 @@ public partial class AudioPlayer : Node
   [Export] public AudioStream Victory;
   [Export] public AudioStream StartGame;
 
+  [Export] private int MaxAudioPlayers2D = 30;
+  [Export] private int MaxAudioPlayers = 4;
+
+  private List<AudioStreamPlayer2D> _audioPlayers2D = new List<AudioStreamPlayer2D>();
+  private List<AudioStreamPlayer> _audioPlayers = new List<AudioStreamPlayer>();
+
+  /*
+  public delegate void PlaySoundAtEventHandler(AudioStream sound, Vector2 coordinates);
+  public delegate void PlaySoundEventHandler(AudioStream sound);
+  public event PlaySoundAtEventHandler PlaySoundAtEvent;
+  public event PlaySoundEventHandler PlaySoundEvent;
+  */
+
   public override void _Ready()
   {
     // Get the AudioStreamPlayer node
@@ -41,10 +55,34 @@ public partial class AudioPlayer : Node
     {
       GD.Print("No audioplayer");
     }
+    else
+    {
+      MusicPlayer.VolumeDb = 0.4f;
+    }
 
-    // Start track
-    //PlayMusic(GameTrack);
+    // Subscribe to play sound event
+    //PlaySoundEvent += OnPlaySound;
+    //GD.Print("Subscribed to PlaySoundEvent");
+
+    // 2D audio streams
+    for (int i = 0; i < MaxAudioPlayers2D; i++)
+    {
+      var player = new AudioStreamPlayer2D();
+      //player.Attenuation = 0.0f;
+      player.MaxDistance = 5000;
+      AddChild(player);
+      _audioPlayers2D.Add(player);
+    }
+
+    // audio streams without position
+    for (int i = 0; i < MaxAudioPlayers; i++)
+    {
+      var player = new AudioStreamPlayer();
+      AddChild(player);
+      _audioPlayers.Add(player);
+    }
   }
+
 
   // Function to play a specific track
   public void PlayMusic(AudioStream musictrack)
@@ -66,11 +104,53 @@ public partial class AudioPlayer : Node
       FadeInCurrentTrack();
     }
   }
+  
+  public void PlaySound (AudioStream sound, Vector2 coordinates)
+  {
+    // Check if the sound's coordinates are within the camera's viewport
+    if (sound != null)
+    {
+      foreach (var player in _audioPlayers2D)
+      {
+        if (!player.Playing)
+        {
+          player.Position = coordinates;
+          player.Stream = sound;
+          player.Play();
+          return;
+        }
+      }
 
+      // If all players are busy, reuse the oldest one (FIFO strategy)
+      var oldestPlayer = _audioPlayers2D[0];
+      oldestPlayer.Stop(); // Stop the current sound
+      oldestPlayer.Position = coordinates;
+      oldestPlayer.Stream = sound;
+      oldestPlayer.Play();
+
+      // Move the reused player to the end of the list to maintain the FIFO order
+      _audioPlayers2D.RemoveAt(0);
+      _audioPlayers2D.Add(oldestPlayer);
+    }
+  }
   public void PlaySound (AudioStream sound)
   {
-    SoundPlayer.Stream = sound;
-    SoundPlayer.Play();
+    foreach (var player in _audioPlayers)
+    {
+      if (!player.Playing)
+      {
+        player.Stream = sound;
+        player.Play();
+        return;
+      }
+    }
+
+    // If all players are busy, add a new one (optional, based on MaxAudioPlayers limit)
+    var newPlayer = new AudioStreamPlayer();
+    AddChild(newPlayer);
+    _audioPlayers.Add(newPlayer);
+    newPlayer.Stream = sound;
+    newPlayer.Play();
   }
 
   public void PlayMenuSound (AudioStream sound)
@@ -109,4 +189,94 @@ public partial class AudioPlayer : Node
       FadeOutCurrentTrack(() => MusicPlayer.Stop());
     }
   }
+
+  /*
+  // Method to trigger the event externally
+  public void TriggerSoundEvent(AudioStream sound, Vector2 coordinates)
+  {
+    if (sound == null)
+    {
+      GD.Print("Sound is null, event not triggered");
+    }
+    else
+    {
+      GD.Print("Play sound at: " + coordinates);
+    }
+    PlaySoundEvent?.Invoke(sound, coordinates);
+  }
+  // Method to trigger the event externally
+  public void TriggerSoundEvent(AudioStream sound)
+  {
+    if (sound == null)
+    {
+      GD.Print("Sound is null, event not triggered");
+    }
+    else
+    {
+      GD.Print("Play sound");
+    }
+    PlaySoundEvent?.Invoke(sound);
+  }
+
+  private void OnPlaySound(AudioStream sound, Vector2 coordinates)
+  {
+    // Check if the sound's coordinates are within the camera's viewport
+    if (sound != null && IsWithinViewport(coordinates))
+    {
+      int i = 0;
+      foreach (var player in _audioPlayers2D)
+      {
+        i++;
+        if (!player.Playing)
+        {
+          player.Position = coordinates;
+          player.Stream = sound;
+          player.Bus = i.ToString();
+          player.Play();
+          GD.Print("player " + i + ": sound played at: " + player.Position);
+          GD.Print(_audioPlayers.Count);
+          return;
+        }
+      }
+
+      // If all players are busy, reuse the oldest one (FIFO strategy)
+      var oldestPlayer = _audioPlayers2D[0];
+      oldestPlayer.Stop(); // Stop the current sound
+      oldestPlayer.Position = coordinates;
+      oldestPlayer.Stream = sound;
+      oldestPlayer.Play();
+
+      // Move the reused player to the end of the list to maintain the FIFO order
+      _audioPlayers2D.RemoveAt(0);
+      _audioPlayers2D.Add(oldestPlayer);
+
+      GD.Print("Reused player to play sound at: " + coordinates);
+    }
+    else
+    {
+      GD.Print("position: " + coordinates + ". Sound is outside of viewport, not playing");
+    }
+  }
+
+  private void OnPlaySound(AudioStream sound)
+  {
+    foreach (var player in _audioPlayers)
+    {
+      if (!player.Playing)
+      {
+        player.Stream = sound;
+        player.Play();
+        GD.Print("Sound played");
+        return;
+      }
+    }
+
+    // If all players are busy, add a new one (optional, based on MaxAudioPlayers limit)
+    var newPlayer = new AudioStreamPlayer();
+    AddChild(newPlayer);
+    _audioPlayers.Add(newPlayer);
+    newPlayer.Stream = sound;
+    newPlayer.Play();
+  }
+  */
 }

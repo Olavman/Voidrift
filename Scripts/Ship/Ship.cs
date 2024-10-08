@@ -233,7 +233,7 @@ public partial class Ship : CharacterBody2D
   }
   protected void SwitchWeapon(SCROLL scrollDirection)
   {
-    _currentWeaponSlot = (_currentWeaponSlot +1) % WeaponScenes.Count;
+    _currentWeaponSlot = (_currentWeaponSlot + (int)scrollDirection) % WeaponScenes.Count;
     GD.Print("Switched to weapon: " + _currentWeaponSlot);
   }
 
@@ -364,21 +364,24 @@ public partial class Ship : CharacterBody2D
   {
     if (_isRecharging)
     {
+      // Recharge shield if not full shield
       if (_shield < MaxShield)
       {
         _shield += 0.5;
         EmitSignal(nameof(ShieldChanged), _shield);
       }
+      // Stop recharging
       else
       {
         _isRecharging = false;
       }
     }
-    else
+    else // If not recharging
     {
       _shieldRechargeTimer += 1*delta;
 
-      if (_shieldRechargeTimer >= ShieldRechargeSeconds)
+      // Start recharging if timer allows it & shield is not already full
+      if (_shieldRechargeTimer >= ShieldRechargeSeconds && _shield < MaxShield)
       {
         StartRechargeShield();
       }

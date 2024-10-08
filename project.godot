@@ -18,8 +18,9 @@ config/icon="res://Sprites/icon.svg"
 [autoload]
 
 GameSettings="*res://Scripts/GameSettings.cs"
-AudioPlayer="*res://Scenes/audioPlayer.tscn"
 Explosion="*res://Scenes/explosion.tscn"
+AudioPlayerScript="*res://Scripts/AudioPlayer.cs"
+AudioPlayer="*res://Scenes/audioPlayer.tscn"
 
 [display]
 
@@ -30,6 +31,10 @@ window/stretch/mode="canvas_items"
 [dotnet]
 
 project/assembly_name="Galactic battle arena"
+
+[global_group]
+
+AudioPlayers=""
 
 [input]
 

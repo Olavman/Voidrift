@@ -9,7 +9,12 @@ public partial class Menu : Control
   [Export] Button QuitBtn = null;
   [Export] PackedScene GameScene = null;
 
+  [Export] AudioStream SystemsOnline = null;
+  [Export] AudioStream ButtonClicked = null;
+  [Export] AudioStream ButtonHovered = null;
+
   private AudioPlayer _audioPlayer = null;
+
   private int _fontBaseSize;
   private int _fontFocusSize;
   public override void _Ready()
@@ -35,7 +40,7 @@ public partial class Menu : Control
     _audioPlayer.PlayMusic(_audioPlayer.MenuTrack);
 
     // Play start sound
-    _audioPlayer.PlaySound(_audioPlayer.SystemsOnline);
+    PlaySound(SystemsOnline);
   }
 
   private void OnPlayButtonPressed()
@@ -44,7 +49,7 @@ public partial class Menu : Control
     _audioPlayer.PlayMusic(_audioPlayer.GameTrack);
 
     // Play button click sound
-    _audioPlayer.PlayMenuSound(_audioPlayer.ButtonClicked);
+    PlaySound(ButtonClicked);
 
     // Enter game scene
     GetTree().ChangeSceneToPacked(GameScene);
@@ -53,29 +58,35 @@ public partial class Menu : Control
   private void OnOptionsButtonPressed()
   {
     // Play button click sound
-    _audioPlayer.PlayMenuSound(_audioPlayer.ButtonClicked);
+    PlaySound(ButtonClicked);
     GD.Print("Enter options");
   }
 
   private void OnQuitButtonPressed()
   {
     // Play button click sound
-    _audioPlayer.PlayMenuSound(_audioPlayer.ButtonClicked);
+    PlaySound(ButtonClicked);
     GetTree().Quit();
   }
 
   private void OnPlayButtonHovered()
   {
-    _audioPlayer.PlayMenuSound(_audioPlayer.ButtonHovered);
+    PlaySound(ButtonHovered);
   }
 
   private void OnOptionsButtonHovered()
   {
-    _audioPlayer.PlayMenuSound(_audioPlayer.ButtonHovered);
+    PlaySound(ButtonHovered);
   }
 
   private void OnQuitButtonHovered()
   {
-    _audioPlayer.PlayMenuSound(_audioPlayer.ButtonHovered);
+    PlaySound(ButtonHovered);
+  }
+
+  private void PlaySound(AudioStream sound)
+  {
+    _audioPlayer.PlaySound(sound);
+    //_audioPlayer?.TriggerSoundEvent(sound);
   }
 }

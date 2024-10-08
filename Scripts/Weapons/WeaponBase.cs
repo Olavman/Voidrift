@@ -1,38 +1,54 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using static System.Net.Mime.MediaTypeNames;
 
 public abstract partial class WeaponBase : Node2D
 {
+  protected AudioPlayer _audioPlayer;
+
   [Export] public float Speed { get; set; }       // Projectile speed
   [Export] public double Damage { get; set; }     // Base damage
   [Export] public float Cooldown { get; set; }    // Cooldown in seconds
   [Export] public float Accuracy { get; set; }    // Accuracy of the weapon (1.0 = perfect accuracy)
   [Export] public double LifeTime { get; set; }   // Lifetime of weapon in seconds
-  [Export] public float Range { get; set; }      // Range of weapon
+  [Export] public float Range { get; set; }       // Range of weapon
   [Export] public int Piercing { get; set; }      // Times the weapon will pierce
-  [Export] public float AOE { get; set; }        // Area of effect
+  [Export] public float AOE { get; set; }         // Area of effect
   [Export] public Sprite2D _sprite { get; set; }  // Weapon sprite
+  [Export] protected AudioStream _sound;          // Weapon firing sound
+
 
   public Ship WeaponOwner;
-  AudioStreamPlayer2D _audioPlayer;
 
   internal Vector2 _velocity = Vector2.Zero;
   protected Area2D _collisionArea;
   protected bool _gettingDestroyed;
-  private List <Ship> _targetsHit;
+  protected List <Ship> _targetsHit;
 
   public override void _Ready()
   {
-    // Get the audioplayer
-    _audioPlayer = GetNode<AudioStreamPlayer2D>("AudioStreamPlayer2D");
+    // Get the global AudioPlayer singleton
+    _audioPlayer = (AudioPlayer)GetNode("/root/AudioPlayer");
+    if (_audioPlayer == null)
+    {
+      GD.Print("Failed to access AudioPlayer singleton");
+    }
 
-    // Play the shooting sound
-    _audioPlayer.Play();
+    // Play weapon sound
+    if (_sound != null)
+    {
+      _audioPlayer.PlaySound(_sound, WeaponOwner.Position);
+      //_audioPlayer?.TriggerSoundEvent(_sound, WeaponOwner.Position);
+    }
+    else
+    {
+      GD.Print("Sound is null");
+    }
 
     // Change pitch
-    _audioPlayer.PitchScale = (float)GD.RandRange(0.9, 1.1);
+    //_audioPlayer.PitchScale = (float)GD.RandRange(0.9, 1.1);
 
     // Get the Area2D node for collision detection
     _collisionArea = GetNode<Area2D>("Area2D");
@@ -42,6 +58,8 @@ public abstract partial class WeaponBase : Node2D
 
     // Initialize _targetsHit to not get a null value
     _targetsHit = new List <Ship>();
+
+
   }
   public virtual void Init(Vector2 direction, Ship weaponOwner)
   {
@@ -199,7 +217,6 @@ public abstract partial class WeaponBase : Node2D
   {
     // Trigger AoE
     TriggerAOE();
-
 
     // Remove the instance and all its children
     QueueFree();

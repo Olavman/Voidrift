@@ -4,8 +4,11 @@ using System;
 public partial class Game : Node
 {
   public Line2D ArenaBorder = null;
-  public Camera2D Camera = null;
+  public PlayerCam Camera = null;
+  public Hud Hud = null;
   [Export] public PackedScene EnemyScene = null;
+  [Export] public PackedScene PlayerScene = null;
+  [Export] public int NumberOfAIShips = 10;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -15,10 +18,24 @@ public partial class Game : Node
     SetBorderLines();
 
     // Get the camera
-    Camera = GetNode<Camera2D>("PlayerCam") as PlayerCam;
+    Camera = GetNode<PlayerCam>("PlayerCam") as PlayerCam;
+    if (Camera == null)
+    {
+      GD.Print("No Camera");
+    }
+
+    // Get the HUD
+    Hud = GetNode<Hud>("HUD");
+    if (Hud == null)
+    {
+      GD.Print("No HUD");
+    }
+
+    // Spawn player
+    SpawnPlayer();
 
     // Spawn enemies
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < NumberOfAIShips; i++)
     {
       SpawnShip();
     }
@@ -56,6 +73,28 @@ public partial class Game : Node
     }
   }
 
+  // Spawn player
+  public void SpawnPlayer ()
+  {
+    if (PlayerScene == null) return;
+
+    // Instantiate enemy ship
+    Player player = PlayerScene.Instantiate() as Player;
+
+    // Get the center of the map
+    Vector2 levelSize = GameSettings.LevelSize;
+    Vector2 center = levelSize / 2;
+
+    // Set the position in a random direction and at a random range from the center of the map
+    float direction = (float)GD.RandRange(0, Mathf.Pi);
+    float distance = (float)levelSize[0]*0.9f;
+    player.Position = center + new Vector2(Mathf.Cos(direction), Mathf.Sin(direction))*distance;
+
+    AddChild(player);
+
+    Camera.SetFollow(player);
+    Hud.SetOwner(player);
+  }
   // Spawn ships
   public void SpawnShip ()
   {
@@ -70,7 +109,8 @@ public partial class Game : Node
 
     // Set the position in a random direction and at a random range from the center of the map
     float direction = (float)GD.RandRange(0, Mathf.Pi);
-    float distance = (float)GD.RandRange(1080, levelSize[0]);
+    //float distance = (float)GD.RandRange(1080, levelSize[0]);
+    float distance = (float)levelSize[0]*0.9f;
     ship.Position = center + new Vector2(Mathf.Cos(direction), Mathf.Sin(direction))*distance;
     AddChild(ship);
   }

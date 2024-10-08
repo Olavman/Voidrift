@@ -3,9 +3,11 @@ using System;
 
 public partial class HomingMissile : WeaponBase
 {
+
   [Export] public float TurnRate = 1.0f;
   [Export] public float Acceleration = 20.0f;
   [Export] public PackedScene ExplosionScene = null;
+
 
   public override void Init(Vector2 direction, Ship weaponOwner)
   {
@@ -78,6 +80,7 @@ public partial class HomingMissile : WeaponBase
     // Check if ExplosionScene is assigned
     if (ExplosionScene != null)
     {
+
       // Create an instance of the explosion
       Explosion explosion = ExplosionScene.Instantiate<Explosion>();
 

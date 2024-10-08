@@ -54,7 +54,7 @@ public partial class CelestialObject : Node2D
     }
 
     Mass += 1.0f;
-    _maxDistanceForDamage = Mass * 0.005f;
+    _maxDistanceForDamage = Mass * 0.004f;
     UpdateScale();
   }
 
@@ -116,7 +116,7 @@ public partial class CelestialObject : Node2D
     if (distance > 0)
     {
       direction = direction.Normalized();
-      float forceMagnitude = (Mass / (distance)); // Simplified gravity equation
+      float forceMagnitude = 2000 * Mass / MathF.Pow(distance, 2); // Simplified gravity equation
       Vector2 velocity = direction * forceMagnitude * (float)delta;
       return velocity;
     }
@@ -126,7 +126,7 @@ public partial class CelestialObject : Node2D
   private void DamageShip(Ship ship, float distance, double delta)
   {
     // Assuming the ship has a health property
-    float damage = distance / _maxDistanceForDamage * 2;
+    float damage = (_maxDistanceForDamage / distance) * 2;
     //GD.Print("Ship damaged: " + damage);
     ship.TakeDamage(damage);
   }

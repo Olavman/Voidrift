@@ -7,6 +7,7 @@ public partial class Laser : WeaponBase
   public override void _Ready()
   {
     base._Ready();
+    _velocity = WeaponOwner.Velocity;
   }
   public override void CheckCollision(ref Vector2 previousPosition, Vector2 newPosition)
   {

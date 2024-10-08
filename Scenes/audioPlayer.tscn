@@ -1,7 +1,8 @@
-[gd_scene load_steps=18 format=3 uid="uid://bs7356ty3rbu6"]
+[gd_scene load_steps=19 format=3 uid="uid://bs7356ty3rbu6"]
 
 [ext_resource type="Script" path="res://Scripts/AudioPlayer.cs" id="1_v6uki"]
 [ext_resource type="AudioStream" uid="uid://lvhhdsjcbbgw" path="res://Music/Starlit Conflict soundtrack.wav" id="2_p2yqa"]
+[ext_resource type="AudioStream" uid="uid://dbhekq5rn6wxh" path="res://Music/Voidrift battle.wav" id="2_rs5fc"]
 [ext_resource type="AudioStream" uid="uid://beqs1sw4twmte" path="res://Music/Drifting Through the Void.wav" id="3_mlr0x"]
 [ext_resource type="AudioStream" uid="uid://bq7sdgumbf0cl" path="res://Sounds/Robot voice/Shields offline brace for impact.wav" id="4_2dprn"]
 [ext_resource type="AudioStream" uid="uid://dkhm7crwnsusm" path="res://Sounds/futuristic button click.wav" id="4_42qqm"]
@@ -18,9 +19,9 @@
 [ext_resource type="AudioStream" uid="uid://dnqr808ck02du" path="res://Sounds/Robot voice/All enemies neutralized mission successful.wav" id="13_odtqk"]
 [ext_resource type="AudioStream" uid="uid://byvkjwnakienl" path="res://Sounds/Robot voice/All systems operational ready for battle.wav" id="14_us5bm"]
 
-[node name="AudioPlayer" type="Node"]
+[node name="AudioPlayer" type="Node" groups=["AudioPlayers"]]
 script = ExtResource("1_v6uki")
-GameTrack = ExtResource("2_p2yqa")
+GameTrack = ExtResource("2_rs5fc")
 MenuTrack = ExtResource("3_mlr0x")
 ButtonHovered = ExtResource("4_42qqm")
 ButtonClicked = ExtResource("5_rhmkq")

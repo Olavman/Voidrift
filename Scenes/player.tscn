@@ -1,12 +1,18 @@
-[gd_scene load_steps=15 format=3 uid="uid://dmlb4sm6nm8tb"]
+[gd_scene load_steps=21 format=3 uid="uid://dmlb4sm6nm8tb"]
 
 [ext_resource type="Script" path="res://Scripts/Ship/Player.cs" id="1_hoi26"]
+[ext_resource type="AudioStream" uid="uid://byvkjwnakienl" path="res://Sounds/Robot voice/All systems operational ready for battle.wav" id="2_1knno"]
 [ext_resource type="PackedScene" uid="uid://byhwq0h55683y" path="res://Scenes/Weapons/laser.tscn" id="2_3t5g5"]
 [ext_resource type="PackedScene" uid="uid://coe2lux23hmjg" path="res://Scenes/Weapons/missile.tscn" id="2_4eguv"]
 [ext_resource type="AudioStream" uid="uid://dixkcy3xb71u5" path="res://Sounds/Constant Rumbling.wav" id="3_422qg"]
 [ext_resource type="PackedScene" uid="uid://j1v1w57gli4h" path="res://Scenes/explosion.tscn" id="3_a25ll"]
+[ext_resource type="AudioStream" uid="uid://boylhois1sbtb" path="res://Sounds/Robot voice/Multiple impacts detected.wav" id="3_hsdt2"]
 [ext_resource type="Texture2D" uid="uid://qlh7l4nwcgb7" path="res://Sprites/Voidrift ships.png" id="4_6m34g"]
+[ext_resource type="AudioStream" uid="uid://bq7sdgumbf0cl" path="res://Sounds/Robot voice/Shields offline brace for impact.wav" id="4_c64qe"]
 [ext_resource type="PackedScene" uid="uid://dbccrnailfd7" path="res://Scenes/Weapons/plasma.tscn" id="4_dqkcf"]
+[ext_resource type="AudioStream" uid="uid://yugkun5mdqx3" path="res://Sounds/Robot voice/Danger hullbreach imminent.wav" id="5_fsti8"]
+[ext_resource type="AudioStream" uid="uid://bg7bcj8j0k578" path="res://Sounds/Robot voice/Shield stabilizing.wav" id="6_6oyx2"]
+[ext_resource type="AudioStream" uid="uid://cb0thtt2ecf11" path="res://Sounds/Robot voice/Target eliminated.wav" id="7_w3p4y"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_d511h"]
 blend_mode = 1
@@ -56,6 +62,12 @@ load_path = "res://.godot/imported/smoke_01.tga-6ad9ac48887f66f50f11b068cbc2a6b7
 position = Vector2(-1, 0)
 motion_mode = 1
 script = ExtResource("1_hoi26")
+_startGameSound = ExtResource("2_1knno")
+_multipleImpactsSound = ExtResource("3_hsdt2")
+_shieldDepletedSound = ExtResource("4_c64qe")
+_hullBreachSound = ExtResource("5_fsti8")
+_shieldStailizingSound = ExtResource("6_6oyx2")
+_targetEliminatedSound = ExtResource("7_w3p4y")
 WeaponScenes = [ExtResource("2_3t5g5"), ExtResource("2_4eguv"), ExtResource("4_dqkcf")]
 ExplosionScene = ExtResource("3_a25ll")
 
