@@ -1,7 +1,26 @@
-[gd_scene load_steps=2 format=3 uid="uid://c5s5t7hupt4b8"]
+[gd_scene load_steps=5 format=3 uid="uid://c5s5t7hupt4b8"]
 
-[ext_resource type="Texture2D" uid="uid://cx0dtgq2akwi0" path="res://Sprites/radar dor.png" id="1_jn24x"]
+[ext_resource type="Shader" path="res://Shaders/glow.gdshader" id="1_3i8iv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3q7ym"]
+shader = ExtResource("1_3i8iv")
+shader_parameter/glow_color = Color(1, 1, 1, 1)
+shader_parameter/glow_intensity = 2.213
+shader_parameter/glow_radius = 10.0
+shader_parameter/add_intensity = 0.339
+
+[sub_resource type="Gradient" id="Gradient_tk37i"]
+offsets = PackedFloat32Array(0.421538, 0.692308)
+colors = PackedColorArray(1, 0.156863, 0.156863, 1, 1, 0.156863, 0.156863, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_w3nns"]
+gradient = SubResource("Gradient_tk37i")
+width = 128
+height = 128
+fill = 1
+fill_from = Vector2(0.5, 0.5)
 
 [node name="EnemyIcon" type="Sprite2D"]
+material = SubResource("ShaderMaterial_3q7ym")
 scale = Vector2(10, 10)
-texture = ExtResource("1_jn24x")
+texture = SubResource("GradientTexture2D_w3nns")

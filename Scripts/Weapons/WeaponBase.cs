@@ -142,7 +142,7 @@ public abstract partial class WeaponBase : Node2D
       if (ship != WeaponOwner &&!_targetsHit.Contains(ship))
       { 
         // Apply damage to the ship
-        Collided(ship);
+        Collided(ship, Position);
 
         // Destroy the weapon if out of piercings
         if (!AllowedToPierce())
@@ -191,7 +191,7 @@ public abstract partial class WeaponBase : Node2D
       if (hitObject is Ship ship && ship != WeaponOwner)
       {
         // Apply damage to the ship
-        Collided(ship);
+        Collided(ship, previousPosition);
 
         // Set the new position to the intersection point
         var intersectionPoint = (Vector2)result["position"];
@@ -205,10 +205,10 @@ public abstract partial class WeaponBase : Node2D
       }
     }
   }
-  protected virtual void Collided(Ship ship)
+  protected virtual void Collided(Ship ship, Vector2 previousPosition)
   {
     // Apply damage to the ship
-    ship.TakeDamage(Damage, WeaponOwner);
+    ship.TakeDamage(Damage, previousPosition, WeaponOwner);
 
     // Add ship to the list to prevent multiple hits
     _targetsHit.Add(ship);

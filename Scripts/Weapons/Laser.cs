@@ -37,7 +37,7 @@ public partial class Laser : WeaponBase
       if (hitObject is Ship ship && ship != WeaponOwner)
       {
         // Apply damage to the ship
-        Collided(ship);
+        Collided(ship, previousPosition);
 
         // Set the new position to the intersection point
         var intersectionPoint = (Vector2)result["position"];

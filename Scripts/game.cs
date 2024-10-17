@@ -37,7 +37,7 @@ public partial class Game : Node
     // Spawn enemies
     for (int i = 0; i < NumberOfAIShips; i++)
     {
-      SpawnShip();
+      SpawnShip(i);
     }
 	}
 
@@ -78,6 +78,7 @@ public partial class Game : Node
   {
     if (PlayerScene == null) return;
 
+
     // Instantiate enemy ship
     Player player = PlayerScene.Instantiate() as Player;
 
@@ -86,9 +87,10 @@ public partial class Game : Node
     Vector2 center = levelSize / 2;
 
     // Set the position in a random direction and at a random range from the center of the map
-    float direction = (float)GD.RandRange(0, Mathf.Pi);
+    //float direction = (float)GD.RandRange(0, Mathf.Pi);
+    float direction = (Mathf.Pi * 2);
     float distance = (float)levelSize[0]*0.9f;
-    player.Position = center + new Vector2(Mathf.Cos(direction), Mathf.Sin(direction))*distance;
+    player.Position = center + new Vector2(Mathf.Cos(direction), Mathf.Sin(direction))*distance/2;
 
     AddChild(player);
 
@@ -96,9 +98,12 @@ public partial class Game : Node
     Hud.SetOwner(player);
   }
   // Spawn ships
-  public void SpawnShip ()
+  public void SpawnShip (int shipNumber)
   {
     if (EnemyScene == null) return;
+
+    // Increase shipNumber by 1 since it starts at 0
+    shipNumber++;
 
     // Instantiate enemy ship
     Enemy ship = EnemyScene.Instantiate() as Enemy;
@@ -108,10 +113,13 @@ public partial class Game : Node
     Vector2 center = levelSize / 2;
 
     // Set the position in a random direction and at a random range from the center of the map
-    float direction = (float)GD.RandRange(0, Mathf.Pi);
+    //float direction = (float)GD.RandRange(0, Mathf.Pi);
+    float direction = ((float)shipNumber / (float)(NumberOfAIShips+1)) * (Mathf.Pi*2);
     //float distance = (float)GD.RandRange(1080, levelSize[0]);
     float distance = (float)levelSize[0]*0.9f;
-    ship.Position = center + new Vector2(Mathf.Cos(direction), Mathf.Sin(direction))*distance;
+    ship.Position = center + new Vector2(Mathf.Cos(direction), Mathf.Sin(direction))*distance/2;
     AddChild(ship);
+    GD.Print(ship.Position);
+    GD.Print(direction);
   }
 }

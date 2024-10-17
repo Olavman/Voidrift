@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://ctro0g6qcuq7l"]
+[gd_scene load_steps=32 format=3 uid="uid://ctro0g6qcuq7l"]
 
 [ext_resource type="Script" path="res://Scripts/Game.cs" id="1_f1bp2"]
 [ext_resource type="PackedScene" uid="uid://dmlb4sm6nm8tb" path="res://Scenes/player.tscn" id="2_2l1hh"]
@@ -7,12 +7,39 @@
 [ext_resource type="Script" path="res://Scripts/UI/Hud.cs" id="5_ci6nj"]
 [ext_resource type="Shader" path="res://Shaders/minimap.gdshader" id="5_m3qf5"]
 [ext_resource type="Script" path="res://Scripts/UI/Minimap.cs" id="5_qp10h"]
-[ext_resource type="Texture2D" uid="uid://cxubnls73x36f" path="res://Sprites/radar.png" id="5_te007"]
 [ext_resource type="PackedScene" uid="uid://c5s5t7hupt4b8" path="res://Scenes/enemyRadarIcon.tscn" id="7_nqp6c"]
-[ext_resource type="Texture2D" uid="uid://cx0dtgq2akwi0" path="res://Sprites/radar dor.png" id="8_orpl2"]
+[ext_resource type="Texture2D" uid="uid://36ft5ky87w3f" path="res://Sprites/Radar.svg" id="8_dpw81"]
+[ext_resource type="Shader" path="res://Shaders/glow.gdshader" id="8_i3vky"]
 [ext_resource type="PackedScene" uid="uid://c03fgscpwimpo" path="res://Scenes/healthBar.tscn" id="10_ihghr"]
 [ext_resource type="PackedScene" uid="uid://b5hn0xuvh8sg5" path="res://Scenes/enemy.tscn" id="11_ptkcl"]
 [ext_resource type="Script" path="res://Scripts/Ship/PlayerCam.cs" id="14_iyvqj"]
+
+[sub_resource type="Environment" id="Environment_lb53c"]
+background_mode = 3
+tonemap_exposure = 2.0
+glow_enabled = true
+glow_intensity = 1.97
+glow_strength = 1.04
+glow_blend_mode = 0
+glow_hdr_threshold = 0.0
+glow_hdr_scale = 0.43
+fog_light_energy = 4.11
+fog_sun_scatter = 0.62
+fog_density = 0.6322
+fog_sky_affect = 0.133
+fog_height = -439.18
+fog_height_density = 11.5556
+fog_depth_begin = 3930.0
+fog_depth_end = 4019.0
+volumetric_fog_density = 0.5389
+volumetric_fog_gi_inject = 0.63
+volumetric_fog_anisotropy = 0.9
+volumetric_fog_length = 758.03
+volumetric_fog_ambient_inject = 10.65
+volumetric_fog_sky_affect = 0.435
+adjustment_enabled = true
+adjustment_contrast = 1.49
+adjustment_saturation = 2.0
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_thbo3"]
 
@@ -42,7 +69,7 @@ colors = PackedColorArray(1, 1, 1, 1, 0, 0.466667, 1, 0.615686, 1, 0.192157, 0.2
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_jwfga"]
 noise_type = 3
 seed = 1
-frequency = 0.0771
+frequency = 0.2
 offset = Vector3(0, 0, 617.02)
 fractal_type = 2
 fractal_gain = 0.9
@@ -59,7 +86,7 @@ noise = SubResource("FastNoiseLite_jwfga")
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_4v1rn"]
 noise_type = 3
 seed = 1
-frequency = 0.336
+frequency = 0.33
 fractal_type = 2
 fractal_gain = 0.9
 fractal_weighted_strength = 1.0
@@ -74,9 +101,9 @@ noise = SubResource("FastNoiseLite_4v1rn")
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_4jqs8"]
 noise_type = 3
-frequency = 0.0215
+frequency = 0.11
 fractal_type = 2
-fractal_gain = 0.3
+fractal_gain = 0.7
 fractal_weighted_strength = 1.0
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_h18q7"]
@@ -88,9 +115,8 @@ noise = SubResource("FastNoiseLite_4jqs8")
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_iq80n"]
 noise_type = 3
-frequency = 0.012
+frequency = 0.09
 fractal_type = 2
-fractal_gain = 0.0
 fractal_weighted_strength = 1.0
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_020fe"]
@@ -104,34 +130,32 @@ noise = SubResource("FastNoiseLite_iq80n")
 shader = ExtResource("5_m3qf5")
 shader_parameter/radius = 1.0
 
-[sub_resource type="Environment" id="Environment_lb53c"]
-background_mode = 3
-glow_enabled = true
-glow_intensity = 1.97
-glow_strength = 1.04
-glow_blend_mode = 0
-glow_hdr_threshold = 0.0
-glow_hdr_scale = 0.43
-fog_mode = 1
-fog_light_color = Color(0.607625, 0.527317, 0.535757, 1)
-fog_light_energy = 15.83
-fog_sun_scatter = 4.25
-fog_density = 1.0
-fog_height = -177.49
-fog_height_density = 16.0
-fog_depth_begin = 3930.0
-fog_depth_end = 4019.0
-volumetric_fog_gi_inject = 0.63
-volumetric_fog_anisotropy = 0.9
-volumetric_fog_length = 610.12
-volumetric_fog_ambient_inject = 10.65
-volumetric_fog_sky_affect = 0.435
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xk2j6"]
+shader = ExtResource("8_i3vky")
+shader_parameter/glow_color = Color(0, 1, 1, 1)
+shader_parameter/glow_intensity = 2.178
+shader_parameter/glow_radius = 2.707
+shader_parameter/add_intensity = 3.529
+
+[sub_resource type="Gradient" id="Gradient_4pcjf"]
+offsets = PackedFloat32Array(0.4, 0.707692)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_4vnwe"]
+gradient = SubResource("Gradient_4pcjf")
+width = 128
+height = 128
+fill = 1
+fill_from = Vector2(0.5, 0.5)
 
 [node name="Game" type="Node"]
 script = ExtResource("1_f1bp2")
 EnemyScene = ExtResource("11_ptkcl")
 PlayerScene = ExtResource("2_2l1hh")
 NumberOfAIShips = 5
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_lb53c")
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
@@ -174,7 +198,7 @@ texture = SubResource("NoiseTexture2D_3wmka")
 
 [node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
 modulate = Color(0.75, 0.75, 0.75, 1)
-motion_scale = Vector2(0.15, 0.15)
+motion_scale = Vector2(0.12, 0.12)
 motion_mirroring = Vector2(3100, 1740)
 
 [node name="MidStars" type="TextureRect" parent="ParallaxBackground/ParallaxLayer2"]
@@ -186,7 +210,7 @@ texture = SubResource("NoiseTexture2D_h18q7")
 metadata/_edit_use_anchors_ = true
 
 [node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground"]
-motion_scale = Vector2(0.2, 0.2)
+motion_scale = Vector2(0.14, 0.14)
 motion_mirroring = Vector2(3100, 1740)
 
 [node name="FrontStars" type="TextureRect" parent="ParallaxBackground/ParallaxLayer3"]
@@ -228,8 +252,10 @@ enemyRadarIcon = ExtResource("7_nqp6c")
 
 [node name="MinimapBorder" type="TextureRect" parent="HUD/HUDCanvas/MinimapContainer"]
 modulate = Color(1, 1, 1, 0.415686)
+show_behind_parent = true
+material = SubResource("ShaderMaterial_xk2j6")
 layout_mode = 2
-texture = ExtResource("5_te007")
+texture = ExtResource("8_dpw81")
 
 [node name="MinimapViewport" type="SubViewport" parent="HUD/HUDCanvas/MinimapContainer"]
 transparent_bg = true
@@ -242,8 +268,9 @@ visibility_layer = 1023
 zoom = Vector2(0.01, 0.01)
 
 [node name="BlackHoleIcon" type="Sprite2D" parent="HUD/HUDCanvas/MinimapContainer/MinimapViewport"]
+modulate = Color(0.156863, 0.156863, 1, 1)
 scale = Vector2(10, 10)
-texture = ExtResource("8_orpl2")
+texture = SubResource("GradientTexture2D_4vnwe")
 
 [node name="SpeedBar" parent="HUD/HUDCanvas" instance=ExtResource("3_jqqb6")]
 layout_direction = 1
@@ -278,6 +305,3 @@ points = PackedVector2Array(95, -133)
 zoom = Vector2(0.5, 0.5)
 script = ExtResource("14_iyvqj")
 ScreenshakeMultiplier = 0.626
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_lb53c")

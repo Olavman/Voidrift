@@ -1,15 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://byhwq0h55683y"]
+[gd_scene load_steps=9 format=3 uid="uid://byhwq0h55683y"]
 
 [ext_resource type="Script" path="res://Scripts/Weapons/Laser.cs" id="1_435j1"]
 [ext_resource type="AudioStream" uid="uid://bvjb3yme7lymv" path="res://Sounds/a_tiny_plasma_bullet.wav" id="2_8xxle"]
-[ext_resource type="Shader" path="res://Shaders/glow.gdshader" id="2_bhcfq"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_rmewb"]
-shader = ExtResource("2_bhcfq")
-shader_parameter/glow_color = Color(1, 0, 0, 0.772549)
-shader_parameter/glow_power = 2.9
-shader_parameter/glow_shift = 1.6
-shader_parameter/glow_radius = 3.0
 
 [sub_resource type="Gradient" id="Gradient_gl8jr"]
 offsets = PackedFloat32Array(0, 0.529412, 1)
@@ -54,14 +46,13 @@ modulate = Color(3, 1, 1, 1)
 script = ExtResource("1_435j1")
 _laserBeam = NodePath("Sprite2D")
 Speed = 30.0
-Damage = 0.1
+Damage = 0.3
 Cooldown = 0.01
 Accuracy = 1.0
 Range = 1000.0
 _sound = ExtResource("2_8xxle")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_rmewb")
 texture = SubResource("GradientTexture2D_kgwru")
 offset = Vector2(0.5, 0)
 

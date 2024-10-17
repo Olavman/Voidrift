@@ -6,9 +6,16 @@ public partial class Starfield : Node2D
   [Export] private PackedScene _starScene; // The Star scene to instantiate
   [Export] private float AccelMultiplier = 3000.0f;
   private Vector2 _center;
+  private int _starsEveryFrame;
+  private int _starsOriginallyEveryFrame = 3;
 
   public override void _Ready()
   {
+    _starsEveryFrame = _starsOriginallyEveryFrame;
+    var menu = GetTree().GetFirstNodeInGroup("menus");
+    menu.Connect(Menu.SignalName.Transition, new Callable(this, nameof(OnTransitioning)));
+
+
     _center = GetViewportRect().Size / 2;
     for (int i = 0; i < 2400; i++)
     {
@@ -19,15 +26,18 @@ public partial class Starfield : Node2D
 
   public override void _Process(double delta)
   {
-    SpawnStars(3);
+    SpawnStars(_starsEveryFrame);
   }
-
   private void SpawnStars(int count)
   {
     for (int i = 0; i < count; i++)
     {
       CreateStar();
     }
+  }
+  public void OnTransitioning(float transitionProgress)
+  {
+    _starsEveryFrame = (int)(1+transitionProgress*20) * _starsOriginallyEveryFrame;
   }
 
   private void CreateStar(int secondsPassed = 0)

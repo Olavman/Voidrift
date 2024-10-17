@@ -1,41 +1,33 @@
 shader_type canvas_item;
 
-uniform vec4 glow_color: source_color = vec4(0.2, 0.6, 0.3, 1.0);
-uniform float glow_power: hint_range(0.0, 8.0, 0.1) = 2.0;
-uniform float glow_shift: hint_range(0.0, 10.0, 0.1) = 1.0;
-uniform float glow_radius: hint_range(1.0, 10.0, 1.0) = 1.0;
-uniform sampler2D screen_texture: hint_screen_texture;
+uniform vec4 glow_color : source_color = vec4(1.0, 1.0, 1.0, 1.0); // The color of the glow
+uniform float glow_intensity : hint_range(0.0, 5.0) = 1.0;          // The intensity of the glow
+uniform float glow_radius : hint_range(1.0, 10.0) = 3.0;            // The radius of the glow
+uniform float add_intensity : hint_range(0.0, 5.0) = 1.0;           // The intensity of the additive effect
 
 void fragment() {
-	vec4 original_color = texture(TEXTURE, UV);
+    vec4 base_color = texture(TEXTURE, UV); // The object's base texture
+    vec4 glow = vec4(0.0);                  // Initialize the glow color
+    float count = 0.0;
 
-	vec4 glow = vec4(0.0);
-	float count = 0.0;
-	for (float x = -glow_radius; x <= glow_radius; x+= 1.0)
-	{
-		for (float y = -glow_radius; y <= glow_radius; y+= 1.0)
-		{
-			vec2 offset = vec2(x, y) * glow_shift * TEXTURE_PIXEL_SIZE;
-			glow += texture(TEXTURE, UV + offset) * glow_color;
-			count += 1.0;
-		}
-	}
-	glow *= glow_power / count;
+    // Iterate around the current pixel to create the glow effect
+    for (float x = -glow_radius; x <= glow_radius; x++) {
+        for (float y = -glow_radius; y <= glow_radius; y++) {
+            vec2 offset = vec2(x, y) * TEXTURE_PIXEL_SIZE;
+            glow += texture(TEXTURE, UV + offset) * glow_color;
+            count += 1.0;
+        }
+    }
 
-	// Access the background using SCREEN_TEXTURE
-	vec4 background = texture(screen_texture, SCREEN_UV);
+    // Average the glow and apply the intensity
+    glow = (glow / count) * glow_intensity;
 
-	// Additive blending of glow and background
-	vec4 result_color = original_color + glow * glow.a;
+    // Perform additive blending: add glow to the base color and apply the additive intensity
+    vec4 additive_color = base_color + glow * add_intensity;
 
-	// add the background to the result color (ensures additive blending with the scene)
-	result_color.rgb += background.rgb;
+    // Blend the glow with the base color, but retain the object's original color using mix
+    vec4 final_color = mix(base_color, additive_color, glow.a);
 
-	// Mix the original texture with the glow
-	COLOR = vec4(result_color.rgb, original_color.a);
+    // Set the final color
+    COLOR = final_color;
 }
-
-//void light() {
-	// Called for every pixel for every light affecting the CanvasItem.
-	// Uncomment to replace the default light processing function with this one.
-//}

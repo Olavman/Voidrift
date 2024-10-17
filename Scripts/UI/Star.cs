@@ -8,12 +8,26 @@ public partial class Star : Node2D
   private float _radialAccel;
   private float _maxAccel;
   private Sprite2D _sprite;
+  private float _startAcceleration;
+
+  public override void _Ready()
+  {
+    var menu = GetTree().GetFirstNodeInGroup("menus");
+    menu.Connect(Menu.SignalName.Transition, new Callable(this, nameof(OnTransitioning)));
+  }
+
+  public void OnTransitioning(float transitionProgress)
+  {
+    _radialAccel = (1 + transitionProgress*20) * _startAcceleration;
+    //GD.Print(1 + transitionProgress * 50);
+  }
 
   public void Init(Vector2 startPosition, Vector2 velocity, float radialAccel, Vector2 center, float maxAccel, int secondsPassed)
   {
     _sprite = GetNode<Sprite2D>("StarSprite");
     GlobalPosition = startPosition;
     _velocity = velocity;
+    _startAcceleration = radialAccel;
     _radialAccel = radialAccel;
     _center = center;
     _maxAccel = maxAccel;

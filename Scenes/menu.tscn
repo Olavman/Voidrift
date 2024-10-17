@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cxixn2hqmnekn"]
+[gd_scene load_steps=15 format=3 uid="uid://cxixn2hqmnekn"]
 
 [ext_resource type="Script" path="res://Scripts/UI/Menu.cs" id="1_g8opw"]
 [ext_resource type="PackedScene" uid="uid://ctro0g6qcuq7l" path="res://Scenes/main.tscn" id="2_lddkc"]
@@ -13,7 +13,7 @@
 background_mode = 3
 glow_enabled = true
 glow_intensity = 8.0
-glow_strength = 0.53
+glow_strength = 0.76
 glow_mix = 0.294
 glow_bloom = 0.21
 glow_blend_mode = 0
@@ -27,6 +27,7 @@ colors = PackedColorArray(0, 0, 0.0901961, 1, 0, 0, 0.101961, 1, 0.0599999, 0, 0
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_rwpjn"]
 noise_type = 3
 frequency = 0.0039
+offset = Vector3(-322.58, -170.21, 0)
 fractal_type = 2
 fractal_gain = 0.585
 fractal_weighted_strength = 0.44
@@ -39,30 +40,18 @@ noise = SubResource("FastNoiseLite_rwpjn")
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_062kl"]
 blend_mode = 1
 
-[node name="Menu" type="Control" node_paths=PackedStringArray("PlayBtn", "OptionsBtn", "QuitBtn")]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("1_g8opw")
-PlayBtn = NodePath("MarginContainer/VBoxContainer/Play")
-OptionsBtn = NodePath("MarginContainer/VBoxContainer/Options")
-QuitBtn = NodePath("MarginContainer/VBoxContainer/Exit")
-GameScene = ExtResource("2_lddkc")
-SystemsOnline = ExtResource("3_vrvdf")
-ButtonClicked = ExtResource("4_1lxjq")
-ButtonHovered = ExtResource("5_3yhy1")
+[sub_resource type="LabelSettings" id="LabelSettings_rn87y"]
+font_size = 60
+font_color = Color(0, 1, 0.917647, 0.615686)
+outline_color = Color(0, 0.4, 0.368627, 0.486275)
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment"]
 environment = SubResource("Environment_qmygf")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="Background" type="TextureRect" parent="."]
 modulate = Color(0.5, 0.5, 0.5, 1)
 light_mask = 8
 visibility_layer = 8
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -70,28 +59,48 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("NoiseTexture2D_wvtdf")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
-modulate = Color(1, 1, 3, 1)
-z_index = 1
+[node name="StarSpawner" type="Node2D" parent="."]
+script = ExtResource("3_6dkk4")
+_starScene = ExtResource("4_upyvk")
+AccelMultiplier = 1.0
+
+[node name="Menu" type="Control" parent="." node_paths=PackedStringArray("PlayBtn", "OptionsBtn", "QuitBtn", "BackBtn", "MasterVolume", "SFXVolume", "MusicVolume") groups=["menus"]]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_g8opw")
+PlayBtn = NodePath("MainMenuBox/VBoxContainer/Play")
+OptionsBtn = NodePath("MainMenuBox/VBoxContainer/Options")
+QuitBtn = NodePath("MainMenuBox/VBoxContainer/Exit")
+BackBtn = NodePath("Back")
+SystemsOnline = ExtResource("3_vrvdf")
+ButtonClicked = ExtResource("4_1lxjq")
+ButtonHovered = ExtResource("5_3yhy1")
+MasterVolume = NodePath("OptionsBox/ControlsContainer/MasterSlider")
+SFXVolume = NodePath("OptionsBox/ControlsContainer/SFXSlider")
+MusicVolume = NodePath("OptionsBox/ControlsContainer/MusicSlider")
+GameScene = ExtResource("2_lddkc")
+_transitionTime = 1.0
+
+[node name="MainMenuBox" type="MarginContainer" parent="Menu"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -169.0
-offset_top = -146.0
-offset_right = 169.0
-offset_bottom = 146.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Menu/MainMenuBox"]
+z_index = 1
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 alignment = 1
 
-[node name="Play" type="Button" parent="MarginContainer/VBoxContainer"]
-texture_filter = 2
+[node name="Play" type="Button" parent="Menu/MainMenuBox/VBoxContainer"]
 material = SubResource("CanvasItemMaterial_062kl")
 layout_mode = 2
 theme_override_colors/font_hover_color = Color(0.43, 1, 0.9525, 1)
@@ -100,9 +109,9 @@ theme_override_colors/font_outline_color = Color(0, 0.4, 0.366667, 0.486275)
 theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 60
 text = "Play"
+flat = true
 
-[node name="Options" type="Button" parent="MarginContainer/VBoxContainer"]
-texture_filter = 2
+[node name="Options" type="Button" parent="Menu/MainMenuBox/VBoxContainer"]
 material = SubResource("CanvasItemMaterial_062kl")
 layout_mode = 2
 theme_override_colors/font_hover_color = Color(0.43, 1, 0.9525, 1)
@@ -111,8 +120,9 @@ theme_override_colors/font_outline_color = Color(0, 0.4, 0.366667, 0.486275)
 theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 60
 text = "Options"
+flat = true
 
-[node name="Exit" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="Exit" type="Button" parent="Menu/MainMenuBox/VBoxContainer"]
 material = SubResource("CanvasItemMaterial_062kl")
 layout_mode = 2
 theme_override_colors/font_hover_color = Color(0.43, 1, 0.9525, 1)
@@ -121,12 +131,106 @@ theme_override_colors/font_outline_color = Color(0, 0.4, 0.366667, 0.486275)
 theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 60
 text = "Exit"
+flat = true
 
-[node name="StarSpawner" type="Node2D" parent="."]
-script = ExtResource("3_6dkk4")
-_starScene = ExtResource("4_upyvk")
-AccelMultiplier = 1.0
+[node name="OptionsBox" type="HBoxContainer" parent="Menu"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -307.5
+offset_top = -128.5
+offset_right = 307.5
+offset_bottom = 128.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
-[node name="EngineSound" type="AudioStreamPlayer" parent="."]
+[node name="LabelsContainer" type="VBoxContainer" parent="Menu/OptionsBox"]
+layout_mode = 2
+
+[node name="MasterLabel" type="Label" parent="Menu/OptionsBox/LabelsContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.0
+theme_override_colors/font_color = Color(0, 1, 0.917647, 0.615686)
+theme_override_colors/font_outline_color = Color(0, 0.4, 0.368627, 0.486275)
+text = "Master"
+label_settings = SubResource("LabelSettings_rn87y")
+
+[node name="SFXVolumeLabel" type="Label" parent="Menu/OptionsBox/LabelsContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.0
+theme_override_colors/font_color = Color(0, 1, 0.917647, 0.615686)
+theme_override_colors/font_outline_color = Color(0, 0.4, 0.368627, 0.486275)
+text = "SFX"
+label_settings = SubResource("LabelSettings_rn87y")
+
+[node name="MusicVolumeLabel" type="Label" parent="Menu/OptionsBox/LabelsContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.0
+theme_override_colors/font_color = Color(0, 1, 0.917647, 0.615686)
+theme_override_colors/font_outline_color = Color(0, 0.4, 0.368627, 0.486275)
+text = "Music"
+label_settings = SubResource("LabelSettings_rn87y")
+
+[node name="ControlsContainer" type="VBoxContainer" parent="Menu/OptionsBox"]
+modulate = Color(0, 1, 0.917647, 0.615686)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MasterSlider" type="HSlider" parent="Menu/OptionsBox/ControlsContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="SFXSlider" type="HSlider" parent="Menu/OptionsBox/ControlsContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="MusicSlider" type="HSlider" parent="Menu/OptionsBox/ControlsContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="Back" type="Button" parent="Menu"]
+visible = false
+material = SubResource("CanvasItemMaterial_062kl")
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -73.0
+offset_top = -91.0
+offset_right = 73.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_hover_color = Color(0.43, 1, 0.9525, 1)
+theme_override_colors/font_color = Color(0, 1, 0.916667, 0.615686)
+theme_override_colors/font_outline_color = Color(0, 0.4, 0.366667, 0.486275)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 60
+text = "Back
+"
+flat = true
+
+[node name="EngineSound" type="AudioStreamPlayer" parent="Menu"]
 stream = ExtResource("5_uyv3x")
-autoplay = true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://c03fgscpwimpo"]
+[gd_scene load_steps=11 format=3 uid="uid://c03fgscpwimpo"]
 
 [ext_resource type="Script" path="res://Scripts/UI/HealthBar.cs" id="1_2toa5"]
 
@@ -16,6 +16,8 @@ corner_radius_bottom_left = 2
 shadow_color = Color(0, 1, 1, 0.509804)
 shadow_size = 5
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_uktbd"]
+
 [sub_resource type="Gradient" id="Gradient_2jmfc"]
 colors = PackedColorArray(0.384647, 5.83585e-07, 1.68458e-07, 1, 0.926299, 2.5028e-06, 1.54018e-06, 1)
 
@@ -27,6 +29,8 @@ height = 250
 in_3d_space = true
 color_ramp = SubResource("Gradient_2jmfc")
 noise = SubResource("FastNoiseLite_cey2m")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jnih6"]
 
 [sub_resource type="Gradient" id="Gradient_ror62"]
 colors = PackedColorArray(0, 1, 1, 0, 1, 1, 1, 1)
@@ -51,21 +55,23 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_hdyb5")
 script = ExtResource("1_2toa5")
 
 [node name="HealthTextureProgress" type="TextureProgressBar" parent="."]
+material = SubResource("CanvasItemMaterial_uktbd")
 layout_mode = 0
 offset_left = 3.0
 offset_top = 3.0
 offset_right = 45.0
 offset_bottom = 253.0
-value = 50.0
+value = 75.0
 fill_mode = 3
 texture_progress = SubResource("NoiseTexture2D_l7hkd")
 
 [node name="ShieldTextureProgress" type="TextureProgressBar" parent="."]
+material = SubResource("ShaderMaterial_jnih6")
 layout_mode = 0
 offset_left = 3.0
 offset_top = 3.0
-offset_right = 515.0
-offset_bottom = 515.0
-value = 70.0
+offset_right = 47.0
+offset_bottom = 256.0
+value = 50.0
 fill_mode = 3
 texture_progress = SubResource("NoiseTexture2D_y5gei")

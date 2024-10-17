@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://dmlb4sm6nm8tb"]
+[gd_scene load_steps=22 format=3 uid="uid://dmlb4sm6nm8tb"]
 
 [ext_resource type="Script" path="res://Scripts/Ship/Player.cs" id="1_hoi26"]
 [ext_resource type="AudioStream" uid="uid://byvkjwnakienl" path="res://Sounds/Robot voice/All systems operational ready for battle.wav" id="2_1knno"]
@@ -13,6 +13,7 @@
 [ext_resource type="AudioStream" uid="uid://yugkun5mdqx3" path="res://Sounds/Robot voice/Danger hullbreach imminent.wav" id="5_fsti8"]
 [ext_resource type="AudioStream" uid="uid://bg7bcj8j0k578" path="res://Sounds/Robot voice/Shield stabilizing.wav" id="6_6oyx2"]
 [ext_resource type="AudioStream" uid="uid://cb0thtt2ecf11" path="res://Sounds/Robot voice/Target eliminated.wav" id="7_w3p4y"]
+[ext_resource type="PackedScene" uid="uid://bso7ougfcfmsg" path="res://Scenes/forceField.tscn" id="14_5g8dm"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_d511h"]
 blend_mode = 1
@@ -97,3 +98,6 @@ position = Vector2(27, 0)
 
 [node name="PlayerCam" type="Camera2D" parent="."]
 enabled = false
+
+[node name="ForceField" parent="." node_paths=PackedStringArray("ship") instance=ExtResource("14_5g8dm")]
+ship = NodePath("..")

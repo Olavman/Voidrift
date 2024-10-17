@@ -6,8 +6,9 @@
 
 [sub_resource type="Curve" id="Curve_mkq13"]
 min_value = -1.0
-_data = [Vector2(0, 0), 0.0, 2.32268, 0, 0, Vector2(0.340996, 1), 3.41861, 3.41861, 0, 0, Vector2(0.5, 0), 0.0, 0.0, 0, 0]
-point_count = 3
+max_value = 3.0
+_data = [Vector2(0, 0), 0.0, 41.5904, 0, 0, Vector2(0.5, 0), 0.0, 0.0, 0, 0]
+point_count = 2
 
 [sub_resource type="CurveTexture" id="CurveTexture_55cmg"]
 curve = SubResource("Curve_mkq13")
@@ -29,7 +30,7 @@ fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.8, 0.2)
 
 [sub_resource type="Gradient" id="Gradient_kui0f"]
-offsets = PackedFloat32Array(0.844156, 1)
+offsets = PackedFloat32Array(0.796923, 0.883077)
 colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_20ug8"]

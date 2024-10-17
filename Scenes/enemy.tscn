@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://b5hn0xuvh8sg5"]
+[gd_scene load_steps=16 format=3 uid="uid://b5hn0xuvh8sg5"]
 
 [ext_resource type="Script" path="res://Scripts/Ship/Enemy.cs" id="1_ki4wm"]
 [ext_resource type="Texture2D" uid="uid://qlh7l4nwcgb7" path="res://Sprites/Voidrift ships.png" id="1_srygc"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://j1v1w57gli4h" path="res://Scenes/explosion.tscn" id="3_jof8r"]
 [ext_resource type="PackedScene" uid="uid://coe2lux23hmjg" path="res://Scenes/Weapons/missile.tscn" id="3_m28eh"]
 [ext_resource type="AudioStream" uid="uid://dixkcy3xb71u5" path="res://Sounds/Constant Rumbling.wav" id="3_uwt2i"]
+[ext_resource type="PackedScene" uid="uid://bso7ougfcfmsg" path="res://Scenes/forceField.tscn" id="8_05xpk"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_llwhy"]
 blend_mode = 1
@@ -78,3 +79,6 @@ autoplay = true
 
 [node name="Marker2D" type="Marker2D" parent="."]
 position = Vector2(27, 0)
+
+[node name="ForceField" parent="." node_paths=PackedStringArray("ship") instance=ExtResource("8_05xpk")]
+ship = NodePath("..")

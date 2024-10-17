@@ -1,0 +1,47 @@
+[gd_scene load_steps=9 format=3 uid="uid://bso7ougfcfmsg"]
+
+[ext_resource type="Script" path="res://Scripts/Weapons/ForceField.cs" id="1_31k4i"]
+[ext_resource type="Shader" path="res://Shaders/forceField.gdshader" id="1_gjfk5"]
+
+[sub_resource type="Gradient" id="Gradient_2ogqo"]
+offsets = PackedFloat32Array(0.120172, 0.218884, 0.523605, 0.703863)
+colors = PackedColorArray(1, 1, 1, 1, 0, 1, 1, 0.968627, 0, 0.611765, 1, 0.607843, 0.470588, 0, 1, 0)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_pyem8"]
+noise_type = 3
+frequency = 0.0062
+fractal_type = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_dq2tx"]
+seamless = true
+seamless_blend_skirt = 1.0
+color_ramp = SubResource("Gradient_2ogqo")
+noise = SubResource("FastNoiseLite_pyem8")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_c5xjs"]
+shader = ExtResource("1_gjfk5")
+shader_parameter/radius = 1.0
+shader_parameter/fade_intensity = 0.708
+shader_parameter/noise_scale = 1.487
+shader_parameter/noise_speed = 1.043
+shader_parameter/z_offset_speed = 0.312
+shader_parameter/alpha_focus_point = Vector2(1, 1)
+shader_parameter/alpha_focus_intensity = 0.486
+shader_parameter/hit_intensity = 0.0
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_dq2tx")
+
+[sub_resource type="Gradient" id="Gradient_t2gi7"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_bi2c2"]
+gradient = SubResource("Gradient_t2gi7")
+
+[node name="ForceField" type="Node2D"]
+script = ExtResource("1_31k4i")
+
+[node name="ForceFieldTexture" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_c5xjs")
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+texture = SubResource("GradientTexture2D_bi2c2")

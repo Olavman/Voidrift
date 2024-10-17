@@ -86,12 +86,12 @@ public partial class Player : Ship
     _thrustParticles.Emitting = isThrusting;
   }
 
-  public override void TakeDamage(double damage, Ship damageOwner = null)
+  public override void TakeDamage(double damage, Vector2 hitFromDirection, Ship damageOwner = null)
   {
     double currentShield = _shield;
     double currentHealth = Health;
     double currentHits = _hitSuccession;
-    base.TakeDamage(damage);
+    base.TakeDamage(damage, hitFromDirection);
 
     var camera = GameManager.Camera as PlayerCam;
 

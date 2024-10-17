@@ -6,7 +6,6 @@ public partial class AudioPlayer : Node
 {
   public AudioStreamPlayer MusicPlayer;
   public AudioStreamPlayer SoundPlayer;
-  public AudioStreamPlayer MenuPlayer;
   [Export] public float FadeDuration = 2.0f; // Time in seconds for smotth fade-ins/outs
 
   // Music tracks
@@ -37,6 +36,10 @@ public partial class AudioPlayer : Node
   private List<AudioStreamPlayer2D> _audioPlayers2D = new List<AudioStreamPlayer2D>();
   private List<AudioStreamPlayer> _audioPlayers = new List<AudioStreamPlayer>();
 
+  private float _masterVolume = 1.0f;
+  private float _sfxVolume = 0.5f;
+  private float _musicVolume = 0.5f;
+
   /*
   public delegate void PlaySoundAtEventHandler(AudioStream sound, Vector2 coordinates);
   public delegate void PlaySoundEventHandler(AudioStream sound);
@@ -49,15 +52,10 @@ public partial class AudioPlayer : Node
     // Get the AudioStreamPlayer node
     MusicPlayer = GetNode<AudioStreamPlayer>("MusicPlayer");
     SoundPlayer = GetNode<AudioStreamPlayer>("SoundPlayer");
-    MenuPlayer = GetNode<AudioStreamPlayer>("MenuPlayer");
 
     if (MusicPlayer == null )
     {
       GD.Print("No audioplayer");
-    }
-    else
-    {
-      MusicPlayer.VolumeDb = 0.4f;
     }
 
     // Subscribe to play sound event
@@ -83,6 +81,42 @@ public partial class AudioPlayer : Node
     }
   }
 
+  // Change master volume
+  public void SetMasterVolume(float value)
+  {
+    _masterVolume = value;
+    SetSFXVolume(_sfxVolume);
+    SetMusicVolume(_musicVolume);
+  }
+
+  public void SetMusicVolume(float value)
+  {
+    _musicVolume = value;
+    MusicPlayer.VolumeDb = LinearToDb(_musicVolume * _masterVolume);
+  }
+
+  public void SetSFXVolume(float value)
+  {
+    _sfxVolume = value;
+    SoundPlayer.VolumeDb = LinearToDb(_sfxVolume * _masterVolume);
+    foreach (var player in _audioPlayers2D)
+    {
+      player.VolumeDb = SoundPlayer.VolumeDb;
+    }
+    foreach (var player in _audioPlayers)
+    {
+      player.VolumeDb = SoundPlayer.VolumeDb;
+    }
+  }
+
+  private float LinearToDb(float linearValue)
+  {
+    if (linearValue == 0)
+    {
+      return -80f; // A very low dV level for silence, as Godot considers -80 dB as silence
+    }
+    return 20f * MathF.Log10(linearValue);
+  }
 
   // Function to play a specific track
   public void PlayMusic(AudioStream musictrack)
@@ -153,25 +187,19 @@ public partial class AudioPlayer : Node
     newPlayer.Play();
   }
 
-  public void PlayMenuSound (AudioStream sound)
-  {
-    MenuPlayer.Stream = sound;
-    MenuPlayer.Play();
-  }
-
   // Fade in the current track
   private void FadeInCurrentTrack()
   {
-    MusicPlayer.VolumeDb = -40; // Start with a low volume
+    MusicPlayer.VolumeDb = -80; // Start with a low volume
     var tween = CreateTween();
-    tween.TweenProperty(MusicPlayer, "volume_db", 0, FadeDuration); // Fade to normal volume
+    tween.TweenProperty(MusicPlayer, "volume_db", LinearToDb(_musicVolume * _masterVolume), FadeDuration); // Fade to normal volume
   }
 
   // Fade out the current track before stopping or switching
   private void FadeOutCurrentTrack(Action callback)
   {
     var tween = CreateTween();
-    tween.TweenProperty(MusicPlayer, "volume_db", -40, FadeDuration).Connect("finished", Callable.From(() => OnFadeOutComplete(callback)));
+    tween.TweenProperty(MusicPlayer, "volume_db", -80, FadeDuration).Connect("finished", Callable.From(() => OnFadeOutComplete(callback)));
   }
 
   // Callback for when fade out is complete

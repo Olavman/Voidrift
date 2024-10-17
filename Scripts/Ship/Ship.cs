@@ -48,8 +48,13 @@ public partial class Ship : CharacterBody2D
   public Ship LastHitBy = null;
   protected GpuParticles2D _thrustParticles;
 
+  public bool IsHit = false;
+  public Vector2 HitFromDirection;
+
   public override void _Ready()
   {
+    HitFromDirection = new Vector2();
+
     // Get the AudioStreamPlayer node for the engine sound
     _engineAudio = GetNode<AudioStreamPlayer2D>("EngineAudio");
     if (_engineAudio == null)
@@ -81,6 +86,8 @@ public partial class Ship : CharacterBody2D
 
   public override void _PhysicsProcess(double delta)
   {
+    IsHit = false;
+
     #region // Movement
     // Shared movement and shield recharging logic
     _isThrusting = false;
@@ -234,6 +241,10 @@ public partial class Ship : CharacterBody2D
   protected void SwitchWeapon(SCROLL scrollDirection)
   {
     _currentWeaponSlot = (_currentWeaponSlot + (int)scrollDirection) % WeaponScenes.Count;
+    if (_currentWeaponSlot < 0)
+    {
+      _currentWeaponSlot += WeaponScenes.Count;
+    }
     GD.Print("Switched to weapon: " + _currentWeaponSlot);
   }
 
@@ -291,7 +302,7 @@ public partial class Ship : CharacterBody2D
     Position = position;
   }
 
-  public virtual void TakeDamage(double damage, Ship damageOwner = null)
+  public virtual void TakeDamage(double damage, Vector2 hitFromDirection, Ship damageOwner = null)
   {
     StopShieldRecharging();
     if (damageOwner != null)
@@ -304,6 +315,7 @@ public partial class Ship : CharacterBody2D
     _shield -= subtractDamage;
     damage -= subtractDamage;
     EmitSignal(nameof(ShieldChanged), _shield);
+    GotHit(hitFromDirection);
 
     if (damage > 0)
     {
@@ -315,6 +327,11 @@ public partial class Ship : CharacterBody2D
         DestroyShip(); // destroy the ship when health reaches zero
       }
     }
+  }
+  private void GotHit(Vector2 hitFromDirection)
+  {
+    IsHit = true;
+    HitFromDirection = hitFromDirection;
   }
 
   protected virtual void DestroyShip()
