@@ -76,12 +76,13 @@ public partial class Ship : CharacterBody2D
     _thrustParticles.Emitting = false; // Start with no emission
 
     Health = MaxHealth;
+    _shield = MaxShield;
     _isThrusting = false;
 
     EmitSignal(nameof(MaxHealthChanged), MaxHealth);
     EmitSignal(nameof(MaxShieldChanged), MaxShield);
     EmitSignal(nameof(HealthChanged), MaxHealth);
-    StartRechargeShield();
+    //StartRechargeShield();
   }
 
   public override void _PhysicsProcess(double delta)

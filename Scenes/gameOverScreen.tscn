@@ -1,0 +1,67 @@
+[gd_scene load_steps=5 format=3 uid="uid://cy2ncc6l1ehpg"]
+
+[ext_resource type="Script" path="res://Scripts/UI/MainMenuButton.cs" id="1_6ovpy"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_v1jur"]
+font_size = 60
+font_color = Color(0, 1, 0.917647, 0.615686)
+outline_color = Color(0, 0.4, 0.368627, 0.486275)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_n0vnt"]
+blend_mode = 1
+
+[sub_resource type="Environment" id="Environment_0akds"]
+background_mode = 3
+glow_enabled = true
+glow_intensity = 8.0
+glow_strength = 0.76
+glow_mix = 0.294
+glow_bloom = 0.21
+glow_blend_mode = 0
+glow_hdr_threshold = 3.2
+glow_hdr_scale = 2.64
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 2048.0
+offset_bottom = 1080.0
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="GameOverLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.0
+theme_override_colors/font_color = Color(0, 1, 0.917647, 0.615686)
+theme_override_colors/font_outline_color = Color(0, 0.4, 0.368627, 0.486275)
+text = "GAME OVER!"
+label_settings = SubResource("LabelSettings_v1jur")
+
+[node name="MainMenu" type="Button" parent="MarginContainer/VBoxContainer"]
+material = SubResource("CanvasItemMaterial_n0vnt")
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_colors/font_hover_color = Color(0.43, 1, 0.9525, 1)
+theme_override_colors/font_color = Color(0, 1, 0.916667, 0.615686)
+theme_override_colors/font_outline_color = Color(0, 0.4, 0.366667, 0.486275)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 60
+text = "Main menu"
+flat = true
+script = ExtResource("1_6ovpy")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_0akds")

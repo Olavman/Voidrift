@@ -25,7 +25,7 @@ public abstract partial class WeaponBase : Node2D
   internal Vector2 _velocity = Vector2.Zero;
   protected Area2D _collisionArea;
   protected bool _gettingDestroyed;
-  protected List <Ship> _targetsHit;
+  protected List <Node2D> _targetsHit;
 
   public override void _Ready()
   {
@@ -57,7 +57,7 @@ public abstract partial class WeaponBase : Node2D
     _collisionArea.BodyEntered += OnBodyEntered;
 
     // Initialize _targetsHit to not get a null value
-    _targetsHit = new List <Ship>();
+    _targetsHit = new List <Node2D>();
 
 
   }
@@ -137,18 +137,18 @@ public abstract partial class WeaponBase : Node2D
   }
   private void OnBodyEntered(Node2D body)
   {
-    if (body is Ship ship)
+    if (body != WeaponOwner)
     {
-      if (ship != WeaponOwner &&!_targetsHit.Contains(ship))
-      { 
+      if (body is Ship ship && !_targetsHit.Contains(ship))
+      {
         // Apply damage to the ship
         Collided(ship, Position);
+      }
 
-        // Destroy the weapon if out of piercings
-        if (!AllowedToPierce())
-        {
-          _gettingDestroyed = true;
-        }
+      // Destroy the weapon if out of piercings
+      if (!AllowedToPierce())
+      {
+        _gettingDestroyed = true;
       }
     }
   }
@@ -188,11 +188,11 @@ public abstract partial class WeaponBase : Node2D
       // If we hit something, check if it's a ship
       var hitObject = result["collider"].As<Node2D>();
 
-      if (hitObject is Ship ship && ship != WeaponOwner)
+      if (hitObject != WeaponOwner)
       {
         // Apply damage to the ship
-        Collided(ship, previousPosition);
-
+        Collided(hitObject, previousPosition);
+                
         // Set the new position to the intersection point
         var intersectionPoint = (Vector2)result["position"];
 
@@ -205,13 +205,16 @@ public abstract partial class WeaponBase : Node2D
       }
     }
   }
-  protected virtual void Collided(Ship ship, Vector2 previousPosition)
+  protected virtual void Collided(Node2D hitObject, Vector2 previousPosition)
   {
-    // Apply damage to the ship
-    ship.TakeDamage(Damage, previousPosition, WeaponOwner);
+    if (hitObject is Ship ship)
+    {
+      // Apply damage to the ship
+      ship.TakeDamage(Damage, previousPosition, WeaponOwner);
+    }
 
     // Add ship to the list to prevent multiple hits
-    _targetsHit.Add(ship);
+    _targetsHit.Add(hitObject);
   }
   public virtual void DestroyWeapon()
   {

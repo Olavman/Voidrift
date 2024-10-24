@@ -15,6 +15,8 @@ public partial class CelestialObject : Node2D
 	private GpuParticles2D _particles;
 	private Sprite2D _effect;
 	private Sprite2D _blackCircle;
+	private Sprite2D _whiteGlow;
+	private Sprite2D _whiteGlow2;
   private Vector2 _spriteSize;
   private float _maxDistanceForDamage = 0;
 
@@ -29,6 +31,8 @@ public partial class CelestialObject : Node2D
     {
       _particles = GetNode<GpuParticles2D>("GPUParticles2D");
       _effect = GetNode<Sprite2D>("BlackHoleEffect");
+      _whiteGlow = GetNode<Sprite2D>("WhiteGlow");
+      _whiteGlow2 = GetNode<Sprite2D>("WhiteGlow2");
       _blackCircle = GetNode<Sprite2D>("BlackCircle");
       GD.Print("Black hole");
     }
@@ -98,6 +102,8 @@ public partial class CelestialObject : Node2D
       //_sprite.Scale = _sprite.Scale / _sprite.Texture.GetSize() * Mass * 0.005f;
       _effect.Scale = _spriteSize * Mass * 0.005f;
       _blackCircle.Scale = _spriteSize * Mass * 0.005f;
+      _whiteGlow.Scale = _spriteSize * Mass * 0.005f;
+      _whiteGlow2.Scale = _spriteSize * Mass * 0.005f;
     }
   }
 

@@ -1,0 +1,84 @@
+[gd_scene load_steps=15 format=3 uid="uid://dn8jg8hsbtypr"]
+
+[ext_resource type="Script" path="res://Scripts/Planet.cs" id="1_p0pcv"]
+[ext_resource type="Shader" path="res://Shaders/minimap.gdshader" id="2_5oolu"]
+[ext_resource type="Shader" path="res://Shaders/planetShadow.gdshader" id="2_ovdwx"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ogmtn"]
+radius = 257.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6x7rm"]
+shader = ExtResource("2_ovdwx")
+shader_parameter/light_position = Vector2(0.5, 0.885)
+shader_parameter/light_radius = 0.857
+shader_parameter/shadow_density = 0.253
+
+[sub_resource type="Gradient" id="Gradient_u3pqc"]
+offsets = PackedFloat32Array(0.00615385, 0.264615, 0.283077, 0.310769, 0.556923, 0.916923, 1)
+colors = PackedColorArray(0, 0, 1, 1, 0.129492, 0.365382, 1, 1, 1, 0.745098, 0, 1, 0, 0.737255, 0, 1, 0, 0.403922, 0, 1, 0.577008, 0.577008, 0.577008, 1, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_lpwrm"]
+frequency = 0.0078
+fractal_gain = 1.065
+fractal_weighted_strength = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_xxbj8"]
+seamless_blend_skirt = 0.272
+color_ramp = SubResource("Gradient_u3pqc")
+noise = SubResource("FastNoiseLite_lpwrm")
+
+[sub_resource type="Gradient" id="Gradient_k6xr4"]
+offsets = PackedFloat32Array(0.0738462, 0.815385)
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_2cf4v"]
+seed = 1
+frequency = 0.0042
+fractal_gain = 0.455
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ne5sy"]
+in_3d_space = true
+color_ramp = SubResource("Gradient_k6xr4")
+noise = SubResource("FastNoiseLite_2cf4v")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_viik5"]
+shader = ExtResource("2_5oolu")
+shader_parameter/radius = 1.0
+
+[sub_resource type="Gradient" id="Gradient_15gnd"]
+offsets = PackedFloat32Array(0.153846, 1)
+colors = PackedColorArray(1, 1, 1, 0, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_gjdm5"]
+gradient = SubResource("Gradient_15gnd")
+width = 512
+height = 512
+fill = 1
+fill_from = Vector2(0.15812, 0.880342)
+fill_to = Vector2(0.739316, 0.264957)
+
+[node name="Node2D" type="CharacterBody2D" node_paths=PackedStringArray("ShadowSprite", "PlanetSprite", "CloudSprite") groups=["planet"]]
+scale = Vector2(0.5, 0.5)
+motion_mode = 1
+script = ExtResource("1_p0pcv")
+ShadowSprite = NodePath("PlanetSprite/CloudsSprite/ShadowSprite")
+PlanetSprite = NodePath("PlanetSprite")
+CloudSprite = NodePath("PlanetSprite/CloudsSprite")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CircleShape2D_ogmtn")
+
+[node name="PlanetSprite" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_6x7rm")
+texture = SubResource("NoiseTexture2D_xxbj8")
+
+[node name="CloudsSprite" type="Sprite2D" parent="PlanetSprite"]
+modulate = Color(0.7, 0.7, 0.7, 1)
+use_parent_material = true
+texture = SubResource("NoiseTexture2D_ne5sy")
+
+[node name="ShadowSprite" type="Sprite2D" parent="PlanetSprite/CloudsSprite"]
+visible = false
+material = SubResource("ShaderMaterial_viik5")
+texture = SubResource("GradientTexture2D_gjdm5")

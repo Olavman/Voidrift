@@ -1,8 +1,18 @@
-[gd_scene load_steps=24 format=3 uid="uid://h2aiqifihb0s"]
+[gd_scene load_steps=26 format=3 uid="uid://h2aiqifihb0s"]
 
 [ext_resource type="Script" path="res://Scripts/CelestialObject.cs" id="1_32kh8"]
 [ext_resource type="Shader" path="res://Shaders/blackHole.gdshader" id="2_k0ctq"]
-[ext_resource type="Texture2D" uid="uid://cpnbx18onxier" path="res://Sprites/icon.svg" id="3_23snr"]
+
+[sub_resource type="Gradient" id="Gradient_jbagv"]
+offsets = PackedFloat32Array(0.590769, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_rvb0w"]
+gradient = SubResource("Gradient_jbagv")
+width = 128
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.905983, 0.17094)
 
 [sub_resource type="Curve" id="Curve_mkq13"]
 min_value = -1.0
@@ -41,6 +51,14 @@ use_hdr = true
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.811927, 0.165138)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_24wcy"]
+gradient = SubResource("Gradient_jbagv")
+width = 128
+height = 5
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.905983, 0.17094)
 
 [sub_resource type="Curve" id="Curve_ceogn"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.113333, 0.912088), 0.808015, 0.808015, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -114,11 +132,10 @@ fill_to = Vector2(0.700855, 0.495726)
 script = ExtResource("1_32kh8")
 IsStar = true
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="WhiteGlow" type="Sprite2D" parent="."]
 visible = false
 position = Vector2(0.500002, 6.00001)
-scale = Vector2(1.97656, 1.64063)
-texture = ExtResource("3_23snr")
+texture = SubResource("GradientTexture2D_rvb0w")
 
 [node name="BlackHoleEffect" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_8bv25")
@@ -126,6 +143,11 @@ texture = SubResource("GradientTexture2D_yicqp")
 
 [node name="BlackCircle" type="Sprite2D" parent="."]
 texture = SubResource("GradientTexture2D_20ug8")
+
+[node name="WhiteGlow2" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(0.500002, 6.00001)
+texture = SubResource("GradientTexture2D_24wcy")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 show_behind_parent = true

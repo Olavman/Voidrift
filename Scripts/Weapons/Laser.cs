@@ -34,10 +34,10 @@ public partial class Laser : WeaponBase
       // If we hit something, check if it's a ship
       var hitObject = result["collider"].As<Node2D>();
 
-      if (hitObject is Ship ship && ship != WeaponOwner)
+      if (hitObject != WeaponOwner)
       {
         // Apply damage to the ship
-        Collided(ship, previousPosition);
+        Collided(hitObject, previousPosition);
 
         // Set the new position to the intersection point
         var intersectionPoint = (Vector2)result["position"];

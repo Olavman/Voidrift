@@ -6,7 +6,7 @@ public partial class AudioPlayer : Node
 {
   public AudioStreamPlayer MusicPlayer;
   public AudioStreamPlayer SoundPlayer;
-  [Export] public float FadeDuration = 2.0f; // Time in seconds for smotth fade-ins/outs
+  [Export] public float FadeDuration = 1.0f; // Time in seconds for smotth fade-ins/outs
 
   // Music tracks
   [Export] public AudioStream GameTrack;

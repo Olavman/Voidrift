@@ -8,7 +8,10 @@ public partial class Game : Node
   public Hud Hud = null;
   [Export] public PackedScene EnemyScene = null;
   [Export] public PackedScene PlayerScene = null;
+  [Export] public PackedScene PlanetScene = null;
+  [Export] public PackedScene GameOverScene = null;
   [Export] public int NumberOfAIShips = 10;
+  [Export] public int NumberOfPlanets = 7;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -38,6 +41,12 @@ public partial class Game : Node
     for (int i = 0; i < NumberOfAIShips; i++)
     {
       SpawnShip(i);
+    }
+
+    // Spawn planets
+    for (int i = 0; i < NumberOfPlanets; i++)
+    {
+      SpawnPlanet(i);
     }
 	}
 
@@ -73,11 +82,41 @@ public partial class Game : Node
     }
   }
 
+  // Spawn planet
+  public void SpawnPlanet(int planetNumber)
+  {
+    if (PlanetScene == null) return;
+
+    // Instantiate planet
+    Planet planet = PlanetScene.Instantiate() as Planet;
+
+    // Get the center of the map (position of the Black Hole)
+    Vector2 levelSize = GameSettings.LevelSize;
+    Vector2 center = levelSize / 2;
+    planet.Position = center;
+    planet.Modulate = new Color(GD.RandRange(0, 1), GD.RandRange(0, 1), GD.RandRange(0, 1), 1); 
+
+    // Calculate distance for the planet based on planet number, with some variation
+    float distance = ((GameSettings.LevelSize.Length()/2) / (NumberOfPlanets + 1)) * (planetNumber + 1) + GD.RandRange(-300, 300);
+
+    // Calculate orbital speed based on distance, using Kepler's third law
+    float orbitSpeed = Mathf.Sqrt((float)(600000000 / Math.Pow(distance, 3)));
+
+    // Initialize the planet with calculated orbit radius, speed, and a random initial angle
+    planet.Init(distance, orbitSpeed, (float)GD.RandRange(0, Mathf.Tau));
+
+    // Randomize the planet scale
+    float size = 0.5f+ (planetNumber + 1) * (float)GD.RandRange(0.01, 0.06);
+    planet.Scale = new Vector2(size, size);
+
+    AddChild(planet);
+  }
+
+
   // Spawn player
   public void SpawnPlayer ()
   {
     if (PlayerScene == null) return;
-
 
     // Instantiate enemy ship
     Player player = PlayerScene.Instantiate() as Player;
@@ -97,6 +136,7 @@ public partial class Game : Node
     Camera.SetFollow(player);
     Hud.SetOwner(player);
   }
+
   // Spawn ships
   public void SpawnShip (int shipNumber)
   {
@@ -121,5 +161,15 @@ public partial class Game : Node
     AddChild(ship);
     GD.Print(ship.Position);
     GD.Print(direction);
+  }
+
+  public void GameOverScreen()
+  {
+    GD.Print("Creating game over screen");
+    var gameOverScreen = GameOverScene.Instantiate();
+    var canvasLayer = new CanvasLayer();
+    canvasLayer.AddChild(gameOverScreen);
+    AddChild(canvasLayer);
+    GD.Print("Game over screen created");
   }
 }

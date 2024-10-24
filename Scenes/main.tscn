@@ -1,8 +1,9 @@
-[gd_scene load_steps=32 format=3 uid="uid://ctro0g6qcuq7l"]
+[gd_scene load_steps=34 format=3 uid="uid://ctro0g6qcuq7l"]
 
 [ext_resource type="Script" path="res://Scripts/Game.cs" id="1_f1bp2"]
 [ext_resource type="PackedScene" uid="uid://dmlb4sm6nm8tb" path="res://Scenes/player.tscn" id="2_2l1hh"]
 [ext_resource type="PackedScene" uid="uid://bfd4rt1j2x0rx" path="res://Scenes/speedBar.tscn" id="3_jqqb6"]
+[ext_resource type="PackedScene" uid="uid://cy2ncc6l1ehpg" path="res://Scenes/gameOverScreen.tscn" id="4_fdix0"]
 [ext_resource type="PackedScene" uid="uid://h2aiqifihb0s" path="res://Scenes/celestialObject.tscn" id="4_ybuw8"]
 [ext_resource type="Script" path="res://Scripts/UI/Hud.cs" id="5_ci6nj"]
 [ext_resource type="Shader" path="res://Shaders/minimap.gdshader" id="5_m3qf5"]
@@ -13,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://c03fgscpwimpo" path="res://Scenes/healthBar.tscn" id="10_ihghr"]
 [ext_resource type="PackedScene" uid="uid://b5hn0xuvh8sg5" path="res://Scenes/enemy.tscn" id="11_ptkcl"]
 [ext_resource type="Script" path="res://Scripts/Ship/PlayerCam.cs" id="14_iyvqj"]
+[ext_resource type="PackedScene" uid="uid://dn8jg8hsbtypr" path="res://Scenes/planet.tscn" id="15_jrdjf"]
 
 [sub_resource type="Environment" id="Environment_lb53c"]
 background_mode = 3
@@ -152,6 +154,8 @@ fill_from = Vector2(0.5, 0.5)
 script = ExtResource("1_f1bp2")
 EnemyScene = ExtResource("11_ptkcl")
 PlayerScene = ExtResource("2_2l1hh")
+PlanetScene = ExtResource("15_jrdjf")
+GameOverScene = ExtResource("4_fdix0")
 NumberOfAIShips = 5
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]

@@ -138,6 +138,10 @@ public partial class Player : Ship
   protected override void DestroyShip()
   {
     base.DestroyShip();
+
+    // Game over screen
+    GameManager.GameOverScreen();
+
     QueueFree(); // Remove the player from the scene
   }
 
