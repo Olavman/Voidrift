@@ -15,22 +15,22 @@ void fragment() {
         // Add a glowing fade-out effect toward the edges
         float distance_from_center = length(uv - vec2(0.5, 0.5)); // Distance from the center of UV space
         float glow_factor = smoothstep(0.0, glow_size, 1.0 - distance_from_center); // Fade out toward the edges
-        
+
         // Apply glow to the alpha channel (fade the text at the edges)
         tex_color.a *= glow_factor * glow_intensity;
-        
+
         // Add displacement using noise or sine wave
         vec2 distortion = vec2(sin(TIME + uv.y * 10.0), sin(TIME + uv.x * 15.0)) * distortion_strength;
-        
+
         // Optionally, use noise texture for a more random distortion
         //if (noise_texture != null) {
             vec4 noise_value = texture(noise_texture, uv * 2.0); // Sample noise
             distortion += (noise_value.xy - 0.5) * distortion_strength;
         //}
-        
+
         // Apply the displacement to the UV
         uv += distortion;
-        
+
         // Get the final texture color with the displaced UV
         tex_color = texture(TEXTURE, uv);
 
@@ -40,7 +40,7 @@ void fragment() {
         // Blend the glow color with the original texture color
         tex_color.rgb = mix(tex_color.rgb, glow_color, glow_factor * glow_intensity);
     }
-    
+
     // Output the final color
     COLOR = tex_color;
 }

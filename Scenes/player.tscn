@@ -1,9 +1,9 @@
-[gd_scene load_steps=22 format=3 uid="uid://dmlb4sm6nm8tb"]
+[gd_scene load_steps=36 format=3 uid="uid://dmlb4sm6nm8tb"]
 
 [ext_resource type="Script" path="res://Scripts/Ship/Player.cs" id="1_hoi26"]
 [ext_resource type="AudioStream" uid="uid://byvkjwnakienl" path="res://Sounds/Robot voice/All systems operational ready for battle.wav" id="2_1knno"]
 [ext_resource type="PackedScene" uid="uid://byhwq0h55683y" path="res://Scenes/Weapons/laser.tscn" id="2_3t5g5"]
-[ext_resource type="PackedScene" uid="uid://coe2lux23hmjg" path="res://Scenes/Weapons/missile.tscn" id="2_4eguv"]
+[ext_resource type="PackedScene" uid="uid://c52r7rsjckocn" path="res://Scenes/Weapons/missile.tscn" id="2_4eguv"]
 [ext_resource type="AudioStream" uid="uid://dixkcy3xb71u5" path="res://Sounds/Constant Rumbling.wav" id="3_422qg"]
 [ext_resource type="PackedScene" uid="uid://j1v1w57gli4h" path="res://Scenes/explosion.tscn" id="3_a25ll"]
 [ext_resource type="AudioStream" uid="uid://boylhois1sbtb" path="res://Sounds/Robot voice/Multiple impacts detected.wav" id="3_hsdt2"]
@@ -13,9 +13,51 @@
 [ext_resource type="AudioStream" uid="uid://yugkun5mdqx3" path="res://Sounds/Robot voice/Danger hullbreach imminent.wav" id="5_fsti8"]
 [ext_resource type="AudioStream" uid="uid://bg7bcj8j0k578" path="res://Sounds/Robot voice/Shield stabilizing.wav" id="6_6oyx2"]
 [ext_resource type="AudioStream" uid="uid://cb0thtt2ecf11" path="res://Sounds/Robot voice/Target eliminated.wav" id="7_w3p4y"]
+[ext_resource type="PackedScene" uid="uid://d2vxkodb71vf3" path="res://Scenes/reloadBar.tscn" id="12_328ps"]
 [ext_resource type="PackedScene" uid="uid://bso7ougfcfmsg" path="res://Scenes/forceField.tscn" id="14_5g8dm"]
 
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_d511h"]
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_b6p8v"]
+blend_mode = 1
+particles_animation = true
+particles_anim_h_frames = 8
+particles_anim_v_frames = 8
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id="Gradient_r511i"]
+offsets = PackedFloat32Array(0, 0.106557, 0.344262, 0.459016, 0.729508, 1)
+colors = PackedColorArray(0.847657, 0.940083, 7.70092e-07, 0.588235, 0.709413, 0.709413, 0, 1, 0.596211, 0.24522, 0, 1, 0.229275, 0.159458, 0.16042, 1, 0, 0, 0, 0.615686, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_b3on6"]
+gradient = SubResource("Gradient_r511i")
+
+[sub_resource type="Curve" id="Curve_w3kis"]
+_data = [Vector2(0.0133333, 0.230769), 0.0, 1.0181, 0, 0, Vector2(0.4, 0.714286), 0.913544, 0.913544, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_ihgg5"]
+width = 259
+curve = SubResource("Curve_w3kis")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_wtgqp"]
+lifetime_randomness = 0.21
+particle_flag_disable_z = true
+angle_min = -720.0
+angle_max = 720.0
+inherit_velocity_ratio = 1.0
+spread = 10.618
+angular_velocity_min = -7.74002
+angular_velocity_max = 7.73998
+gravity = Vector3(0, 0, 0)
+scale_min = 0.5
+scale_curve = SubResource("CurveTexture_ihgg5")
+color_ramp = SubResource("GradientTexture1D_b3on6")
+anim_speed_min = 0.22
+anim_speed_max = 0.91
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_084qp"]
+load_path = "res://.godot/imported/smoke_01.tga-6ad9ac48887f66f50f11b068cbc2a6b7.ctex"
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_acdyo"]
 blend_mode = 1
 particles_animation = true
 particles_anim_h_frames = 8
@@ -23,41 +65,51 @@ particles_anim_v_frames = 8
 particles_anim_loop = false
 
 [sub_resource type="Gradient" id="Gradient_dn024"]
-offsets = PackedFloat32Array(0, 0.106557, 0.344262, 0.459016, 0.729508, 1)
-colors = PackedColorArray(0.847657, 0.940083, 7.70092e-07, 0.588235, 0.709413, 0.709413, 0, 1, 0.596211, 0.24522, 0, 1, 0.229275, 0.159458, 0.16042, 1, 0, 0, 0, 0.615686, 0, 0, 0, 0)
+offsets = PackedFloat32Array(0, 0.0341297, 0.313993, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.979693, 0.979693, 0, 1, 0.776487, 0.305107, 4.81307e-07, 0.686007, 0, 0, 0, 0)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_kolp7"]
 gradient = SubResource("Gradient_dn024")
 
-[sub_resource type="Curve" id="Curve_lawrk"]
-_data = [Vector2(0.0133333, 0.230769), 0.0, 1.0181, 0, 0, Vector2(0.4, 0.714286), 0.913544, 0.913544, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 3
+[sub_resource type="Curve" id="Curve_cllut"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.13461, 0.0, 0, 0]
+point_count = 2
 
-[sub_resource type="CurveTexture" id="CurveTexture_kba2r"]
-width = 259
-curve = SubResource("Curve_lawrk")
+[sub_resource type="CurveTexture" id="CurveTexture_kgq2h"]
+curve = SubResource("Curve_cllut")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7aq8i"]
-lifetime_randomness = 0.21
 particle_flag_disable_z = true
-angle_min = -720.0
-angle_max = 720.0
 inherit_velocity_ratio = 1.0
 direction = Vector3(-1, 0, 0)
-spread = 10.618
-initial_velocity_min = 91.41
-initial_velocity_max = 392.48
-angular_velocity_min = -7.74002
-angular_velocity_max = 7.73998
+spread = 0.0
 gravity = Vector3(0, 0, 0)
-scale_min = 0.5
-scale_curve = SubResource("CurveTexture_kba2r")
+scale_curve = SubResource("CurveTexture_kgq2h")
 color_ramp = SubResource("GradientTexture1D_kolp7")
-anim_speed_min = 0.22
-anim_speed_max = 0.91
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qj1km"]
 load_path = "res://.godot/imported/smoke_01.tga-6ad9ac48887f66f50f11b068cbc2a6b7.ctex"
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_d511h"]
+blend_mode = 1
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_82rtb"]
+blend_mode = 1
+
+[sub_resource type="Curve" id="Curve_fn62b"]
+_data = [Vector2(0.00268096, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.87319, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_3xuad"]
+offsets = PackedFloat32Array(0, 0.448598)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="Gradient" id="Gradient_2aq41"]
+offsets = PackedFloat32Array(0, 0.233227, 1)
+colors = PackedColorArray(1, 1, 0, 1, 1, 0.572549, 0.317647, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_w1cai"]
+gradient = SubResource("Gradient_2aq41")
 
 [node name="Player" type="CharacterBody2D" groups=["player", "ships"]]
 position = Vector2(-1, 0)
@@ -72,6 +124,17 @@ _targetEliminatedSound = ExtResource("7_w3p4y")
 WeaponScenes = [ExtResource("2_3t5g5"), ExtResource("2_4eguv"), ExtResource("4_dqkcf")]
 ExplosionScene = ExtResource("3_a25ll")
 
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+show_behind_parent = true
+material = SubResource("CanvasItemMaterial_b6p8v")
+position = Vector2(-52, 0)
+emitting = false
+amount = 60
+process_material = SubResource("ParticleProcessMaterial_wtgqp")
+texture = SubResource("CompressedTexture2D_084qp")
+lifetime = 0.5
+visibility_rect = Rect2(-300, -300, 600, 600)
+
 [node name="PlayerSprite" type="Sprite2D" parent="."]
 texture = ExtResource("4_6m34g")
 
@@ -79,7 +142,20 @@ texture = ExtResource("4_6m34g")
 rotation = 1.5708
 polygon = PackedVector2Array(-26.9999, 15.0001, -9.00003, -8.99997, -6, -26, 6, -26, 8, -9, 26.0001, 15.9999, 7.00011, 30, -8.99989, 30)
 
-[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+[node name="GPUParticles2D4" type="GPUParticles2D" parent="."]
+visible = false
+show_behind_parent = true
+material = SubResource("CanvasItemMaterial_acdyo")
+position = Vector2(-26, 0)
+amount = 60
+process_material = SubResource("ParticleProcessMaterial_7aq8i")
+texture = SubResource("CompressedTexture2D_qj1km")
+lifetime = 0.1
+visibility_rect = Rect2(-300, -300, 600, 600)
+trail_lifetime = 0.1
+
+[node name="GPUParticles2D2" type="GPUParticles2D" parent="."]
+visible = false
 show_behind_parent = true
 material = SubResource("CanvasItemMaterial_d511h")
 position = Vector2(-26, 0)
@@ -101,3 +177,23 @@ enabled = false
 
 [node name="ForceField" parent="." node_paths=PackedStringArray("ship") instance=ExtResource("14_5g8dm")]
 ship = NodePath("..")
+
+[node name="ThrusterLine" type="Line2D" parent="."]
+visible = false
+material = SubResource("CanvasItemMaterial_82rtb")
+position = Vector2(-30, 0)
+points = PackedVector2Array(0, 0, -100, 0)
+width_curve = SubResource("Curve_fn62b")
+gradient = SubResource("Gradient_3xuad")
+texture = SubResource("GradientTexture1D_w1cai")
+texture_mode = 2
+
+[node name="ReloadBarTexture" parent="." node_paths=PackedStringArray("player") instance=ExtResource("12_328ps")]
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+player = NodePath("..")
+metadata/_edit_use_anchors_ = true

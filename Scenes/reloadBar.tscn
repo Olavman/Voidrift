@@ -1,0 +1,26 @@
+[gd_scene load_steps=6 format=3 uid="uid://d2vxkodb71vf3"]
+
+[ext_resource type="Shader" path="res://Shaders/reload.gdshader" id="1_hs640"]
+[ext_resource type="Script" path="res://Scripts/UI/ReloadBar.cs" id="2_55f4c"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a6g70"]
+shader = ExtResource("1_hs640")
+shader_parameter/progress = 1.0
+shader_parameter/center = Vector2(0.5, 0.5)
+shader_parameter/radius = 0.4
+shader_parameter/thickness = 0.009
+shader_parameter/color = Color(0, 1, 0, 1)
+
+[sub_resource type="Gradient" id="Gradient_nav4v"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_62cbh"]
+gradient = SubResource("Gradient_nav4v")
+width = 96
+height = 96
+
+[node name="ReloadBarTexture" type="TextureRect"]
+material = SubResource("ShaderMaterial_a6g70")
+offset_right = 128.0
+offset_bottom = 128.0
+texture = SubResource("GradientTexture2D_62cbh")
+script = ExtResource("2_55f4c")

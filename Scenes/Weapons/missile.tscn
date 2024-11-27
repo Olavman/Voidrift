@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://coe2lux23hmjg"]
+[gd_scene load_steps=13 format=3 uid="uid://c52r7rsjckocn"]
 
 [ext_resource type="Texture2D" uid="uid://nym5xby1b07h" path="res://Sprites/missile.png" id="1_0o6yr"]
 [ext_resource type="Script" path="res://Scripts/Weapons/HomingMissile.cs" id="1_eplhk"]

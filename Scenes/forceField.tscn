@@ -21,7 +21,7 @@ noise = SubResource("FastNoiseLite_pyem8")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_c5xjs"]
 shader = ExtResource("1_gjfk5")
 shader_parameter/radius = 1.0
-shader_parameter/fade_intensity = 0.708
+shader_parameter/fade_intensity = 0.5
 shader_parameter/noise_scale = 1.487
 shader_parameter/noise_speed = 1.043
 shader_parameter/z_offset_speed = 0.312

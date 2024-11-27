@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://ctro0g6qcuq7l"]
+[gd_scene load_steps=35 format=3 uid="uid://ctro0g6qcuq7l"]
 
 [ext_resource type="Script" path="res://Scripts/Game.cs" id="1_f1bp2"]
 [ext_resource type="PackedScene" uid="uid://dmlb4sm6nm8tb" path="res://Scenes/player.tscn" id="2_2l1hh"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://c03fgscpwimpo" path="res://Scenes/healthBar.tscn" id="10_ihghr"]
 [ext_resource type="PackedScene" uid="uid://b5hn0xuvh8sg5" path="res://Scenes/enemy.tscn" id="11_ptkcl"]
 [ext_resource type="Script" path="res://Scripts/Ship/PlayerCam.cs" id="14_iyvqj"]
+[ext_resource type="PackedScene" uid="uid://x8ff2hivyqel" path="res://Scenes/weaponIcon.tscn" id="14_nqsvu"]
 [ext_resource type="PackedScene" uid="uid://dn8jg8hsbtypr" path="res://Scenes/planet.tscn" id="15_jrdjf"]
 
 [sub_resource type="Environment" id="Environment_lb53c"]
@@ -295,6 +296,16 @@ offset_left = 298.0
 offset_top = 802.0
 offset_right = 346.0
 offset_bottom = 1058.0
+
+[node name="WeaponIcons" parent="HUD/HUDCanvas" instance=ExtResource("14_nqsvu")]
+anchors_preset = 7
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -656.0
+offset_top = -81.0
+offset_right = 852.0
+offset_bottom = 419.0
+grow_vertical = 0
 
 [node name="BlackHole" parent="." instance=ExtResource("4_ybuw8")]
 z_index = 10

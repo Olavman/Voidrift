@@ -1,8 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://dn8jg8hsbtypr"]
+[gd_scene load_steps=13 format=3 uid="uid://dn8jg8hsbtypr"]
 
 [ext_resource type="Script" path="res://Scripts/Planet.cs" id="1_p0pcv"]
 [ext_resource type="Shader" path="res://Shaders/minimap.gdshader" id="2_5oolu"]
 [ext_resource type="Shader" path="res://Shaders/planetShadow.gdshader" id="2_ovdwx"]
+[ext_resource type="Texture2D" uid="uid://chl31vv43rr4y" path="res://Planet textures/earth.tres" id="3_kkvqh"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ogmtn"]
 radius = 257.0
@@ -10,26 +11,12 @@ radius = 257.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6x7rm"]
 shader = ExtResource("2_ovdwx")
 shader_parameter/light_position = Vector2(0.5, 0.885)
-shader_parameter/light_radius = 0.857
-shader_parameter/shadow_density = 0.253
-
-[sub_resource type="Gradient" id="Gradient_u3pqc"]
-offsets = PackedFloat32Array(0.00615385, 0.264615, 0.283077, 0.310769, 0.556923, 0.916923, 1)
-colors = PackedColorArray(0, 0, 1, 1, 0.129492, 0.365382, 1, 1, 1, 0.745098, 0, 1, 0, 0.737255, 0, 1, 0, 0.403922, 0, 1, 0.577008, 0.577008, 0.577008, 1, 1, 1, 1, 1)
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_lpwrm"]
-frequency = 0.0078
-fractal_gain = 1.065
-fractal_weighted_strength = 1.0
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_xxbj8"]
-seamless_blend_skirt = 0.272
-color_ramp = SubResource("Gradient_u3pqc")
-noise = SubResource("FastNoiseLite_lpwrm")
+shader_parameter/light_radius = 1.0
+shader_parameter/shadow_density = 0.333
 
 [sub_resource type="Gradient" id="Gradient_k6xr4"]
-offsets = PackedFloat32Array(0.0738462, 0.815385)
-colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1)
+offsets = PackedFloat32Array(0.0738462, 0.735385, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0.564962, 0.564962, 0.564962, 1, 1, 1, 1, 1)
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_2cf4v"]
 seed = 1
@@ -71,10 +58,10 @@ shape = SubResource("CircleShape2D_ogmtn")
 
 [node name="PlanetSprite" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_6x7rm")
-texture = SubResource("NoiseTexture2D_xxbj8")
+texture = ExtResource("3_kkvqh")
 
 [node name="CloudsSprite" type="Sprite2D" parent="PlanetSprite"]
-modulate = Color(0.7, 0.7, 0.7, 1)
+visible = false
 use_parent_material = true
 texture = SubResource("NoiseTexture2D_ne5sy")
 

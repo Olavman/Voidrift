@@ -55,12 +55,17 @@ public partial class Game : Node
   {
     if (Input.IsActionJustPressed("quit"))
     {
-      GetTree().Quit();
+      QuitGame();
     }
     else if (Input.IsActionJustPressed("reset"))
     {
       GetTree().ReloadCurrentScene();
     }
+  }
+
+  public void QuitGame()
+  {
+    GetTree().Quit();
   }
   private void SetBorderLines()
   {
@@ -94,13 +99,12 @@ public partial class Game : Node
     Vector2 levelSize = GameSettings.LevelSize;
     Vector2 center = levelSize / 2;
     planet.Position = center;
-    planet.Modulate = new Color(GD.RandRange(0, 1), GD.RandRange(0, 1), GD.RandRange(0, 1), 1); 
 
     // Calculate distance for the planet based on planet number, with some variation
     float distance = ((GameSettings.LevelSize.Length()/2) / (NumberOfPlanets + 1)) * (planetNumber + 1) + GD.RandRange(-300, 300);
 
     // Calculate orbital speed based on distance, using Kepler's third law
-    float orbitSpeed = Mathf.Sqrt((float)(600000000 / Math.Pow(distance, 3)));
+    float orbitSpeed = Mathf.Sqrt((float)(200000000 / Math.Pow(distance, 3)));
 
     // Initialize the planet with calculated orbit radius, speed, and a random initial angle
     planet.Init(distance, orbitSpeed, (float)GD.RandRange(0, Mathf.Tau));
@@ -159,8 +163,6 @@ public partial class Game : Node
     float distance = (float)levelSize[0]*0.9f;
     ship.Position = center + new Vector2(Mathf.Cos(direction), Mathf.Sin(direction))*distance/2;
     AddChild(ship);
-    GD.Print(ship.Position);
-    GD.Print(direction);
   }
 
   public void GameOverScreen()

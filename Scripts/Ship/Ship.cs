@@ -29,6 +29,7 @@ public partial class Ship : CharacterBody2D
   [Signal] public delegate void MaxHealthChangedEventHandler(float newMaxHealth);
   [Signal] public delegate void MaxShieldChangedEventHandler(float newMaxShield);
   [Signal] public delegate void SpeedChangedEventHandler(float newSpeed);
+  [Signal] public delegate void CooldownTimerChangedEventHandler(float newCooldown);
 
   // Audio variables
   protected AudioStreamPlayer2D _engineAudio; // Audio player for the enigne sound
@@ -107,9 +108,13 @@ public partial class Ship : CharacterBody2D
     // Handling rotation
 
 
-
     #region // Damage & Health
     #endregion
+  }
+
+  public double GetShield()
+  {
+    return _shield;
   }
 
   protected virtual bool Thrusting(bool isThrustingForward)
@@ -207,7 +212,7 @@ public partial class Ship : CharacterBody2D
     CheckWrapAround();
   }
 
-  public void Shoot()
+  public virtual void Shoot()
   {
     _isShooting = true;
 
@@ -237,16 +242,17 @@ public partial class Ship : CharacterBody2D
       GetParent().AddChild(weapon);
 
       _cooldownTimer += weapon.Cooldown;
+
+      EmitSignal(nameof(CooldownTimerChanged), _cooldownTimer);
     }
   }
-  protected void SwitchWeapon(SCROLL scrollDirection)
+  protected virtual void SwitchWeapon(SCROLL scrollDirection)
   {
     _currentWeaponSlot = (_currentWeaponSlot + (int)scrollDirection) % WeaponScenes.Count;
     if (_currentWeaponSlot < 0)
     {
       _currentWeaponSlot += WeaponScenes.Count;
     }
-    GD.Print("Switched to weapon: " + _currentWeaponSlot);
   }
 
   protected void ApplyDrag()

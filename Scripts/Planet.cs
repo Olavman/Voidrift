@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class Planet : CharacterBody2D
 {
@@ -25,9 +26,22 @@ public partial class Planet : CharacterBody2D
       GD.Print("_blackHole is null");
     }
 
-    // Duplicate the shadow texture so each planet has its own
-    //var _shadowTextureInstance = (GradientTexture2D)ShadowSprite.Texture.Duplicate();
-    //ShadowSprite.Texture = _shadowTextureInstance;
+    // Choose random texure to get random planets
+    float random = GD.Randf();
+    if (random < 0.33)
+    {
+      PlanetSprite.Texture = (Texture2D)GD.Load("res://Planet textures/earth.tres");
+      CloudSprite.Visible = true;
+    }
+    else if (random < 0.66)
+    {
+
+      PlanetSprite.Texture = (Texture2D)GD.Load("res://Planet textures/mars.tres");
+    }
+    else
+    {
+      PlanetSprite.Texture = (Texture2D)GD.Load("res://Planet textures/uranus.tres");
+    }
 
 
     // Get the shader material
@@ -71,6 +85,8 @@ public partial class Planet : CharacterBody2D
 
   private void UpdateClouds()
   {
+    if (!CloudSprite.Visible) return;
+
     // Get the cloud texture
     NoiseTexture2D cloudTexture = CloudSprite.Texture as NoiseTexture2D;
     if (cloudTexture == null)
@@ -89,8 +105,8 @@ public partial class Planet : CharacterBody2D
 
     // Move the clouds in the x and z direction
     Vector3 offset = noise.Offset;
-    offset.Z += 0.1f;
-    offset.X += 0.1f;
+    offset.Z += 0.01f;
+    offset.X += 0.01f;
 
     // Set the offset to the noise
     noise.Offset = offset;

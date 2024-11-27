@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://byhwq0h55683y" path="res://Scenes/Weapons/laser.tscn" id="2_fi7ji"]
 [ext_resource type="PackedScene" uid="uid://dbccrnailfd7" path="res://Scenes/Weapons/plasma.tscn" id="2_im5d0"]
 [ext_resource type="PackedScene" uid="uid://j1v1w57gli4h" path="res://Scenes/explosion.tscn" id="3_jof8r"]
-[ext_resource type="PackedScene" uid="uid://coe2lux23hmjg" path="res://Scenes/Weapons/missile.tscn" id="3_m28eh"]
+[ext_resource type="PackedScene" uid="uid://c52r7rsjckocn" path="res://Scenes/Weapons/missile.tscn" id="3_m28eh"]
 [ext_resource type="AudioStream" uid="uid://dixkcy3xb71u5" path="res://Sounds/Constant Rumbling.wav" id="3_uwt2i"]
 [ext_resource type="PackedScene" uid="uid://bso7ougfcfmsg" path="res://Scenes/forceField.tscn" id="8_05xpk"]
 

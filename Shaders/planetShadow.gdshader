@@ -28,13 +28,13 @@ void fragment() {
 	vec2 local_coords = (UV - center); // Adjust for aspect ratio
 	float distance = length(local_coords);
 	float circleRadius = 1.0 / float(2);
-	
+
 	// Discard fragments outside of the circle
 	if (distance > circleRadius)
 	{
 		discard;
 	}
-	
+
     // Set the final fragment color
     COLOR = final_color;
 }

@@ -11,6 +11,7 @@ public partial class ForceField : Node2D
   private float _hitIntensityTimer = 0.0f;
   private ShaderMaterial _forceFieldMaterial;
 
+
   public override void _Ready()
   {
     // Destrou the forcefield if it's not attached to a ship
@@ -47,10 +48,19 @@ public partial class ForceField : Node2D
       OnHit(ship.HitFromDirection);
     }
 
+    // Make sure that the rotation is always 0 to avoid misplaced hit effects
     GlobalRotation = 0;
+
+    // Set the fade intensity based on the amount of shield left
+    float shieldAmountNormalized = (float)(ship.GetShield() / ship.MaxShield);
+    _forceFieldMaterial.SetShaderParameter("fade_intensity", 1.2 - 0.7 * shieldAmountNormalized);
+
   }
   private void OnHit(Vector2 hitFrom)
   {
+    // Dont play any shield effects if theres no shield left
+    if (ship.GetShield() <= 0) return;
+
     // Start the timer
     _hitIntensityTimer = _hitIntensityTime;
 

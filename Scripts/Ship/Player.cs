@@ -3,6 +3,8 @@ using System;
 
 public partial class Player : Ship
 {
+  [Signal] public delegate void WeaponSelectedEventHandler(int selectedWeapon);
+
   private double _hitSuccession = 0;
   public bool _isDestroyed = false;
 
@@ -15,6 +17,7 @@ public partial class Player : Ship
   [Export] AudioStream _hullBreachSound;
   [Export] AudioStream _shieldStailizingSound;
   [Export] AudioStream _targetEliminatedSound;
+  [Export] PackedScene _reloadBar;
 
   public override void _Ready()
   {
@@ -145,6 +148,10 @@ public partial class Player : Ship
     QueueFree(); // Remove the player from the scene
   }
 
+  public float GetCooldownTimer()
+  {
+    return _cooldownTimer;
+  }
   public void KillAquired()
   {
     PlaySound(_targetEliminatedSound);
@@ -154,5 +161,14 @@ public partial class Player : Ship
   {
     _audioPlayer.PlaySound(sound);
     //_audioPlayer?.TriggerSoundEvent(sound);
+  }
+
+  protected override void SwitchWeapon(SCROLL scrollDirection)
+  {
+    base.SwitchWeapon(scrollDirection);
+
+    EmitSignal(nameof(WeaponSelected), _currentWeaponSlot);
+
+    GD.Print("Switched to weapon: " + _currentWeaponSlot);
   }
 }
