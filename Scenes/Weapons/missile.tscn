@@ -4,16 +4,13 @@
 [ext_resource type="Script" path="res://Scripts/Weapons/HomingMissile.cs" id="1_eplhk"]
 [ext_resource type="PackedScene" uid="uid://j1v1w57gli4h" path="res://Scenes/explosion.tscn" id="2_tu73h"]
 [ext_resource type="AudioStream" uid="uid://b0jkysoi4jvgx" path="res://Sounds/Missile Launched.wav" id="4_cl3cl"]
+[ext_resource type="Texture2D" uid="uid://u2gvhw8ourma" path="res://Textures/Thruster.tres" id="5_gp2md"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_riv0h"]
 radius = 8.0
 
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_x0fvw"]
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_e15jv"]
 blend_mode = 1
-particles_animation = true
-particles_anim_h_frames = 8
-particles_anim_v_frames = 8
-particles_anim_loop = false
 
 [sub_resource type="Gradient" id="Gradient_dn024"]
 offsets = PackedFloat32Array(0, 0.106557, 0.344262, 0.459016, 0.729508, 1)
@@ -44,17 +41,12 @@ scale_min = 0.2
 scale_max = 0.5
 scale_curve = SubResource("CurveTexture_fphot")
 color_ramp = SubResource("GradientTexture1D_etk86")
-anim_speed_min = 0.22
-anim_speed_max = 0.91
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_pkx3d"]
-load_path = "res://.godot/imported/smoke_01.tga-6ad9ac48887f66f50f11b068cbc2a6b7.ctex"
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_eplhk")
 ExplosionScene = ExtResource("2_tu73h")
 Speed = 1100.0
-Damage = 15.0
+Damage = 150.0
 Cooldown = 1.5
 Accuracy = 1.0
 LifeTime = 4.0
@@ -74,10 +66,10 @@ shape = SubResource("CircleShape2D_riv0h")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 show_behind_parent = true
-material = SubResource("CanvasItemMaterial_x0fvw")
+material = SubResource("CanvasItemMaterial_e15jv")
 position = Vector2(-16, 0)
 amount = 60
 process_material = SubResource("ParticleProcessMaterial_hf1b5")
-texture = SubResource("CompressedTexture2D_pkx3d")
+texture = ExtResource("5_gp2md")
 lifetime = 0.5
 visibility_rect = Rect2(-300, -300, 600, 600)

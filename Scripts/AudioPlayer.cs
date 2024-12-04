@@ -40,27 +40,24 @@ public partial class AudioPlayer : Node
   private float _sfxVolume = 0.5f;
   private float _musicVolume = 0.5f;
 
-  /*
-  public delegate void PlaySoundAtEventHandler(AudioStream sound, Vector2 coordinates);
-  public delegate void PlaySoundEventHandler(AudioStream sound);
-  public event PlaySoundAtEventHandler PlaySoundAtEvent;
-  public event PlaySoundEventHandler PlaySoundEvent;
-  */
-
   public override void _Ready()
   {
     // Get the AudioStreamPlayer node
-    MusicPlayer = GetNode<AudioStreamPlayer>("MusicPlayer");
-    SoundPlayer = GetNode<AudioStreamPlayer>("SoundPlayer");
+    //MusicPlayer = GetNode<AudioStreamPlayer>("/root/MusicPlayer");
+    //SoundPlayer = GetNode<AudioStreamPlayer>("/root/SoundPlayer");
+    MusicPlayer = new AudioStreamPlayer();
+    AddChild(MusicPlayer);
+    SoundPlayer = new AudioStreamPlayer();
+    AddChild(SoundPlayer);
 
     if (MusicPlayer == null )
     {
-      GD.Print("No audioplayer");
+      GD.Print("No MusicPlayer");
     }
-
-    // Subscribe to play sound event
-    //PlaySoundEvent += OnPlaySound;
-    //GD.Print("Subscribed to PlaySoundEvent");
+    if (SoundPlayer == null)
+    {
+      GD.Print("No SoundPlayer");
+    }
 
     // 2D audio streams
     for (int i = 0; i < MaxAudioPlayers2D; i++)
@@ -121,7 +118,7 @@ public partial class AudioPlayer : Node
   // Function to play a specific track
   public void PlayMusic(AudioStream musictrack)
   {
-    if (MusicPlayer.Stream != null)
+    if (MusicPlayer.Stream != null && musictrack != null)
     {
       FadeOutCurrentTrack(() =>
       {
@@ -156,15 +153,22 @@ public partial class AudioPlayer : Node
       }
 
       // If all players are busy, reuse the oldest one (FIFO strategy)
-      var oldestPlayer = _audioPlayers2D[0];
-      oldestPlayer.Stop(); // Stop the current sound
-      oldestPlayer.Position = coordinates;
-      oldestPlayer.Stream = sound;
-      oldestPlayer.Play();
+      if (_audioPlayers2D.Count > 0)
+      {
+        var oldestPlayer = _audioPlayers2D[0];
+        oldestPlayer.Stop(); // Stop the current sound
+        oldestPlayer.Position = coordinates;
+        oldestPlayer.Stream = sound;
+        oldestPlayer.Play();
 
-      // Move the reused player to the end of the list to maintain the FIFO order
-      _audioPlayers2D.RemoveAt(0);
-      _audioPlayers2D.Add(oldestPlayer);
+        // Move the reused player to the end of the list to maintain the FIFO order
+        _audioPlayers2D.RemoveAt(0);
+        _audioPlayers2D.Add(oldestPlayer);
+      }
+      else
+      {
+        GD.PrintErr("No available AudioStreamPlayer2D to reuse.");
+      }
     }
   }
   public void PlaySound (AudioStream sound)
@@ -218,93 +222,4 @@ public partial class AudioPlayer : Node
     }
   }
 
-  /*
-  // Method to trigger the event externally
-  public void TriggerSoundEvent(AudioStream sound, Vector2 coordinates)
-  {
-    if (sound == null)
-    {
-      GD.Print("Sound is null, event not triggered");
-    }
-    else
-    {
-      GD.Print("Play sound at: " + coordinates);
-    }
-    PlaySoundEvent?.Invoke(sound, coordinates);
-  }
-  // Method to trigger the event externally
-  public void TriggerSoundEvent(AudioStream sound)
-  {
-    if (sound == null)
-    {
-      GD.Print("Sound is null, event not triggered");
-    }
-    else
-    {
-      GD.Print("Play sound");
-    }
-    PlaySoundEvent?.Invoke(sound);
-  }
-
-  private void OnPlaySound(AudioStream sound, Vector2 coordinates)
-  {
-    // Check if the sound's coordinates are within the camera's viewport
-    if (sound != null && IsWithinViewport(coordinates))
-    {
-      int i = 0;
-      foreach (var player in _audioPlayers2D)
-      {
-        i++;
-        if (!player.Playing)
-        {
-          player.Position = coordinates;
-          player.Stream = sound;
-          player.Bus = i.ToString();
-          player.Play();
-          GD.Print("player " + i + ": sound played at: " + player.Position);
-          GD.Print(_audioPlayers.Count);
-          return;
-        }
-      }
-
-      // If all players are busy, reuse the oldest one (FIFO strategy)
-      var oldestPlayer = _audioPlayers2D[0];
-      oldestPlayer.Stop(); // Stop the current sound
-      oldestPlayer.Position = coordinates;
-      oldestPlayer.Stream = sound;
-      oldestPlayer.Play();
-
-      // Move the reused player to the end of the list to maintain the FIFO order
-      _audioPlayers2D.RemoveAt(0);
-      _audioPlayers2D.Add(oldestPlayer);
-
-      GD.Print("Reused player to play sound at: " + coordinates);
-    }
-    else
-    {
-      GD.Print("position: " + coordinates + ". Sound is outside of viewport, not playing");
-    }
-  }
-
-  private void OnPlaySound(AudioStream sound)
-  {
-    foreach (var player in _audioPlayers)
-    {
-      if (!player.Playing)
-      {
-        player.Stream = sound;
-        player.Play();
-        GD.Print("Sound played");
-        return;
-      }
-    }
-
-    // If all players are busy, add a new one (optional, based on MaxAudioPlayers limit)
-    var newPlayer = new AudioStreamPlayer();
-    AddChild(newPlayer);
-    _audioPlayers.Add(newPlayer);
-    newPlayer.Stream = sound;
-    newPlayer.Play();
-  }
-  */
 }

@@ -13,9 +13,20 @@ public partial class Game : Node
   [Export] public int NumberOfAIShips = 10;
   [Export] public int NumberOfPlanets = 7;
 
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
+  [Signal] public delegate void YouWinEventHandler();
+
+  private AudioPlayer _audioPlayer;
+
+  // Called when the node enters the scene tree for the first time.
+  public override void _Ready()
+  {
+    // Get the global audioplayer
+    _audioPlayer = GetNode("/root/AudioPlayer") as AudioPlayer;
+    if (_audioPlayer == null)
+    {
+      GD.Print("No audioplayer");
+    }
+
     // Set the arena border
     ArenaBorder = GetNode<Line2D>("ArenaBorder");
     SetBorderLines();
@@ -163,6 +174,20 @@ public partial class Game : Node
     float distance = (float)levelSize[0]*0.9f;
     ship.Position = center + new Vector2(Mathf.Cos(direction), Mathf.Sin(direction))*distance/2;
     AddChild(ship);
+
+    ship.AddToGroup("enemy_ships");
+  }
+
+
+  public void CheckIfWinning()
+  {
+    if (GetTree().GetNodeCountInGroup("enemy_ships") == 0)
+    {
+      GD.Print("You won!");
+      GameOverScreen();
+
+      _audioPlayer.PlaySound(_audioPlayer.Victory);
+    }
   }
 
   public void GameOverScreen()

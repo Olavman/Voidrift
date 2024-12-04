@@ -7,14 +7,11 @@
 [ext_resource type="PackedScene" uid="uid://j1v1w57gli4h" path="res://Scenes/explosion.tscn" id="3_jof8r"]
 [ext_resource type="PackedScene" uid="uid://c52r7rsjckocn" path="res://Scenes/Weapons/missile.tscn" id="3_m28eh"]
 [ext_resource type="AudioStream" uid="uid://dixkcy3xb71u5" path="res://Sounds/Constant Rumbling.wav" id="3_uwt2i"]
+[ext_resource type="Texture2D" uid="uid://u2gvhw8ourma" path="res://Textures/Thruster.tres" id="7_fpunm"]
 [ext_resource type="PackedScene" uid="uid://bso7ougfcfmsg" path="res://Scenes/forceField.tscn" id="8_05xpk"]
 
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_llwhy"]
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_r4pfn"]
 blend_mode = 1
-particles_animation = true
-particles_anim_h_frames = 8
-particles_anim_v_frames = 8
-particles_anim_loop = false
 
 [sub_resource type="Gradient" id="Gradient_dn024"]
 offsets = PackedFloat32Array(0, 0.106557, 0.344262, 0.459016, 0.729508, 1)
@@ -44,16 +41,13 @@ gravity = Vector3(0, 0, 0)
 scale_min = 0.5
 scale_curve = SubResource("CurveTexture_ihgg5")
 color_ramp = SubResource("GradientTexture1D_8ncar")
-anim_speed_min = 0.22
-anim_speed_max = 0.91
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_g7xl7"]
-load_path = "res://.godot/imported/smoke_01.tga-6ad9ac48887f66f50f11b068cbc2a6b7.ctex"
 
 [node name="Enemy" type="CharacterBody2D" groups=["enemy", "ships"]]
 script = ExtResource("1_ki4wm")
 WeaponScenes = [ExtResource("2_fi7ji"), ExtResource("3_m28eh"), ExtResource("2_im5d0")]
 ExplosionScene = ExtResource("3_jof8r")
+MaxHealth = 1000.0
+MaxShield = 1000.0
 RotateSpeed = 2.0
 
 [node name="EnemySprite" type="Sprite2D" parent="."]
@@ -64,12 +58,12 @@ polygon = PackedVector2Array(-32, -32, -32, 32, 32, 0)
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 show_behind_parent = true
-material = SubResource("CanvasItemMaterial_llwhy")
-position = Vector2(-26, 0)
+material = SubResource("CanvasItemMaterial_r4pfn")
+position = Vector2(-32, 0)
 emitting = false
 amount = 60
 process_material = SubResource("ParticleProcessMaterial_cp011")
-texture = SubResource("CompressedTexture2D_g7xl7")
+texture = ExtResource("7_fpunm")
 lifetime = 0.5
 visibility_rect = Rect2(-300, -300, 600, 600)
 

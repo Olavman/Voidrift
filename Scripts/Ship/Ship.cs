@@ -346,11 +346,17 @@ public partial class Ship : CharacterBody2D
     GD.Print("Ship destroyed");
 
     // Apply huge screen shake
-    Game GameManager = GetNode("/root/Game") as Game;
-    var camera = GameManager.Camera as PlayerCam;
+    Game gameManager = GetNode("/root/Game") as Game;
+    var camera = gameManager.Camera as PlayerCam;
     float maxDist = 1080.0f;
     float multiplier = (maxDist-Position.DistanceTo(camera.Position)) / maxDist;
     camera.AddScreenShake(20* multiplier, 0.5f);
+
+    // Remove from group to avoid counting when checking for win
+    RemoveFromGroup("enemy_ships");
+
+    // Check for win condition
+    gameManager.CheckIfWinning();
 
     // Check if ExplosionScene is assigned
     if (ExplosionScene != null)

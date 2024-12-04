@@ -132,7 +132,7 @@ public partial class CelestialObject : Node2D
   private void DamageShip(Ship ship, float distance, double delta)
   {
     // Assuming the ship has a health property
-    float damage = (_maxDistanceForDamage / distance) * 2;
+    float damage = (_maxDistanceForDamage / distance) * 20;
     //GD.Print("Ship damaged: " + damage);
     ship.TakeDamage(damage, Position);
   }

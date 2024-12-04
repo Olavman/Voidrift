@@ -24,13 +24,15 @@ public partial class PlayerCam : Camera2D
 
   List<ScreenShake> _shakes = new List<ScreenShake>();
 
-  public override void _Ready()
-  {
-    SetFollow(Follow);
-  }
 
   public void SetFollow(Node2D follow)
   {
+    if (follow == null)
+    {
+      GD.PrintErr("Follow node is null");
+      return;
+    }
+
     Follow = follow;
     _followId = Follow.GetInstanceId();
   }
